@@ -203,12 +203,22 @@
 <div class="accordion accordion-flush" id="accordionFlushcurrent">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-headingcurrent">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
         1. A Brief Introduction to Machine Learning
         </span>
-      
+      </button>
     </div><!--/div.accordion-header-->
+
+    <div id="flush-collapsecurrent" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushcurrent">
+      <div class="accordion-body">
+        <ul><li><a href="#what-is-machine-learning">What is Machine Learning?</a></li>
+<li><a href="#example-kyphosis-data-set">Example: Kyphosis Data Set</a></li>
+<li><a href="#classification-vs.-regression">Classification vs. Regression</a></li>
+<li><a href="#our-focus">Our Focus</a></li>
+        </ul></div><!--/div.accordion-body-->
+    </div><!--/div.accordion-collapse-->
 
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -352,6 +362,143 @@
 </div>
 </div>
 </div>
+<section><h2 class="section-heading" id="what-is-machine-learning">What is Machine Learning?<a class="anchor" aria-label="anchor" href="#what-is-machine-learning"></a></h2>
+<hr class="half-width"><p>Broadly speaking, <em>machine learning</em> encompasses a range of
+techniques and algorithms for gaining insights from large data sets. In
+this lesson, we will focus on <em>supervised learning</em> for
+<em>tabular data</em>.</p>
+<ul><li><p><strong>Tabular data</strong> takes the form of a data frame. The
+methods we consider can apply to a variety of data frames, from large to
+very large (e.g., up to 1,000’s of columns/variables and 100,000’s of
+rows/observations, or more).</p></li>
+<li><p><strong>Supervised learning</strong> methods build models that
+predict output values of a function, given some example input and output
+values. In our context, the output of this function will typically have
+the form of one of the columns of our data frame, while the input has
+the form of the remaining columns.</p></li>
+</ul><p>Given a data frame, we will build machine learning models as
+follows.</p>
+<ol style="list-style-type: decimal"><li><p>Divide the data set into a <em>training set</em> and a
+<em>testing set</em>. Typically the training set will contain about 60%
+to 80% of the rows, while the testing set comprises the remaining rows.
+This train/test split is selected randomly.</p></li>
+<li><p><em>Train</em> the model on the training set. Part of this
+process may involve <em>tuning</em>: tweaking various model settings
+(i.e., <em>hyperparameters</em>) for optimal performance.</p></li>
+<li><p><em>Test</em> the performance of the model using the testing set.
+Since the testing set was not used in the training of the model, the
+testing performance will be a good indication of how well our model will
+perform on future (unknown) input values.</p></li>
+</ol><p>Once our model is built, we can use it to <em>predict</em> output
+values from new cases of input, and we can also examine the structure of
+the model to <em>infer</em> the nature of the relationship between the
+input and the output.</p>
+</section><section><h2 class="section-heading" id="example-kyphosis-data-set">Example: Kyphosis Data Set<a class="anchor" aria-label="anchor" href="#example-kyphosis-data-set"></a></h2>
+<hr class="half-width"><p>To illustrate the above definitions, consider the
+<code>kyphosis</code> data set, which is included in the
+<code>rpart</code> package.</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">rpart</span><span class="op">)</span></span>
+<span><span class="fu">str</span><span class="op">(</span><span class="va">kyphosis</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>'data.frame':	81 obs. of  4 variables:
+ $ Kyphosis: Factor w/ 2 levels "absent","present": 1 1 2 1 1 1 1 1 1 2 ...
+ $ Age     : int  71 158 128 2 1 1 61 37 113 59 ...
+ $ Number  : int  3 3 4 5 4 2 2 3 2 6 ...
+ $ Start   : int  5 14 5 1 15 16 17 16 16 12 ...</code></pre>
+</div>
+<p>For a description of this data set, you can view the help menu for
+<code>kyphosis</code>.</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">?</span><span class="va">kyphosis</span></span></code></pre>
+</div>
+<p>For example, in a later episode we will build a model that will
+predict whether a post-op kyphosis will be present (the output), given
+the age of the patient, the number of vertebrae involved, and the number
+of the first vertebra operated on (the input). We will train our model
+on a selection of rows of this data frame (e.g., about 60 randomly
+selected rows) and then test it on the remaining rows.</p>
+<p>Let’s spend a few minutes exploring this data set.</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">summary</span><span class="op">(</span><span class="va">kyphosis</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Notice that only 17 of the 81 cases in our data set indicate the
+presence of a kyphosis. Try making a scatterplot of two of the
+quantitative variables.</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">kyphosis</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Number</span>, y <span class="op">=</span> <span class="va">Start</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="fig/1-kyphosis-start-vs-number.png" alt="scatterplot of start vs number variables in kyphosis dataset" class="figure mx-auto d-block"></figure><div id="challenge-number-and-start" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-number-and-start" class="callout-inner">
+<h3 class="callout-title">Challenge: Number and Start</h3>
+<div class="callout-content">
+<p>Do you notice a trend in the scatterplot of <code>Start</code>
+vs. <code>Number</code>? In the context of the <code>kyphosis</code>
+data, why would there be such a trend?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+<p>There appears to be a weak, negative association between
+<code>Number</code> and <code>Start</code>: larger values of
+<code>Number</code> correspond to smaller values of <code>Start</code>.
+This correspondence makes sense, because if more vertebrae are involved,
+the topmost vertebra would have to be higher up. (The vertebrae are
+numbered starting from the top.)</p>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="classification-vs--regression">Classification vs. Regression<a class="anchor" aria-label="anchor" href="#classification-vs--regression"></a></h2>
+<hr class="half-width"><p>In the jargon of machine learning, a model that predicts a
+categorical output variable is called a <em>classification</em> model,
+while one that predicts a quantitative (numeric) output is called a
+<em>regression</em> model. Note: this terminology conflicts slightly
+with the common use of the term “regression” in statistics.</p>
+</section><section><h2 class="section-heading" id="our-focus">Our Focus<a class="anchor" aria-label="anchor" href="#our-focus"></a></h2>
+<hr class="half-width"><p>This lesson will focus on three machine learning methods that apply
+to both classification and regression problems.</p>
+<ul><li>Decision Trees</li>
+<li>Random Forests</li>
+<li>Gradient Boosted Trees</li>
+</ul><p>We will also briefly explore classical linear and logistic
+regression, which we can view as simple examples of supervised learning.
+We will not dwell on the mathematical theory or algorithmic details of
+these methods. Interested learners are encouraged to consult <a href="https://www.statlearning.com/" class="external-link">An Introduction to Statistical
+Learning</a>, by James, Witten, Hastie, and Tibshirani.</p>
+<p>One of the main goals of this lesson is to help learners develop
+their R coding skills, especially for the purpose of using the available
+machine learning packages on the Comprehensive R Archive Network (CRAN).
+We will focus on the packages <code>randomForest</code> and
+<code>xgboost</code>, but many other packages are described in the <a href="https://cran.r-project.org/view=MachineLearning" class="external-link">CRAN Machine
+Learning Task View</a>.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -368,10 +515,7 @@
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-
-
-
-      </div> <!-- / div.lesson-content -->
+</section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter Bottom"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="index.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="2-linear-and-logistic-regression.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
