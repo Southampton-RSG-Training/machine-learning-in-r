@@ -1,81 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/01-introduction.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/01-introduction.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/404.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/1-intro-to-ml.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/CODE_OF_CONDUCT.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/2-linear-and-logistic-regression.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/LICENSE.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/3-decision-trees.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/aio.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/4-random-forests.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/citation.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/404.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/images.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/5-gradient-boosted-trees.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/index.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/6-cross-validation-and-fine-tuning.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/01-introduction.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/404.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/CODE_OF_CONDUCT.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/aio.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/LICENSE.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/citation.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/aio.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/images.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/citation.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/index.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/images.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/01-introduction.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/index.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/1-intro-to-ml.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/instructor-notes.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/2-linear-and-logistic-regression.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/introduction.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/3-decision-trees.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/key-points.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/4-random-forests.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/profiles.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/404.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/reference.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/5-gradient-boosted-trees.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor-notes.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/6-cross-validation-and-fine-tuning.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/introduction.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/key-points.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/profiles.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/aio.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/reference.html</loc>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/citation.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/images.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/index.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/introduction.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/key-points.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/profiles.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/reference.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/introduction.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/key-points.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/profiles.html</loc>
+  </url>
+  <url>
+    <loc>https://Southampton-RSG-Training.github.io/machine-learning-in-r/reference.html</loc>
   </url>
 </urlset>
