@@ -68,7 +68,7 @@
         </ul></div>
     </div>
   </div>
-  <hr></header><nav class="navbar navbar-expand-xl bottom-nav incubator" aria-label="Main Navigation"><div class="container-fluid nav-container">
+</header><nav class="navbar navbar-expand-xl bottom-nav incubator" aria-label="Main Navigation"><div class="container-fluid nav-container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
       <span class="navbar-toggler-icon"></span>
       <span class="menu-title">Menu</span>
@@ -117,12 +117,8 @@
     -->
     <a id="search-button" class="btn btn-primary" href="../instructor/aio.html" role="button" aria-label="Search the All In One page">Search the All In One page</a>
   </div><!--/div.container-fluid -->
-</nav><aside class="col-md-12 lesson-progress"><div style="width: 59%" class="percentage">
-    59%
-  </div>
-  <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="59" style="width: 59%">
-    </div>
+</nav><aside class="col-md-12 lesson-progress"><div class="progress incubator">
+    <div class="progress-bar incubator" role="progressbar" style="width: 19%" aria-valuenow="19" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">19%</div>
   </div>
 </aside><div class="container">
       <div class="row">
@@ -178,7 +174,7 @@
               </div><!--div.sidenav-view-selector -->
             </div><!--/div.col -->
 
-            <hr></div><!--/div.mobile-row -->
+          </div><!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordion-chapters-toggle">
             <div class="accordion-item">
@@ -231,9 +227,11 @@
 
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
-        <ul><li><a href="#introduction">Introduction</a></li>
-<li><a href="#figures">Figures</a></li>
-<li><a href="#math">Math</a></li>
+        <ul><li><a href="#decision-trees">Decision Trees</a></li>
+<li><a href="#using-decision-trees-for-supervised-learning">Using Decision Trees for Supervised Learning</a></li>
+<li><a href="#model-predictions-on-the-testing-set">Model predictions on the testing set</a></li>
+<li><a href="#testing-set-accuracy">Testing set accuracy</a></li>
+<li><a href="#robustness-or-lack-thereof">Robustness, or lack thereof</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -309,8 +307,8 @@
         <!-- START: inst/pkgdown/templates/content-instructor.html -->
   <div class="col-xl-8 col-lg-12 primary-content">
     <nav class="lesson-content mx-md-4" aria-label="Previous and Next Chapter Top"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
-        <a class="chapter-link" href="../instructor/2-linear-and-logistic-regression.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="../instructor/4-random-forests.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link" href="../instructor/2-linear-and-logistic-regression.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
+        <a class="chapter-link float-end" href="../instructor/4-random-forests.html" rel="next">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
@@ -323,15 +321,15 @@
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
-      <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
+    </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Decision Trees</h1>
-        <p>Last updated on 2026-05-21 |
+        <p>Last updated on 2026-05-29 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/3-decision-trees.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
 
 
-        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
+        <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 55 minutes</p>
 
         <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
@@ -346,8 +344,9 @@
 <div class="card-body">
 <div class="inner">
 <h3 class="card-title">Questions</h3>
-<ul><li>How do you write a lesson using Markdown and
-<a href="https://carpentries.github.io/sandpaper/" class="external-link">sandpaper</a>?</li>
+<ul><li>What are decision trees?</li>
+<li>How can we use a decision tree model to make a prediction?</li>
+<li>What are some shortcomings of decision tree models?</li>
 </ul></div>
 </div>
 </div>
@@ -355,90 +354,149 @@
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>Explain how to use markdown with The Carpentries Workbench</li>
-<li>Demonstrate how to include pieces of code, figures, and nested
-challenge blocks</li>
+<ul><li>Introduce decision trees and recursive partitioning.</li>
+<li>Revisit the Kyphosis example using a classification tree.</li>
+<li>Illustrate the use of training and testing sets.</li>
 </ul></div>
 </div>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
-<hr class="half-width"><p>This is a lesson created via The Carpentries Workbench. It is written
-in <a href="https://pandoc.org/MANUAL.html" class="external-link">Pandoc-flavored Markdown</a>
-for static files and <a href="https://rmarkdown.rstudio.com/" class="external-link">R
-Markdown</a> for dynamic files that can render code into output. Please
-refer to the <a href="https://carpentries.github.io/sandpaper-docs/" class="external-link">Introduction to The
-Carpentries Workbench</a> for full documentation.</p>
-<p>What you need to know is that there are three sections required for a
-valid Carpentries lesson:</p>
-<ol style="list-style-type: decimal"><li>
-<code>questions</code> are displayed at the beginning of the episode
-to prime the learner for the content.</li>
-<li>
-<code>objectives</code> are the learning objectives for an episode
-displayed with the questions.</li>
-<li>
-<code>keypoints</code> are displayed at the end of the episode to
-reinforce the objectives.</li>
-</ol><div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
-  <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
-</button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
-<div class="accordion-body">
-<p>Inline instructor notes can help inform instructors of timing
-challenges associated with the lessons. They appear in the “Instructor
-View”</p>
-</div>
-</div>
-</div>
-</div>
-<div id="challenge-1-can-you-do-it" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<span class="callout-header">Challenge</span>
-<div id="challenge-1-can-you-do-it" class="callout-inner">
-<h3 class="callout-title">Challenge 1: Can you do it?</h3>
-<div class="callout-content">
-<p>What is the output of this command?</p>
+<section><h2 class="section-heading" id="decision-trees">Decision Trees<a class="anchor" aria-label="anchor" href="#decision-trees"></a></h2>
+<hr class="half-width"><p>Let’s simulate a data set of exam scores, along with letter
+grades.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">paste</span><span class="op">(</span><span class="st">"This"</span>, <span class="st">"new"</span>, <span class="st">"lesson"</span>, <span class="st">"looks"</span>, <span class="st">"good"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
+<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">456</span><span class="op">)</span></span>
+<span><span class="va">exam</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>score <span class="op">=</span> <span class="fu">sample</span><span class="op">(</span><span class="fl">80</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">200</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>grade <span class="op">=</span> <span class="fu">as_factor</span><span class="op">(</span><span class="fu">ifelse</span><span class="op">(</span><span class="va">score</span> <span class="op">&lt;</span> <span class="fl">90</span>, <span class="st">"B"</span>, <span class="st">"A"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">head</span><span class="op">(</span><span class="va">exam</span><span class="op">)</span></span>
+<span><span class="fu">summary</span><span class="op">(</span><span class="va">exam</span><span class="op">)</span></span></code></pre>
 </div>
+<p>Given only this data frame, can we recover the grading scale that was
+used to assign the letter grades? In other words, can we
+<em>partition</em> this data set into A’s and B’s, based on the exam
+score? The <code>rpart</code> command can form this partition for us,
+using the formula syntax we saw in the last episode.</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">rpart</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">rpart.plot</span><span class="op">)</span></span>
+<span><span class="va">examTree</span> <span class="op">&lt;-</span> <span class="fu">rpart</span><span class="op">(</span><span class="va">grade</span> <span class="op">~</span> <span class="va">score</span>, data <span class="op">=</span> <span class="va">exam</span><span class="op">)</span></span>
+<span><span class="fu">rpart.plot</span><span class="op">(</span><span class="va">examTree</span><span class="op">)</span></span></code></pre>
 </div>
+<figure><img src="../fig/3-examTree.png" alt="decision tree of exam scores" class="figure mx-auto d-block"></figure><p>The <code>rpart</code> function searches for the best way to split
+the data set into predicted values of the response variables, based on
+the explanatory variables. This <a href="https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf" class="external-link">Introduction
+to Rpart</a> has details on how the split is chosen. In this simple
+case, the <code>rpart</code> function was able to perfectly partition
+the data after only one split. We can tell <code>rpart.plot</code> to
+report the number of correctly-classified cases in each node by
+including the option <code>extra = 2</code>.</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">rpart.plot</span><span class="op">(</span><span class="va">examTree</span>, extra <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/3-examTree-extra.png" alt="decision tree of exam scores with number of correctly classified" class="figure mx-auto d-block"></figure><p>Notice that in the top node, every case was classified as a B, so
+only the Bs were correctly classified. After the split, both child nodes
+were classified perfectly.</p>
+<p>In more complex situations, the algorithm will continue to create
+further splits to improve its classification. This process is called
+<em>recursive</em> partitioning.</p>
+<div id="challenge-use-rpart-on-the-kyphosis-data" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-use-rpart-on-the-kyphosis-data" class="callout-inner">
+<h3 class="callout-title">Challenge: Use <code>rpart</code> on the
+<code>kyphosis</code> data</h3>
+<div class="callout-content">
+<p>Use the <code>rpart</code> function to create a decision tree using
+the <code>kyphosis</code> data set. As in the previous episode, the
+response variable is <code>Kyphosis</code>, and the explanatory varables
+are the remaining columns <code>Age</code>, <code>Number</code>, and
+<code>Start</code>.</p>
+<ol style="list-style-type: decimal"><li>Use <code>rpart.plot</code> to plot your tree model.</li>
+<li>Use this tree to predict the value of <code>Kyphosis</code> when
+<code>Start</code> is 12, <code>Age</code> is 59, and
+<code>Number</code> is 6.</li>
+<li>How many of the 81 cases in the data set does this tree classify
+incorrectly?</li>
+</ol></div>
 </div>
 </div>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1"> Output </h4>
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] "This new lesson looks good"</code></pre>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ktree</span> <span class="op">&lt;-</span> <span class="fu">rpart</span><span class="op">(</span><span class="va">Kyphosis</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">kyphosis</span><span class="op">)</span></span>
+<span><span class="fu">rpart.plot</span><span class="op">(</span><span class="va">ktree</span>, extra <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/3-ktree.png" alt="decision tree of kyphosis" class="figure mx-auto d-block"></figure><p>To make a prediction using this tree, start at the top node. Since
+<code>Start</code> is 12, and 12 &gt;= 9, we follow the left (yes) edge.
+Since <code>Start</code> is not &gt;= 15, we then follow the right (no)
+edge. Since <code>Age</code> is 59 and 59 is not &lt; 55, we follow the
+right edge. Finally, since <code>Age</code> is not &gt;= 111 we follow
+the right edge to the leaf and obtain the prediction
+<code>present</code>.</p>
+<p>In the two leftmost leaves, all of the cases are classified
+correctly. However, in the three remaining leaves, there are 2, 3, and 8
+incorrectly classified cases, for a total of 13 misclassifications.</p>
 </div>
 </div>
 </div>
 </div>
+</section><section><h2 class="section-heading" id="using-decision-trees-for-supervised-learning">Using Decision Trees for Supervised Learning<a class="anchor" aria-label="anchor" href="#using-decision-trees-for-supervised-learning"></a></h2>
+<hr class="half-width"><p>In order to compare the decision tree model to the logistic
+regression model in the previous episode, let’s train the model on the
+training set and test it on the testing set. The following commands will
+form our training and testing set using the <code>slice</code> function,
+which is part of the tidyverse.</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trainSize</span> <span class="op">&lt;-</span> <span class="fu">round</span><span class="op">(</span><span class="fl">0.75</span> <span class="op">*</span> <span class="fu">nrow</span><span class="op">(</span><span class="va">kyphosis</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">6789</span><span class="op">)</span> <span class="co"># same seed as in the last episode</span></span>
+<span><span class="va">trainIndex</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">nrow</span><span class="op">(</span><span class="va">kyphosis</span><span class="op">)</span>, <span class="va">trainSize</span><span class="op">)</span></span>
+<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span></code></pre>
 </div>
-<div id="challenge-2-how-do-you-nest-solutions-within-challenge-blocks" class="callout challenge">
+<p>Now train the decision tree model on the training set</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">treeModel</span> <span class="op">&lt;-</span> <span class="fu">rpart</span><span class="op">(</span><span class="va">Kyphosis</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">Number</span> <span class="op">+</span> <span class="va">Start</span>, data <span class="op">=</span> <span class="va">trainDF</span><span class="op">)</span></span>
+<span><span class="fu">rpart.plot</span><span class="op">(</span><span class="va">treeModel</span>, extra <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/3-treeModel.png" alt="decision tree of kyphosis training set" class="figure mx-auto d-block"></figure><p>Notice that we obtain a simpler tree using the training set instead
+of the full data set.</p>
+<div id="challenge-training-set-accuracy" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div id="challenge-2-how-do-you-nest-solutions-within-challenge-blocks" class="callout-inner">
-<h3 class="callout-title">Challenge 2: how do you nest solutions within
-challenge blocks?</h3>
+<div id="challenge-training-set-accuracy" class="callout-inner">
+<h3 class="callout-title">Challenge: Training set accuracy</h3>
 <div class="callout-content">
-
+<p>What proportion of cases in the training set were classified
+correctly?</p>
 </div>
 </div>
 </div>
@@ -449,38 +507,223 @@ challenge blocks?</h3>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<p>You can add a line with at least three colons and a
-<code>solution</code> tag.</p>
+<p>Reading the leaves from left to right, there were 34, 11, and 6
+correctly-classified cases:</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="fl">34</span><span class="op">+</span><span class="fl">11</span><span class="op">+</span><span class="fl">6</span><span class="op">)</span><span class="op">/</span><span class="fu">nrow</span><span class="op">(</span><span class="va">trainDF</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 0.8360656</code></pre>
 </div>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a></h2>
-<hr class="half-width"><p>You can use standard markdown for static figures with the following
-syntax:</p>
-<p><code>![optional caption that appears below the figure](figure url){alt='alt text for accessibility purposes'}</code></p>
-<figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><div class="figcaption">You belong in The Carpentries!</div>
-</figure><div id="callout1" class="callout">
+</div>
+</section><section><h2 class="section-heading" id="model-predictions-on-the-testing-set">Model predictions on the testing set<a class="anchor" aria-label="anchor" href="#model-predictions-on-the-testing-set"></a></h2>
+<hr class="half-width"><p>The <code>predict</code> function works on <code>rpart</code> models
+similarly to how it works on <code>lm</code> and <code>glm</code>
+models, but the output is a matrix of predicted probabilities.</p>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">predict</span><span class="op">(</span><span class="va">treeModel</span>, <span class="va">testDF</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>      absent    present
+1  0.9444444 0.05555556
+2  0.9444444 0.05555556
+3  0.6111111 0.38888889
+4  0.9444444 0.05555556
+5  0.6111111 0.38888889
+6  0.6111111 0.38888889
+7  0.1428571 0.85714286
+8  0.1428571 0.85714286
+9  0.6111111 0.38888889
+10 0.6111111 0.38888889
+11 0.9444444 0.05555556
+12 0.6111111 0.38888889
+13 0.9444444 0.05555556
+14 0.9444444 0.05555556
+15 0.9444444 0.05555556
+16 0.6111111 0.38888889
+17 0.9444444 0.05555556
+18 0.6111111 0.38888889
+19 0.9444444 0.05555556
+20 0.9444444 0.05555556</code></pre>
+</div>
+<p>To investigate the behavior of this model, we bind the columns of the
+predicted probabilities to the testing set data frame to create a new
+data frame called <code>predDF</code>.</p>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">predMatrix</span> <span class="op">&lt;-</span> <span class="fu">predict</span><span class="op">(</span><span class="va">treeModel</span>, <span class="va">testDF</span><span class="op">)</span></span>
+<span><span class="va">predDF</span> <span class="op">&lt;-</span> <span class="va">testDF</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">bind_cols</span><span class="op">(</span><span class="va">predMatrix</span><span class="op">)</span></span></code></pre>
+</div>
+<div id="challenge-predicted-probabilities" class="callout challenge">
 <div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
+<i class="callout-icon" data-feather="zap"></i>
 </div>
-<span class="callout-header">Callout</span>
-<div class="callout-inner">
+<span class="callout-header">Challenge</span>
+<div id="challenge-predicted-probabilities" class="callout-inner">
+<h3 class="callout-title">Challenge: Predicted probabilities</h3>
 <div class="callout-content">
-<p>Callout sections can highlight information.</p>
-<p>They are sometimes used to emphasise particularly important points
-but are also used in some lessons to present “asides”: content that is
-not central to the narrative of the lesson, e.g. by providing the answer
-to a commonly-asked question.</p>
+<p>Compare the results in the <code>predDF</code> data frame with the
+plot of <code>treeModel</code>. Can you explain how the model is
+calculating the predicted probabilites?</p>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a></h2>
-<hr class="half-width"><p>One of our episodes contains <span class="math inline">\(\LaTeX\)</span> equations when describing how to
-create dynamic reports with {knitr}, so we now use mathjax to describe
-this:</p>
-<p><code>$\alpha = \dfrac{1}{(1 - \beta)^2}$</code> becomes: <span class="math inline">\(\alpha = \dfrac{1}{(1 - \beta)^2}\)</span></p>
-<p>Cool, right?</p>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div class="accordion-body">
+<p>Consider the first row of <code>predDF</code>.</p>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">predDF</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>  Kyphosis Age Number Start    absent    present
+1   absent 148      3    16 0.9444444 0.05555556</code></pre>
+</div>
+<p>Since the value of <code>Start</code> is greater than 13, we follow
+the “yes” branch of the decision tree and land at the leftmost leaf,
+labeled “absent”, with a probability of 34/36, which is approximately
+0.9444. Similarly, consider row 8.</p>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">predDF</span><span class="op">[</span><span class="fl">8</span>,<span class="op">]</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>  Kyphosis Age Number Start    absent   present
+8   absent 143      9     3 0.1428571 0.8571429</code></pre>
+</div>
+<p>Since the value of <code>Start</code> is less than 13, we follow the
+“no” branch. Then since the value of <code>Number</code> is greater than
+6, we follow the right branch to land on the leaf labeled “present”,
+with a probability of 6/7, which is 0.8571.</p>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="testing-set-accuracy">Testing set accuracy<a class="anchor" aria-label="anchor" href="#testing-set-accuracy"></a></h2>
+<hr class="half-width"><p>Let’s add a new column called <code>Prediction</code> to the
+<code>predDF</code> data frame that gives the model prediction
+(<code>absent</code> or <code>present</code>) for each row, based on the
+probability in the <code>absent</code> column of
+<code>predDF</code>.</p>
+<div class="codewrapper sourceCode" id="cb16">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">predDF</span> <span class="op">&lt;-</span> <span class="va">predDF</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Prediction <span class="op">=</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">predDF</span><span class="op">$</span><span class="va">absent</span> <span class="op">&gt;</span> <span class="fl">0.5</span>, <span class="st">"absent"</span>, <span class="st">"present"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Recall that in supervised learning, we use the <em>testing set</em>
+to measure how our model performs on data it was not trained on. Since
+this model is a classification model, we compute <code>accuracy</code>
+as the proportion of correct predictions.</p>
+<div class="codewrapper sourceCode" id="cb17">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">accuracy</span> <span class="op">&lt;-</span> <span class="fu">sum</span><span class="op">(</span><span class="va">predDF</span><span class="op">$</span><span class="va">Kyphosis</span> <span class="op">==</span> <span class="va">predDF</span><span class="op">$</span><span class="va">Prediction</span><span class="op">)</span><span class="op">/</span><span class="fu">nrow</span><span class="op">(</span><span class="va">predDF</span><span class="op">)</span></span>
+<span><span class="fu">cat</span><span class="op">(</span><span class="st">"Proportion of correct predictions: "</span>, <span class="va">accuracy</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>In general, the accuracy on the testing set will be less than the
+accuracy on the training set.</p>
+<div id="challenge-change-the-training-set" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-change-the-training-set" class="callout-inner">
+<h3 class="callout-title">Challenge: Change the training set</h3>
+<div class="callout-content">
+<p>Repeat the construction of the decision tree model for the
+<code>kyphosis</code> data, but experiment with different values of the
+random seed to obtain different testing and training sets. Does the
+shape of the tree change? Does the testing set accuracy change?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
+  <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
+</button>
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb18">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">314159</span><span class="op">)</span> <span class="co"># try a different seed</span></span>
+<span><span class="va">trainIndex</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">nrow</span><span class="op">(</span><span class="va">kyphosis</span><span class="op">)</span>, <span class="va">trainSize</span><span class="op">)</span> <span class="co"># use the same size training set</span></span>
+<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">treeModel</span> <span class="op">&lt;-</span> <span class="fu">rpart</span><span class="op">(</span><span class="va">Kyphosis</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">Number</span> <span class="op">+</span> <span class="va">Start</span>, data <span class="op">=</span> <span class="va">trainDF</span><span class="op">)</span></span>
+<span><span class="fu">rpart.plot</span><span class="op">(</span><span class="va">treeModel</span>, extra <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre>
+</div>
+<figure><img src="../fig/3-treeModel-change-training-set.png" alt="decision tree of kyphosis with a different training set" class="figure mx-auto d-block"></figure><p>Changing the seed for the train/test split resulted in a different
+decision tree.</p>
+<div class="codewrapper sourceCode" id="cb19">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">predMatrix</span> <span class="op">&lt;-</span> <span class="fu">predict</span><span class="op">(</span><span class="va">treeModel</span>, <span class="va">testDF</span><span class="op">)</span></span>
+<span><span class="va">predictedKyphosis</span> <span class="op">&lt;-</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">predMatrix</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&gt;</span> <span class="fl">0.5</span>, <span class="st">"absent"</span>, <span class="st">"present"</span><span class="op">)</span></span>
+<span><span class="va">accuracy</span> <span class="op">&lt;-</span> <span class="fu">sum</span><span class="op">(</span><span class="va">testDF</span><span class="op">$</span><span class="va">Kyphosis</span> <span class="op">==</span> <span class="va">predictedKyphosis</span><span class="op">)</span><span class="op">/</span><span class="fu">nrow</span><span class="op">(</span><span class="va">testDF</span><span class="op">)</span></span>
+<span><span class="fu">cat</span><span class="op">(</span><span class="st">"Proportion of correct predictions: "</span>, <span class="va">accuracy</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Proportion of correct predictions:  0.85 </code></pre>
+</div>
+<p>The testing set accuracy also changed.</p>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="robustness-or-lack-thereof">Robustness, or lack thereof<a class="anchor" aria-label="anchor" href="#robustness-or-lack-thereof"></a></h2>
+<hr class="half-width"><p>In this episode we have seen that the structure of the decision tree
+can vary quite a bit when we make small changes to the training data.
+Training the model on the whole data set resulted in a very different
+tree than what we obtained by training on a slightly smaller testing
+set. And changing the choice of testing set, even while maintaining its
+size, also altered the tree structure. When the structure of a model
+changes significantly for a small change in the training data, we say
+that the model is not <em>robust</em>. Non-robustness can be a problem,
+because one or two unusual observations can make a big difference in the
+conclusions we draw.</p>
+<p>Since their predictions can vary wildly depending on the randomly
+selected training set, decision trees are called <em>weak learners</em>.
+In the upcoming episodes, we will explore two methods that use
+<em>ensembles</em> of weak learners to create a models with more
+predictive strength.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -488,14 +731,9 @@ this:</p>
 <span class="callout-header">Key Points</span>
 <div class="callout-inner">
 <div class="callout-content">
-<ul><li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
+<ul><li>Training data can give us a decision tree model.</li>
+<li>Decision trees can be used for supervised learning, but they are not
+very robust.</li>
 </ul></div>
 </div>
 </div>
@@ -541,7 +779,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/" class="external-link">sandpaper (0.20.1)</a>, <a href="https://github.com/carpentries/pegboard/tree/" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/" class="external-link">varnish (1.1.0)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/" class="external-link">sandpaper (0.20.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/" class="external-link">varnish (1.1.1)</a></p>
 		</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -562,9 +800,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/3-decision-trees.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/3-decision-trees.html",
-  "dateCreated": "2026-05-21",
-  "dateModified": "2026-05-21",
-  "datePublished": "2026-05-21"
+  "dateCreated": "2026-05-29",
+  "dateModified": "2026-05-29",
+  "datePublished": "2026-05-29"
 }
 
   </script><script>

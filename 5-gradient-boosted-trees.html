@@ -68,7 +68,7 @@
         </ul></div>
     </div>
   </div>
-  <hr></header><nav class="navbar navbar-expand-xl bottom-nav incubator" aria-label="Main Navigation"><div class="container-fluid nav-container">
+</header><nav class="navbar navbar-expand-xl bottom-nav incubator" aria-label="Main Navigation"><div class="container-fluid nav-container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
       <span class="navbar-toggler-icon"></span>
       <span class="menu-title">Menu</span>
@@ -117,12 +117,8 @@
     -->
     <a id="search-button" class="btn btn-primary" href="aio.html" role="button" aria-label="Search the All In One page">Search the All In One page</a>
   </div><!--/div.container-fluid -->
-</nav><aside class="col-md-12 lesson-progress"><div style="width: 80%" class="percentage">
-    80%
-  </div>
-  <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80" style="width: 80%">
-    </div>
+</nav><aside class="col-md-12 lesson-progress"><div class="progress incubator">
+    <div class="progress-bar incubator" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">60%</div>
   </div>
 </aside><div class="container">
       <div class="row">
@@ -178,7 +174,7 @@
               </div><!--div.sidenav-view-selector -->
             </div><!--/div.col -->
 
-            <hr></div><!--/div.mobile-row -->
+          </div><!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordion-chapters-toggle">
             <div class="accordion-item">
@@ -249,9 +245,14 @@
 
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
-        <ul><li><a href="#introduction">Introduction</a></li>
-<li><a href="#figures">Figures</a></li>
-<li><a href="#math">Math</a></li>
+        <ul><li><a href="#gradient-boosted-trees">Gradient Boosted Trees</a></li>
+<li><a href="#reload-the-red-wine-data">Reload the Red Wine Data</a></li>
+<li><a href="#training-an-xgboost-model">Training an XGBoost Model</a></li>
+<li><a href="#more-details-on-the-training-process">More Details on the Training Process</a></li>
+<li><a href="#learning-rate">Learning Rate</a></li>
+<li><a href="#variable-importance">Variable Importance</a></li>
+<li><a href="#training-error-vs.-testing-error">Training Error vs. Testing Error</a></li>
+<li><a href="#saving-a-trained-model">Saving a trained model</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -309,8 +310,8 @@
         <!-- START: inst/pkgdown/templates/content-instructor.html -->
   <div class="col-xl-8 col-lg-12 primary-content">
     <nav class="lesson-content mx-md-4" aria-label="Previous and Next Chapter Top"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
-        <a class="chapter-link" href="4-random-forests.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="6-cross-validation-and-fine-tuning.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link" href="4-random-forests.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
+        <a class="chapter-link float-end" href="6-cross-validation-and-fine-tuning.html" rel="next">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
@@ -323,9 +324,9 @@
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
-      <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
+    </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Gradient Boosted Trees</h1>
-        <p>Last updated on 2026-05-21 |
+        <p>Last updated on 2026-05-29 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/5-gradient-boosted-trees.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -344,8 +345,9 @@
 <div class="card-body">
 <div class="inner">
 <h3 class="card-title">Questions</h3>
-<ul><li>How do you write a lesson using Markdown and
-<a href="https://carpentries.github.io/sandpaper/" class="external-link">sandpaper</a>?</li>
+<ul><li>What is gradient boosting?</li>
+<li>How can we train an XGBoost model?</li>
+<li>What is the learning rate?</li>
 </ul></div>
 </div>
 </div>
@@ -353,76 +355,266 @@
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>Explain how to use markdown with The Carpentries Workbench</li>
-<li>Demonstrate how to include pieces of code, figures, and nested
-challenge blocks</li>
+<ul><li>Introduce XGBoost models.</li>
+<li>Train regression models using XGBoost</li>
+<li>Explore the effect of learning rate on the training process.</li>
 </ul></div>
 </div>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
-<hr class="half-width"><p>This is a lesson created via The Carpentries Workbench. It is written
-in <a href="https://pandoc.org/MANUAL.html" class="external-link">Pandoc-flavored Markdown</a>
-for static files and <a href="https://rmarkdown.rstudio.com/" class="external-link">R
-Markdown</a> for dynamic files that can render code into output. Please
-refer to the <a href="https://carpentries.github.io/sandpaper-docs/" class="external-link">Introduction to The
-Carpentries Workbench</a> for full documentation.</p>
-<p>What you need to know is that there are three sections required for a
-valid Carpentries lesson:</p>
-<ol style="list-style-type: decimal"><li>
-<code>questions</code> are displayed at the beginning of the episode
-to prime the learner for the content.</li>
-<li>
-<code>objectives</code> are the learning objectives for an episode
-displayed with the questions.</li>
-<li>
-<code>keypoints</code> are displayed at the end of the episode to
-reinforce the objectives.</li>
-</ol><div id="challenge-1-can-you-do-it" class="callout challenge">
+<section><h2 class="section-heading" id="gradient-boosted-trees">Gradient Boosted Trees<a class="anchor" aria-label="anchor" href="#gradient-boosted-trees"></a></h2>
+<hr class="half-width"><p>A random forest is called an <em>ensemble</em> method, because it
+combines the results of a set of trees to form a single prediction.
+<em>Gradient boosted trees</em> are also ensemble methods, but instead
+of forming a forest of trees from different random samples, they grow
+successive trees that systematically reduce the error of the model at
+each iteration.</p>
+<p>We will be using the R package <code>xgboost</code>, which gives a
+fast, scalable implementation of a gradient boosting framework. For more
+information on how <code>xgboost</code> works, see the <a href="https://cran.r-project.org/web/packages/xgboost/vignettes/xgboostPresentation.html" class="external-link">XGBoost
+Presentation</a> vignette and the <a href="https://xgboost.readthedocs.io/en/stable/tutorials/model.html" class="external-link">Introduction
+to Boosted Trees</a> tutorial in the XGBoost documentation. In this
+episode we will use XGBoost to create a regression model, but this
+framework can also be used for classification problems.</p>
+</section><section><h2 class="section-heading" id="reload-the-red-wine-data">Reload the Red Wine Data<a class="anchor" aria-label="anchor" href="#reload-the-red-wine-data"></a></h2>
+<hr class="half-width"><div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">here</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">xgboost</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Notice that both <code>xgboost</code> and <code>dplyr</code> have a
+function called <code>slice</code>. In the following code block, we
+specify that we want to use the <code>dplyr</code> version.</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">wine</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"wine.csv"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">redwine</span> <span class="op">&lt;-</span> <span class="va">wine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1599</span><span class="op">)</span> </span>
+<span><span class="va">trainSize</span> <span class="op">&lt;-</span> <span class="fu">round</span><span class="op">(</span><span class="fl">0.80</span> <span class="op">*</span> <span class="fu">nrow</span><span class="op">(</span><span class="va">redwine</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span> </span>
+<span><span class="va">trainIndex</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">nrow</span><span class="op">(</span><span class="va">redwine</span><span class="op">)</span>, <span class="va">trainSize</span><span class="op">)</span></span>
+<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">redwine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">redwine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span></code></pre>
+</div>
+<p>The <code>xgboost</code> package defines a data structure called
+<code>xgb.DMatrix</code> that optimizes storage and retrieval. To use
+the advanced features of <code>xgboost</code>, it is necessary to
+convert our training and test sets to the <code>xgb.DMatrix</code>
+class.</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dtrain</span> <span class="op">&lt;-</span> <span class="fu">xgb.DMatrix</span><span class="op">(</span>data <span class="op">=</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">trainDF</span>, <span class="op">-</span><span class="va">quality</span><span class="op">)</span><span class="op">)</span>, label <span class="op">=</span> <span class="va">trainDF</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span></span>
+<span><span class="va">dtest</span> <span class="op">&lt;-</span> <span class="fu">xgb.DMatrix</span><span class="op">(</span>data <span class="op">=</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">testDF</span>, <span class="op">-</span><span class="va">quality</span><span class="op">)</span><span class="op">)</span>, label <span class="op">=</span> <span class="va">testDF</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span></span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="training-an-xgboost-model">Training an XGBoost Model<a class="anchor" aria-label="anchor" href="#training-an-xgboost-model"></a></h2>
+<hr class="half-width"><p>Since we specified a <code>label</code> in our <code>dtrain</code>
+and <code>dtest</code> matrices, there is no need to specify a formula
+when training a model using <code>xgb.train</code>. The label that we
+specified (quality rating) will be the response variable, and the
+columns of the <code>data</code> that we specified will be the
+explanatory variables. One option that we must specify is
+<code>nrounds</code>, which restricts the number of boosting iterations
+the algorithm will make.</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, nrounds <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Let’s calculate the RMSE on our testing set. The <code>predict</code>
+function for XGBoost models expects a matrix, so we pass it the
+<code>xgb.DMatrix</code> that we created from our testing set.</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pQuality</span> <span class="op">&lt;-</span> <span class="fu">predict</span><span class="op">(</span><span class="va">redwineXGB</span>, <span class="va">dtest</span><span class="op">)</span></span>
+<span><span class="va">errors</span> <span class="op">&lt;-</span> <span class="va">pQuality</span> <span class="op">-</span> <span class="va">testDF</span><span class="op">$</span><span class="va">quality</span></span>
+<span><span class="fu">sqrt</span><span class="op">(</span><span class="fu">mean</span><span class="op">(</span><span class="va">errors</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co">#RMSE</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 0.6653935</code></pre>
+</div>
+</section><section><h2 class="section-heading" id="more-details-on-the-training-process">More Details on the Training Process<a class="anchor" aria-label="anchor" href="#more-details-on-the-training-process"></a></h2>
+<hr class="half-width"><p>The <code>xgb.train</code> command will automatically calculate the
+RMSE on our testing set after each iteration if we set the testing set
+in the <code>watchlist</code>.</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, nrounds <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1]	test-rmse:3.676492
+[2]	test-rmse:2.620643
+[3]	test-rmse:1.904736
+[4]	test-rmse:1.414777
+[5]	test-rmse:1.110905
+[6]	test-rmse:0.913236
+[7]	test-rmse:0.793578
+[8]	test-rmse:0.729415
+[9]	test-rmse:0.686777
+[10]	test-rmse:0.665393 </code></pre>
+</div>
+<p>The training history is saved as a data frame in the variable
+<code>gbm$evaluation_log</code>, so we can plot how the RMSE changes
+during the training process.</p>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">redwineXGB</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">test_rmse</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<p><img src="" class="figure">fig/5-rmse-line-plot.png){alt=“line plot of test rmse
+by iteration”}</p>
+<div id="challenge-how-many-boosting-iterations" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div id="challenge-1-can-you-do-it" class="callout-inner">
-<h3 class="callout-title">Challenge 1: Can you do it?</h3>
+<div id="challenge-how-many-boosting-iterations" class="callout-inner">
+<h3 class="callout-title">Challenge: How many boosting iterations?</h3>
 <div class="callout-content">
-<p>What is the output of this command?</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">paste</span><span class="op">(</span><span class="st">"This"</span>, <span class="st">"new"</span>, <span class="st">"lesson"</span>, <span class="st">"looks"</span>, <span class="st">"good"</span><span class="op">)</span></span></code></pre>
-</div>
+<p>Experiment with different values of <code>nrounds</code> in the above
+call to <code>xgb.train</code>. Does the accuracy of the model improve
+with more iterations? Is there a point after which the model ceases to
+improve?</p>
 </div>
 </div>
 </div>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1"> Output </h4>
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
+<p>The accuracy of the model doesn’t appear to improve after iteration
+14.</p>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, </span>
+<span>                        watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, </span>
+<span>                        nrounds <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre>
+</div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] "This new lesson looks good"</code></pre>
+<pre class="output" tabindex="0"><code>[1]	test-rmse:3.676492
+[2]	test-rmse:2.620643
+[3]	test-rmse:1.904736
+[4]	test-rmse:1.414777
+[5]	test-rmse:1.110905
+[6]	test-rmse:0.913236
+[7]	test-rmse:0.793578
+[8]	test-rmse:0.729415
+[9]	test-rmse:0.686777
+[10]	test-rmse:0.665393
+[11]	test-rmse:0.650133
+[12]	test-rmse:0.642655
+[13]	test-rmse:0.640231
+[14]	test-rmse:0.634134
+[15]	test-rmse:0.637910
+[16]	test-rmse:0.636140
+[17]	test-rmse:0.640103
+[18]	test-rmse:0.640305
+[19]	test-rmse:0.640569
+[20]	test-rmse:0.637183 </code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">redwineXGB</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">test_rmse</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> </span></code></pre>
+</div>
+<p><img src="" class="figure">fig/5-challenge-rmse-line-plot.png){alt=“line plot of
+test rmse by iteration”}</p>
 </div>
 </div>
 </div>
 </div>
+</section><section><h2 class="section-heading" id="learning-rate">Learning Rate<a class="anchor" aria-label="anchor" href="#learning-rate"></a></h2>
+<hr class="half-width"><p>Machine learning algorithms that reduce a loss function over a
+sequence of iterations typically have a setting that controls the
+<em>learning rate</em>. A smaller learning rate will generally reduce
+the error by a smaller amount at each iteration, and therefore will
+require more iterations to arrive at a given level of accuracy. The
+advantage to a smaller learning rate is that the algorithm is less
+likely to overshoot the optimum fit.</p>
+<p>In XGBoost, the setting that controls the learning rate is called
+<code>eta</code>, which is one of several <em>hyperparameters</em> that
+can be adjusted. Its default value is 0.3, but smaller values will
+usually perform better. It must take a value in the range 0 &lt;
+<code>eta</code> &lt; 1.</p>
+<p>The following code will set <code>eta</code> to its default value. We
+include a value for <code>early_stopping_rounds</code>, which will halt
+the training after a specified number of iterations pass without
+improvement. When using <code>early_stopping_rounds</code>,
+<code>nrounds</code> can be set to a very large number. To avoid
+printing too many lines of output, we also set a value for
+<code>print_every_n</code>.</p>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, </span>
+<span>                        params <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>eta <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span>,</span>
+<span>                        watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, </span>
+<span>                        nrounds <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>                        early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                        print_every_n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre>
 </div>
-<div id="challenge-2-how-do-you-nest-solutions-within-challenge-blocks" class="callout challenge">
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1]	test-rmse:3.676492
+Will train until test_rmse hasn't improved in 10 rounds.
+
+[6]	test-rmse:0.913236
+[11]	test-rmse:0.650133
+[16]	test-rmse:0.636140
+[21]	test-rmse:0.639540
+Stopping. Best iteration:
+[14]	test-rmse:0.634134</code></pre>
+</div>
+<p>The 14th iteration had the smallest RMSE, as we found in the previous
+challenge.</p>
+<div id="challenge-experiment-with-the-learning-rate." class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div id="challenge-2-how-do-you-nest-solutions-within-challenge-blocks" class="callout-inner">
-<h3 class="callout-title">Challenge 2: how do you nest solutions within
-challenge blocks?</h3>
+<div id="challenge-experiment-with-the-learning-rate." class="callout-inner">
+<h3 class="callout-title">Challenge: Experiment with the learning
+rate.</h3>
 <div class="callout-content">
-
+<p>Experiment with different values of <code>eta</code> in the above
+call to <code>xgb.train</code>. Notice how smaller values of eta require
+more iterations. Can you find a value of <code>eta</code> that results
+in a lower testing set RMSE than the default?</p>
 </div>
 </div>
 </div>
@@ -431,40 +623,198 @@ challenge blocks?</h3>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<p>You can add a line with at least three colons and a
-<code>solution</code> tag.</p>
+<p>A learning rate around 0.1 reduces the RMSE somewhat.</p>
+<div class="codewrapper sourceCode" id="cb16">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, </span>
+<span>                        params <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>eta <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>                        watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, </span>
+<span>                        nrounds <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>                        early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                        print_every_n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1]	test-rmse:4.689984
+Will train until test_rmse hasn't improved in 10 rounds.
+
+[16]	test-rmse:1.164598
+[31]	test-rmse:0.655252
+[46]	test-rmse:0.618707
+[61]	test-rmse:0.617009
+[76]	test-rmse:0.612820
+Stopping. Best iteration:
+[75]	test-rmse:0.612406</code></pre>
 </div>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a></h2>
-<hr class="half-width"><p>You can use standard markdown for static figures with the following
-syntax:</p>
-<p><code>![optional caption that appears below the figure](figure url){alt='alt text for accessibility purposes'}</code></p>
-<figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><div class="figcaption">You belong in The Carpentries!</div>
-</figure><div id="callout1" class="callout">
+</div>
+</section><section><h2 class="section-heading" id="variable-importance">Variable Importance<a class="anchor" aria-label="anchor" href="#variable-importance"></a></h2>
+<hr class="half-width"><p>As with random forests, you can view the predictive importance of
+each explanatory variable.</p>
+<div class="codewrapper sourceCode" id="cb18">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">xgb.importance</span><span class="op">(</span>model <span class="op">=</span> <span class="va">redwineXGB</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>                 Feature       Gain      Cover  Frequency
+ 1:              alcohol 0.33236129 0.11264259 0.07936508
+ 2:     volatile.acidity 0.12367170 0.09820458 0.11922399
+ 3:            sulphates 0.10975935 0.10726694 0.08218695
+ 4: total.sulfur.dioxide 0.07500529 0.13655797 0.09276896
+ 5:              density 0.05960668 0.09451465 0.08500882
+ 6:            chlorides 0.05883225 0.10318293 0.09805996
+ 7:       residual.sugar 0.05499778 0.09106117 0.08818342
+ 8:        fixed.acidity 0.05087633 0.07920964 0.14250441
+ 9:                   pH 0.04772447 0.06078573 0.06807760
+10:          citric.acid 0.04532904 0.07698668 0.07830688
+11:  free.sulfur.dioxide 0.04183582 0.03958713 0.06631393</code></pre>
+</div>
+<p>The rows are sorted by <code>Gain</code>, which measures the accuracy
+improvement contributed by a feature based on all the splits it
+determines. Note that the sum of all the gains is 1.</p>
+</section><section><h2 class="section-heading" id="training-error-vs--testing-error">Training Error vs. Testing Error<a class="anchor" aria-label="anchor" href="#training-error-vs--testing-error"></a></h2>
+<hr class="half-width"><p>Like many machine learning algorithms, gradient boosting operates by
+minimizing the error on the training set. However, we evaluate its
+performance by computing the error on the testing set. These two errors
+are usually different, and it is not uncommon to have much lower
+training RMSE than testing RMSE.</p>
+<p>To see both training and testing errors, we can add a
+<code>train</code> item to the <code>watchlist</code>.</p>
+<div class="codewrapper sourceCode" id="cb20">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>,</span>
+<span>                        params <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>eta <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>                        watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>train <span class="op">=</span> <span class="va">dtrain</span>, test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>,</span>
+<span>                        nrounds <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>                        early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                        print_every_n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1]	train-rmse:4.690120	test-rmse:4.689984
+Multiple eval metrics are present. Will use test_rmse for early stopping.
+Will train until test_rmse hasn't improved in 10 rounds.
+
+[16]	train-rmse:1.109302	test-rmse:1.164598
+[31]	train-rmse:0.467275	test-rmse:0.655252
+[46]	train-rmse:0.369513	test-rmse:0.618707
+[61]	train-rmse:0.328256	test-rmse:0.617009
+[76]	train-rmse:0.290210	test-rmse:0.612820
+Stopping. Best iteration:
+[75]	train-rmse:0.291627	test-rmse:0.612406</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb22">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">redwineXGB</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="va">train_rmse</span>, <span class="va">test_rmse</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"RMSE"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">RMSE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<p><img src="" class="figure">fig/5-test-train-rmse-line-plot.png){alt=“line plot of
+test rmse by iteration”}</p>
+<p>Notice that beyond iteration 40 or so, the training RMSE continues to
+decrease while the testing RMSE has basically stabilized. This
+divergence indicates that the later training iterations are improving
+the model based on the particularities of the training set, but in a way
+that does not generalize to the testing set.</p>
+</section><section><h2 class="section-heading" id="saving-a-trained-model">Saving a trained model<a class="anchor" aria-label="anchor" href="#saving-a-trained-model"></a></h2>
+<hr class="half-width"><p>As models become more complicated, the time it takes to train them
+becomes nontrivial. For this reason, it can be helpful to save a trained
+XGBoost model. We’ll create a directory in our project called
+<code>saved_models</code> and save our XGBoost model in a universal
+binary format that can be read by any XGBoost interface (e.g., R,
+Python, Julia, Scala).</p>
+<div class="codewrapper sourceCode" id="cb23">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">dir.create</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"saved_models"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">xgb.save</span><span class="op">(</span><span class="va">redwineXGB</span>, <span class="fu">here</span><span class="op">(</span><span class="st">"saved_models"</span>, <span class="st">"redwine.model"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<p>This trained model can be loaded into a future R session with the
+<code>xgb.load</code> command.</p>
+<div class="codewrapper sourceCode" id="cb24">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">reloaded_model</span> <span class="op">&lt;-</span> <span class="fu">xgb.load</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"saved_models"</span>, <span class="st">"redwine.model"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<p>However, while <code>reloaded_model</code> can be used with the
+<code>predict</code> function, it is not identical to the
+<code>redwineXGB</code> object. For reproducibility, it is important to
+save the source code used in the training process.</p>
+<div id="challenge-white-wine" class="callout challenge">
 <div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
+<i class="callout-icon" data-feather="zap"></i>
 </div>
-<span class="callout-header">Callout</span>
-<div class="callout-inner">
+<span class="callout-header">Challenge</span>
+<div id="challenge-white-wine" class="callout-inner">
+<h3 class="callout-title">Challenge: White Wine</h3>
 <div class="callout-content">
-<p>Callout sections can highlight information.</p>
-<p>They are sometimes used to emphasise particularly important points
-but are also used in some lessons to present “asides”: content that is
-not central to the narrative of the lesson, e.g. by providing the answer
-to a commonly-asked question.</p>
+<p>Build an XGBoost model for the white wine data (rows 1600-6497) of
+the <code>wine</code> data frame. Compare the RMSE and variable
+importance with the random forest white wine model from the previous
+episode.</p>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a></h2>
-<hr class="half-width"><p>One of our episodes contains <span class="math inline">\(\LaTeX\)</span> equations when describing how to
-create dynamic reports with {knitr}, so we now use mathjax to describe
-this:</p>
-<p><code>$\alpha = \dfrac{1}{(1 - \beta)^2}$</code> becomes: <span class="math inline">\(\alpha = \dfrac{1}{(1 - \beta)^2}\)</span></p>
-<p>Cool, right?</p>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb25">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">whitewine</span> <span class="op">&lt;-</span> <span class="va">wine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="fl">1600</span><span class="op">:</span><span class="fl">6497</span><span class="op">)</span></span>
+<span><span class="va">trainSize</span> <span class="op">&lt;-</span> <span class="fu">round</span><span class="op">(</span><span class="fl">0.80</span> <span class="op">*</span> <span class="fu">nrow</span><span class="op">(</span><span class="va">whitewine</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">trainIndex</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">nrow</span><span class="op">(</span><span class="va">whitewine</span><span class="op">)</span>, <span class="va">trainSize</span><span class="op">)</span></span>
+<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">whitewine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">whitewine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">dtrain</span> <span class="op">&lt;-</span> <span class="fu">xgb.DMatrix</span><span class="op">(</span>data <span class="op">=</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">trainDF</span>, <span class="op">-</span><span class="va">quality</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                      label <span class="op">=</span> <span class="va">trainDF</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span></span>
+<span><span class="va">dtest</span> <span class="op">&lt;-</span> <span class="fu">xgb.DMatrix</span><span class="op">(</span>data <span class="op">=</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">testDF</span>, <span class="op">-</span><span class="va">quality</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                     label <span class="op">=</span> <span class="va">testDF</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span></span>
+<span><span class="va">whitewineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>,</span>
+<span>                          params <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>eta <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>                          watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>train <span class="op">=</span> <span class="va">dtrain</span>, test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>,</span>
+<span>                          nrounds <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>                          early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                          print_every_n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span><span class="fu">xgb.importance</span><span class="op">(</span>model <span class="op">=</span> <span class="va">whitewineXGB</span><span class="op">)</span></span>
+<span><span class="va">whitewineXGB</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="va">train_rmse</span>, <span class="va">test_rmse</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"RMSE"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">RMSE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<p>The testing set RMSE (0.664) is worse than what we obtained in the
+random forest model (0.63). The important explanatory variables are
+similar.</p>
+</div>
+</div>
+</div>
+</div>
+<p>So far, our XGBoost models have performed slightly worse than the
+equivalent random forest models. In the next episode we will explore
+ways to improve these results.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -472,14 +822,10 @@ this:</p>
 <span class="callout-header">Key Points</span>
 <div class="callout-inner">
 <div class="callout-content">
-<ul><li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
+<ul><li>Gradient boosted trees can be used for the same types of problems
+that random forests can solve.</li>
+<li>The learning rate can affect the performance of a machine learning
+algorithm.</li>
 </ul></div>
 </div>
 </div>
@@ -525,7 +871,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/" class="external-link">sandpaper (0.20.1)</a>, <a href="https://github.com/carpentries/pegboard/tree/" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/" class="external-link">varnish (1.1.0)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/" class="external-link">sandpaper (0.20.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/" class="external-link">varnish (1.1.1)</a></p>
 		</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -546,9 +892,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/5-gradient-boosted-trees.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/5-gradient-boosted-trees.html",
-  "dateCreated": "2026-05-21",
-  "dateModified": "2026-05-21",
-  "datePublished": "2026-05-21"
+  "dateCreated": "2026-05-29",
+  "dateModified": "2026-05-29",
+  "datePublished": "2026-05-29"
 }
 
   </script><script>

@@ -68,7 +68,7 @@
         </ul></div>
     </div>
   </div>
-  <hr></header><nav class="navbar navbar-expand-xl bottom-nav incubator" aria-label="Main Navigation"><div class="container-fluid nav-container">
+</header><nav class="navbar navbar-expand-xl bottom-nav incubator" aria-label="Main Navigation"><div class="container-fluid nav-container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
       <span class="navbar-toggler-icon"></span>
       <span class="menu-title">Menu</span>
@@ -117,12 +117,8 @@
     -->
     <a id="search-button" class="btn btn-primary" href="aio.html" role="button" aria-label="Search the All In One page">Search the All In One page</a>
   </div><!--/div.container-fluid -->
-</nav><aside class="col-md-12 lesson-progress"><div style="width: 90%" class="percentage">
-    90%
-  </div>
-  <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="90" style="width: 90%">
-    </div>
+</nav><aside class="col-md-12 lesson-progress"><div class="progress incubator">
+    <div class="progress-bar incubator" role="progressbar" style="width: 79%" aria-valuenow="79" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson Progress">79%</div>
   </div>
 </aside><div class="container">
       <div class="row">
@@ -178,7 +174,7 @@
               </div><!--div.sidenav-view-selector -->
             </div><!--/div.col -->
 
-            <hr></div><!--/div.mobile-row -->
+          </div><!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordion-chapters-toggle">
             <div class="accordion-item">
@@ -258,9 +254,13 @@
 
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
-        <ul><li><a href="#introduction">Introduction</a></li>
-<li><a href="#figures">Figures</a></li>
-<li><a href="#math">Math</a></li>
+        <ul><li><a href="#parameter-tuning">Parameter Tuning</a></li>
+<li><a href="#cross-validation">Cross Validation</a></li>
+<li><a href="#revisit-the-red-wine-quality-model">Revisit the Red Wine Quality Model</a></li>
+<li><a href="#repeat-cross-validation-in-a-loop">Repeat Cross Validation in a Loop</a></li>
+<li><a href="#grid-search">Grid Search</a></li>
+<li><a href="#adding-random-sampling">Adding Random Sampling</a></li>
+<li><a href="#final-check-using-the-testing-set">Final Check using the Testing Set</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -309,8 +309,8 @@
         <!-- START: inst/pkgdown/templates/content-instructor.html -->
   <div class="col-xl-8 col-lg-12 primary-content">
     <nav class="lesson-content mx-md-4" aria-label="Previous and Next Chapter Top"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
-        <a class="chapter-link" href="5-gradient-boosted-trees.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link" href="5-gradient-boosted-trees.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
+        <a class="chapter-link float-end" href="index.html" rel="next">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
@@ -323,9 +323,9 @@
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
-      <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
+    </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Cross Validation and Tuning</h1>
-        <p>Last updated on 2026-05-21 |
+        <p>Last updated on 2026-05-29 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/6-cross-validation-and-fine-tuning.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -344,8 +344,10 @@
 <div class="card-body">
 <div class="inner">
 <h3 class="card-title">Questions</h3>
-<ul><li>How do you write a lesson using Markdown and
-<a href="https://carpentries.github.io/sandpaper/" class="external-link">sandpaper</a>?</li>
+<ul><li>How can the fit of an XGBoost model be improved?</li>
+<li>What is cross validation?</li>
+<li>What are some guidelines for tuning parameters in a machine learning
+algorithm?</li>
 </ul></div>
 </div>
 </div>
@@ -353,76 +355,297 @@
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>Explain how to use markdown with The Carpentries Workbench</li>
-<li>Demonstrate how to include pieces of code, figures, and nested
-challenge blocks</li>
+<ul><li>Explore the effects of adjusting the XGBoost parameters.</li>
+<li>Practice some coding techniques to tune parameters using grid
+searching and cross validation.</li>
 </ul></div>
 </div>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
-<hr class="half-width"><p>This is a lesson created via The Carpentries Workbench. It is written
-in <a href="https://pandoc.org/MANUAL.html" class="external-link">Pandoc-flavored Markdown</a>
-for static files and <a href="https://rmarkdown.rstudio.com/" class="external-link">R
-Markdown</a> for dynamic files that can render code into output. Please
-refer to the <a href="https://carpentries.github.io/sandpaper-docs/" class="external-link">Introduction to The
-Carpentries Workbench</a> for full documentation.</p>
-<p>What you need to know is that there are three sections required for a
-valid Carpentries lesson:</p>
-<ol style="list-style-type: decimal"><li>
-<code>questions</code> are displayed at the beginning of the episode
-to prime the learner for the content.</li>
-<li>
-<code>objectives</code> are the learning objectives for an episode
-displayed with the questions.</li>
-<li>
-<code>keypoints</code> are displayed at the end of the episode to
-reinforce the objectives.</li>
-</ol><div id="challenge-1-can-you-do-it" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<span class="callout-header">Challenge</span>
-<div id="challenge-1-can-you-do-it" class="callout-inner">
-<h3 class="callout-title">Challenge 1: Can you do it?</h3>
-<div class="callout-content">
-<p>What is the output of this command?</p>
+<section><h2 class="section-heading" id="parameter-tuning">Parameter Tuning<a class="anchor" aria-label="anchor" href="#parameter-tuning"></a></h2>
+<hr class="half-width"><p>Like many other machine learning algorithms, XGBoost has an
+assortment of parameters that control the behavior of the training
+process. (These parameters are sometimes referred to as
+<em>hyperparameters</em>, because they cannot be directly estimated from
+the data.) To improve the fit of the model, we can adjust, or
+<em>tune</em>, these parameters. According to the <a href="https://xgboost.readthedocs.io/en/stable/tutorials/param_tuning.html" class="external-link">notes
+on parameter tuning</a> in the XGBoost documentation, “[p]arameter
+tuning is a dark art in machine learning,” so it is difficult to
+prescribe an automated process for doing so. In this episode we will
+develop some coding practices for tuning an XGBoost model, but be
+advised that the optimal way to tune a model will depend heavily on the
+given data set.</p>
+<p>You can find a complete list of XGBoost parameters in <a href="https://xgboost.readthedocs.io/en/stable/parameter.html" class="external-link">the
+documentation</a>. Generally speaking, each parameter controls the
+complexity of the model in some way. More complex models tend to fit the
+training data more closely, but such models can be very sensitive to
+small changes in the training set. On the other hand, while less complex
+models can be more conservative in this respect, they have a harder time
+modeling intricate relationships. The “art” of parameter tuning lies in
+finding an appropriately complex model for the problem at hand.</p>
+<p>A complete discussion of the issues involved are beyond the scope of
+this lesson. An excellent resource on the topic is <a href="https://hastie.su.domains/ISLR2/ISLRv2_website.pdf" class="external-link">An
+Introduction to Statistical Learning</a>, by James, Witten, Hastie, and
+Tibshirani. In particular, Section 2.2.2 discusses the <em>Bias-Variance
+Trade-Off</em> inherent in statistical learning methods.</p>
+</section><section><h2 class="section-heading" id="cross-validation">Cross Validation<a class="anchor" aria-label="anchor" href="#cross-validation"></a></h2>
+<hr class="half-width"><p>How will we be able to tell if an adjustment to a parameter has
+improved the model? One possible approach would be to test the model
+before and after the adjustment on the testing set. However, the problem
+with this method is that it runs the risk of tuning the model to the
+particular properties of the testing set, rather than to general future
+cases that we might encounter. It is better practice to save our testing
+set until the very end of the process, and then use it to test the
+accuracy of our model. Training set accuracy, as we have seen, tends to
+underestimate the accuracy of a machine learning model, so tuning to the
+training set may also fail to make improvements that generalize.</p>
+<p>An alternative testing procedure is to use <em>cross validation</em>
+on the training set to judge the effect of tuning adjustments. In
+<em>k</em>-fold cross validation, the training set is partitioned
+randomly into <em>k</em> subsets. Each of these subsets takes a turn as
+a testing set, while the model is trained on the remaining data. The
+accuracy of the model is then measured <em>k</em> times, and the results
+are averaged to obtain an estimate of the overall model performance. In
+this way we can be more certain that repeated adjustments will be tested
+in ways that generalize to future observations. It also allows us to
+save the original testing set for a final test of our tuned model.</p>
+</section><section><h2 class="section-heading" id="revisit-the-red-wine-quality-model">Revisit the Red Wine Quality Model<a class="anchor" aria-label="anchor" href="#revisit-the-red-wine-quality-model"></a></h2>
+<hr class="half-width"><p>Let’s see if we can improve the previous episode’s model for
+predicting red wine quality.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">paste</span><span class="op">(</span><span class="st">"This"</span>, <span class="st">"new"</span>, <span class="st">"lesson"</span>, <span class="st">"looks"</span>, <span class="st">"good"</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">here</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">xgboost</span><span class="op">)</span></span>
+<span><span class="va">wine</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="fu">here</span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"wine.csv"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">redwine</span> <span class="op">&lt;-</span> <span class="va">wine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1599</span><span class="op">)</span></span>
+<span><span class="va">trainSize</span> <span class="op">&lt;-</span> <span class="fu">round</span><span class="op">(</span><span class="fl">0.80</span> <span class="op">*</span> <span class="fu">nrow</span><span class="op">(</span><span class="va">redwine</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">trainIndex</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">nrow</span><span class="op">(</span><span class="va">redwine</span><span class="op">)</span>, <span class="va">trainSize</span><span class="op">)</span></span>
+<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">redwine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">redwine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">dtrain</span> <span class="op">&lt;-</span> <span class="fu">xgb.DMatrix</span><span class="op">(</span>data <span class="op">=</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">trainDF</span>, <span class="op">-</span><span class="va">quality</span><span class="op">)</span><span class="op">)</span>, label <span class="op">=</span> <span class="va">trainDF</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span></span>
+<span><span class="va">dtest</span> <span class="op">&lt;-</span> <span class="fu">xgb.DMatrix</span><span class="op">(</span>data <span class="op">=</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">testDF</span>, <span class="op">-</span><span class="va">quality</span><span class="op">)</span><span class="op">)</span>, label <span class="op">=</span> <span class="va">testDF</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span></span></code></pre>
 </div>
+<p>The <code>xgb.cv</code> command handles most of the details of the
+cross validation process. Since this is a random process, we will set a
+seed value for reproducibility. We will use 10 folds and the default
+value of 0.3 for <code>eta</code>.</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">524</span><span class="op">)</span></span>
+<span><span class="va">rwCV</span> <span class="op">&lt;-</span> <span class="fu">xgb.cv</span><span class="op">(</span>params <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>eta <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span>,</span>
+<span>               data <span class="op">=</span> <span class="va">dtrain</span>,</span>
+<span>               nfold <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>               nrounds <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>               early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>               print_every_n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre>
 </div>
+<p>The output appears similar to the <code>xgb.train</code> command.
+Notice that each error estimate now includes a standard deviation,
+because these estimates are formed by averaging over all ten folds. The
+function returns a list, which we have given the name <code>rwCV</code>.
+Its <code>names</code> hint at what each list item represents.</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">names</span><span class="op">(</span><span class="va">rwCV</span><span class="op">)</span></span></code></pre>
+</div>
+<div id="challenge-examine-the-cross-validation-results" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-examine-the-cross-validation-results" class="callout-inner">
+<h3 class="callout-title">Challenge: Examine the cross validation
+results</h3>
+<div class="callout-content">
+<ol style="list-style-type: decimal"><li>Examine the list item <code>rwCV$folds</code>. What do suppose these
+numbers represent? Are all the folds the same size? Can you explain
+why/why not?</li>
+<li>Display the evaluation log with rows sorted by
+<code>test_rmse_mean</code>.</li>
+<li>How could you display only the row containing the best
+iteration?</li>
+</ol></div>
 </div>
 </div>
 <div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1"> Output </h4>
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<ol style="list-style-type: decimal"><li><p>The numbers are the indexes of the rows in each fold. The folds
+are not all the same size, because no row can be used more than once,
+and there are 1279 rows total in the training set, so they don’t divide
+evenly into 10 partitions.</p></li>
+<li>
+</li>
+</ol><div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] "This new lesson looks good"</code></pre>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rwCV</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span> <span class="fu">arrange</span><span class="op">(</span><span class="va">test_rmse_mean</span><span class="op">)</span></span></code></pre>
+</div>
+<ol start="3" style="list-style-type: decimal"><li>
+</li></ol><div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rwCV</span><span class="op">$</span><span class="va">evaluation_log</span><span class="op">[</span><span class="va">rwCV</span><span class="op">$</span><span class="va">best_iteration</span><span class="op">]</span></span></code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div id="challenge-2-how-do-you-nest-solutions-within-challenge-blocks" class="callout challenge">
+</section><section><h2 class="section-heading" id="repeat-cross-validation-in-a-loop">Repeat Cross Validation in a Loop<a class="anchor" aria-label="anchor" href="#repeat-cross-validation-in-a-loop"></a></h2>
+<hr class="half-width"><p>To expedite the tuning process, it helps to design a loop to run
+repeated cross validations on different parameter values. We can start
+by choosing a value of <code>eta</code> from a list of candidate
+values.</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">paramDF</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>eta <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<p>The following command converts a data frame to a list of lists. The
+<code>split</code> function splits <code>paramDF</code> into a list of
+its rows, and then the <code>lapply</code> function converts each row to
+a list. Each item of <code>paramlist</code> will be a list giving a
+valid parameter setting that we can use in the <code>xgb.cv</code>
+function.</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">paramList</span> <span class="op">&lt;-</span> <span class="fu">lapply</span><span class="op">(</span><span class="fu">split</span><span class="op">(</span><span class="va">paramDF</span>, <span class="fl">1</span><span class="op">:</span><span class="fu">nrow</span><span class="op">(</span><span class="va">paramDF</span><span class="op">)</span><span class="op">)</span>, <span class="va">as.list</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Now we will write a loop that will perform a different cross
+validation for each parameter setting in the <code>paramList</code>
+list. We’ll keep track of the best iterations in the
+<code>bestResults</code> tibble. To avoid too much printing, we set
+<code>verbose = FALSE</code> and use a <code>txtProgressBar</code> to
+keep track of our progress. On some systems, it may be necessary to use
+<code>gc()</code> to prevent running out of memory.</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bestResults</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">708</span><span class="op">)</span></span>
+<span><span class="va">pb</span> <span class="op">&lt;-</span> <span class="fu">txtProgressBar</span><span class="op">(</span>style <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu">seq</span><span class="op">(</span><span class="fu">length</span><span class="op">(</span><span class="va">paramList</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">rwCV</span> <span class="op">&lt;-</span> <span class="fu">xgb.cv</span><span class="op">(</span>params <span class="op">=</span> <span class="va">paramList</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>                 data <span class="op">=</span> <span class="va">dtrain</span>,</span>
+<span>                 nrounds <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>                 nfold <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                 early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                 verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  <span class="va">bestResults</span> <span class="op">&lt;-</span> <span class="va">bestResults</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">bind_rows</span><span class="op">(</span><span class="va">rwCV</span><span class="op">$</span><span class="va">evaluation_log</span><span class="op">[</span><span class="va">rwCV</span><span class="op">$</span><span class="va">best_iteration</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="fu">gc</span><span class="op">(</span><span class="op">)</span> <span class="co"># Free unused memory after each loop iteration</span></span>
+<span>  <span class="fu">setTxtProgressBar</span><span class="op">(</span><span class="va">pb</span>, <span class="va">i</span><span class="op">/</span><span class="fu">length</span><span class="op">(</span><span class="va">paramList</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">close</span><span class="op">(</span><span class="va">pb</span><span class="op">)</span> <span class="co"># done with the progress bar</span></span></code></pre>
+</div>
+<p>We now have all of the best iterations in the
+<code>bestResults</code> data frame, which we can combine with the data
+frame of parameter values.</p>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">etasearch</span> <span class="op">&lt;-</span> <span class="fu">bind_cols</span><span class="op">(</span><span class="va">paramDF</span>, <span class="va">bestResults</span><span class="op">)</span></span></code></pre>
+</div>
+<p>In RStudio, it is convenient to use <code>View(etasearch)</code> to
+view the results in a separate tab. We can use the RStudio interface to
+sort by <code>mean_test_rmse</code>.</p>
+<p>Note that there is not much difference in <code>mean_test_rmse</code>
+among the best three choices. As we have seen in the previous episode,
+the choice of <code>eta</code> typically involves a trade-off between
+speed and accuracy. A common approach is to pick a reasonable value of
+<code>eta</code> and then stick with it for the rest of the tuning
+process. Let’s use <code>eta</code> = 0.1, because it uses about half as
+many steps as <code>eta</code> = 0.05, and the accuracy is
+comparable.</p>
+</section><section><h2 class="section-heading" id="grid-search">Grid Search<a class="anchor" aria-label="anchor" href="#grid-search"></a></h2>
+<hr class="half-width"><p>Sometimes it helps to tune a pair of related parameters together. A
+<em>grid search</em> runs through all possible combinations of candidate
+values for a selection of parameters.</p>
+<p>We will tune the parameters <code>max_depth</code> and
+<code>max_leaves</code> together. These both affect the size the trees
+that the algorithm grows. Deeper trees with more leaves make the model
+more complex. We use the <code>expand.grid</code> function to store some
+reasonable candidate values in <code>paramDF</code>.</p>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">paramDF</span> <span class="op">&lt;-</span> <span class="fu">expand.grid</span><span class="op">(</span></span>
+<span>  max_depth <span class="op">=</span> <span class="fu">seq</span><span class="op">(</span><span class="fl">15</span>, <span class="fl">29</span>, by <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  max_leaves <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">63</span>, <span class="fl">127</span>, <span class="fl">255</span>, <span class="fl">511</span>, <span class="fl">1023</span>, <span class="fl">2047</span>, <span class="fl">4095</span><span class="op">)</span>,</span>
+<span>  eta <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code></pre>
+</div>
+<p>If you <code>View(paramDF)</code> you can see that we have 56
+different parameter choices to run through. The rest of the code is the
+same as before, but this loop might take a while to execute.</p>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">paramList</span> <span class="op">&lt;-</span> <span class="fu">lapply</span><span class="op">(</span><span class="fu">split</span><span class="op">(</span><span class="va">paramDF</span>, <span class="fl">1</span><span class="op">:</span><span class="fu">nrow</span><span class="op">(</span><span class="va">paramDF</span><span class="op">)</span><span class="op">)</span>, <span class="va">as.list</span><span class="op">)</span></span>
+<span><span class="va">bestResults</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">312</span><span class="op">)</span></span>
+<span><span class="va">pb</span> <span class="op">&lt;-</span> <span class="fu">txtProgressBar</span><span class="op">(</span>style <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu">seq</span><span class="op">(</span><span class="fu">length</span><span class="op">(</span><span class="va">paramList</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">rwCV</span> <span class="op">&lt;-</span> <span class="fu">xgb.cv</span><span class="op">(</span>params <span class="op">=</span> <span class="va">paramList</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>                 data <span class="op">=</span> <span class="va">dtrain</span>,</span>
+<span>                 nrounds <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>                 nfold <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                 early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                 verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  <span class="va">bestResults</span> <span class="op">&lt;-</span> <span class="va">bestResults</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">bind_rows</span><span class="op">(</span><span class="va">rwCV</span><span class="op">$</span><span class="va">evaluation_log</span><span class="op">[</span><span class="va">rwCV</span><span class="op">$</span><span class="va">best_iteration</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="fu">gc</span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="fu">setTxtProgressBar</span><span class="op">(</span><span class="va">pb</span>, <span class="va">i</span><span class="op">/</span><span class="fu">length</span><span class="op">(</span><span class="va">paramList</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">close</span><span class="op">(</span><span class="va">pb</span><span class="op">)</span></span>
+<span><span class="va">depth_leaves</span> <span class="op">&lt;-</span> <span class="fu">bind_cols</span><span class="op">(</span><span class="va">paramDF</span>, <span class="va">bestResults</span><span class="op">)</span></span></code></pre>
+</div>
+<p>When we <code>View(depth_leaves)</code> we see that a choice of
+<code>max_depth</code> = 21 and <code>max_leaves</code> = 4095 results
+in the best <code>test_rmse_mean</code>. One caveat is that cross
+validation is a random process, so running this code with a different
+random seed may very well produce a different result. However, there are
+several comparable results with <code>max_depth</code> in the 20s and
+<code>max_leaves</code> in the 1000s, so we can be pretty sure that our
+choice these parameter values is sound.</p>
+<div id="challenge-write-a-grid-search-function" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
 <span class="callout-header">Challenge</span>
-<div id="challenge-2-how-do-you-nest-solutions-within-challenge-blocks" class="callout-inner">
-<h3 class="callout-title">Challenge 2: how do you nest solutions within
-challenge blocks?</h3>
+<div id="challenge-write-a-grid-search-function" class="callout-inner">
+<h3 class="callout-title">Challenge: Write a Grid Search Function</h3>
 <div class="callout-content">
-
+<p>Instead of repeatedly using the above code block, let’s package it
+into an <a href="https://swcarpentry.github.io/r-novice-inflammation/02-func-R/" class="external-link">R
+function</a>. Define a function called <code>GridSearch</code> that
+consumes a data frame <code>paramDF</code> of candidate parameter values
+and an <code>xgb.DMatrix</code> <code>dtrain</code> of training data.
+The function should return a data frame combining the columns of
+<code>paramDF</code> with the corresponding results of the best cross
+validation iteration. The returned data frame should be sorted in
+ascending order of <code>test_rmse_mean</code>.</p>
 </div>
 </div>
 </div>
@@ -433,38 +656,170 @@ challenge blocks?</h3>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<p>You can add a line with at least three colons and a
-<code>solution</code> tag.</p>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">GridSearch</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">paramDF</span>, <span class="va">dtrain</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">paramList</span> <span class="op">&lt;-</span> <span class="fu">lapply</span><span class="op">(</span><span class="fu">split</span><span class="op">(</span><span class="va">paramDF</span>, <span class="fl">1</span><span class="op">:</span><span class="fu">nrow</span><span class="op">(</span><span class="va">paramDF</span><span class="op">)</span><span class="op">)</span>, <span class="va">as.list</span><span class="op">)</span></span>
+<span>  <span class="va">bestResults</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="va">pb</span> <span class="op">&lt;-</span> <span class="fu">txtProgressBar</span><span class="op">(</span>style <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span>  <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu">seq</span><span class="op">(</span><span class="fu">length</span><span class="op">(</span><span class="va">paramList</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">rwCV</span> <span class="op">&lt;-</span> <span class="fu">xgb.cv</span><span class="op">(</span>params <span class="op">=</span> <span class="va">paramList</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>                   data <span class="op">=</span> <span class="va">dtrain</span>,</span>
+<span>                   nrounds <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>                   nfold <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                   early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                   verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    <span class="va">bestResults</span> <span class="op">&lt;-</span> <span class="va">bestResults</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu">bind_rows</span><span class="op">(</span><span class="va">rwCV</span><span class="op">$</span><span class="va">evaluation_log</span><span class="op">[</span><span class="va">rwCV</span><span class="op">$</span><span class="va">best_iteration</span><span class="op">]</span><span class="op">)</span></span>
+<span>    <span class="fu">gc</span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="fu">setTxtProgressBar</span><span class="op">(</span><span class="va">pb</span>, <span class="va">i</span><span class="op">/</span><span class="fu">length</span><span class="op">(</span><span class="va">paramList</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="fu">close</span><span class="op">(</span><span class="va">pb</span><span class="op">)</span></span>
+<span>  <span class="kw">return</span><span class="op">(</span><span class="fu">bind_cols</span><span class="op">(</span><span class="va">paramDF</span>, <span class="va">bestResults</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">arrange</span><span class="op">(</span><span class="va">test_rmse_mean</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre>
+</div>
+<p>Check the function on a small example.</p>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">630</span><span class="op">)</span></span>
+<span><span class="fu">GridSearch</span><span class="op">(</span><span class="fu">tibble</span><span class="op">(</span>eta <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>, <span class="va">dtrain</span><span class="op">)</span></span></code></pre>
 </div>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a></h2>
-<hr class="half-width"><p>You can use standard markdown for static figures with the following
-syntax:</p>
-<p><code>![optional caption that appears below the figure](figure url){alt='alt text for accessibility purposes'}</code></p>
-<figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><div class="figcaption">You belong in The Carpentries!</div>
-</figure><div id="callout1" class="callout">
+</div>
+</section><section><h2 class="section-heading" id="adding-random-sampling">Adding Random Sampling<a class="anchor" aria-label="anchor" href="#adding-random-sampling"></a></h2>
+<hr class="half-width"><p>Adding random sampling to the training process can help make the
+model less dependent on the training set, and hopefully more accurate
+when generalizing to future cases. In XGBoost, the two parameters
+<code>subsample</code> and <code>colsample_bytree</code> will grow trees
+based on a random sample of a specified percentage of rows and columns,
+respectively. Typical values for these parameters are between 0.5 and
+1.0 (where 1.0 implies that no random sampling will be done).</p>
+<div id="challenge-tune-row-and-column-sampling" class="callout challenge">
 <div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
+<i class="callout-icon" data-feather="zap"></i>
 </div>
-<span class="callout-header">Callout</span>
-<div class="callout-inner">
+<span class="callout-header">Challenge</span>
+<div id="challenge-tune-row-and-column-sampling" class="callout-inner">
+<h3 class="callout-title">Challenge: Tune Row and Column Sampling</h3>
 <div class="callout-content">
-<p>Callout sections can highlight information.</p>
-<p>They are sometimes used to emphasise particularly important points
-but are also used in some lessons to present “asides”: content that is
-not central to the narrative of the lesson, e.g. by providing the answer
-to a commonly-asked question.</p>
+<p>Use a grid search to tune the parameters <code>subsample</code> and
+<code>colsample_bytree</code>. Choose candidate values between 0.5 and
+1.0. Use our previously chosen values of <code>eta</code>,
+<code>max_depth</code>, and <code>max_leaves</code>.</p>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a></h2>
-<hr class="half-width"><p>One of our episodes contains <span class="math inline">\(\LaTeX\)</span> equations when describing how to
-create dynamic reports with {knitr}, so we now use mathjax to describe
-this:</p>
-<p><code>$\alpha = \dfrac{1}{(1 - \beta)^2}$</code> becomes: <span class="math inline">\(\alpha = \dfrac{1}{(1 - \beta)^2}\)</span></p>
-<p>Cool, right?</p>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">paramDF</span> <span class="op">&lt;-</span> <span class="fu">expand.grid</span><span class="op">(</span></span>
+<span>  subsample <span class="op">=</span> <span class="fu">seq</span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>  colsample_bytree <span class="op">=</span> <span class="fu">seq</span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>  max_depth <span class="op">=</span> <span class="fl">21</span>,</span>
+<span>  max_leaves <span class="op">=</span> <span class="fl">4095</span>,</span>
+<span>  eta <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
+<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">848</span><span class="op">)</span></span>
+<span><span class="va">randsubsets</span> <span class="op">&lt;-</span> <span class="fu">GridSearch</span><span class="op">(</span><span class="va">paramDF</span>, <span class="va">dtrain</span><span class="op">)</span></span></code></pre>
+</div>
+<p>It appears that some amount of randomization helps, but there are
+many choices for <code>subsample</code> and
+<code>colsample_bytree</code> that seem equivalent.</p>
+</div>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="final-check-using-the-testing-set">Final Check using the Testing Set<a class="anchor" aria-label="anchor" href="#final-check-using-the-testing-set"></a></h2>
+<hr class="half-width"><p>Once a model has been tuned using the training set and cross
+validation, it can be tested using the testing set. Note that we have
+not used the testing set in any of our tuning experiments, so the
+testing set accuracy should give a fair assessment of the accuracy of
+our tuned model relative to the other models we have explored.</p>
+<p>We give parameters <code>max_depth</code>, <code>max_leaves</code>,
+<code>subsample</code>, and <code>colsample_bytree</code> the values
+that we chose during the tuning process. Since we only have to do one
+training run, a smaller learning rate won’t incur much of a time
+penalty, so we set <code>eta</code> = 0.05.</p>
+<div class="codewrapper sourceCode" id="cb15">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">805</span><span class="op">)</span></span>
+<span><span class="va">rwMod</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, verbose <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>                   watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>train <span class="op">=</span> <span class="va">dtrain</span>, test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>,</span>
+<span>                   nrounds <span class="op">=</span> <span class="fl">10000</span>,</span>
+<span>                   early_stopping_rounds <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>                   max_depth <span class="op">=</span> <span class="fl">21</span>,</span>
+<span>                   max_leaves <span class="op">=</span> <span class="fl">4095</span>,</span>
+<span>                   subsample <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>                   colsample_bytree <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span>                   eta <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
+<span><span class="va">rwMod</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="va">train_rmse</span>, <span class="va">test_rmse</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"RMSE"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">RMSE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">print</span><span class="op">(</span><span class="va">rwMod</span><span class="op">)</span></span></code></pre>
+</div>
+<p>After some tuning, our testing set RMSE is down to 0.58, which is an
+improvement over the previous episode, and comparable to the RMSE we
+obtained using the random forest model.</p>
+<div id="challenge-improve-the-white-wine-model" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="challenge-improve-the-white-wine-model" class="callout-inner">
+<h3 class="callout-title">Challenge: Improve the White Wine Model</h3>
+<div class="callout-content">
+<p>Improve your XGBoost model for the white wine data (rows 1600-6497)
+of the <code>wine</code> data frame. Use grid searches to tune several
+parameters, using only the training set during the tuning process. Can
+you improve the testing set RMSE over the white wine challenges from the
+previous two episodes?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
+  <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
+</button>
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div class="accordion-body">
+<p>Results may vary. The proposed solution below will take quite some
+time to execute.</p>
+<p><code>{r, eval = FALSE} whitewine &lt;- wine |&gt; dplyr::slice(1600:6497) trainSize &lt;- round(0.80 * nrow(whitewine)) set.seed(1234) trainIndex &lt;- sample(nrow(whitewine), trainSize) trainDF &lt;- whitewine |&gt; dplyr::slice(trainIndex) testDF &lt;- whitewine |&gt; dplyr::slice(-trainIndex) dtrain &lt;- xgb.DMatrix(data = as.matrix(select(trainDF, -quality)),                       label = trainDF$quality) dtest &lt;- xgb.DMatrix(data = as.matrix(select(testDF, -quality)),                      label = testDF$quality)</code></p>
+<p>Start by tuning <code>max_depth</code> and <code>max_leaves</code>
+together.</p>
+<p><code>{r, eval = FALSE} paramGrid &lt;- expand.grid(   max_depth = seq(10, 40, by = 2),   max_leaves = c(15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191),   eta = 0.1 ) set.seed(1981) ww_depth_leaves &lt;- GridSearch(paramGrid, dtrain)</code></p>
+<p>There are several options that perform similarly. Let’s choose
+<code>max_depth</code> = 12 along with <code>max_leaves</code> = 255.
+Now we tune the two random sampling parameters together.</p>
+<p><code>{r, eval = FALSE} paramGrid &lt;- expand.grid(   subsample = seq(0.5, 1, by = 0.1),   colsample_bytree = seq(0.5, 1, by = 0.1),   max_depth = 12,   max_leaves = 255,   eta = 0.1 ) set.seed(867) ww_randsubsets &lt;- GridSearch(paramGrid, dtrain)</code></p>
+<p>Again, some randomization seems to help, but there are several
+options. We’ll choose <code>subsample</code> = 0.9 and
+<code>colsample_bytree</code> = 0.6. Finally, we train the model with
+the chosen parameters.</p>
+<p><code>{r, eval = FALSE} set.seed(5309) ww_gbmod &lt;- xgb.train(data = dtrain, verbose = 0,                    watchlist = list(train = dtrain, test = dtest),                    nrounds = 10000,                    early_stopping_rounds = 50,                    max_depth = 12,                    max_leaves = 255,                    subsample = 0.9,                    colsample_bytree = 0.6,                    eta = 0.01)</code></p>
+<p>The tuned XGBoost model has a testing set RMSE of about 0.62, which
+is better than the un-tuned model from the last episode (0.66), and also
+better than the random forest model (0.63).</p>
+</div>
+</div>
+</div>
+</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -472,14 +827,9 @@ this:</p>
 <span class="callout-header">Key Points</span>
 <div class="callout-inner">
 <div class="callout-content">
-<ul><li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
+<ul><li>Parameter tuning can improve the fit of an XGBoost model.</li>
+<li>Cross validation allows us to tune parameters using the training set
+only, saving the testing set for final model evaluation.</li>
 </ul></div>
 </div>
 </div>
@@ -525,7 +875,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/" class="external-link">sandpaper (0.20.1)</a>, <a href="https://github.com/carpentries/pegboard/tree/" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/" class="external-link">varnish (1.1.0)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/" class="external-link">sandpaper (0.20.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/" class="external-link">varnish (1.1.1)</a></p>
 		</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -546,9 +896,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/6-cross-validation-and-fine-tuning.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/6-cross-validation-and-fine-tuning.html",
-  "dateCreated": "2026-05-21",
-  "dateModified": "2026-05-21",
-  "datePublished": "2026-05-21"
+  "dateCreated": "2026-05-29",
+  "dateModified": "2026-05-29",
+  "datePublished": "2026-05-29"
 }
 
   </script><script>
