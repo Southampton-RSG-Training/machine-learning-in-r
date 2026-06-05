@@ -390,76 +390,56 @@ any links that you are not going to use.
  --></tbody></table><p>
       The actual schedule may vary slightly depending on the topics and exercises chosen by the instructor.
       </p>
-      </section><section id="setup"><p>FIXME: Setup instructions live in this document. Please specify the
-tools and the data sets the Learner needs to have installed.</p>
-<section><h2 class="section-heading" id="data-sets">Data Sets<a class="anchor" aria-label="anchor" href="#data-sets"></a></h2>
-<hr class="half-width"><!--
-FIXME: place any data you want learners to use in `episodes/data` and then use
-       a relative link ( [data zip file](data/lesson-data.zip) ) to provide a
-       link to it, replacing the example.com link.
---><p>Download the <a href="https://example.com/FIXME" class="external-link">data zip file</a>
-and unzip it to your Desktop</p>
-</section><section><h2 class="section-heading" id="software-setup">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a></h2>
-<hr class="half-width"><div id="details" class="callout discussion">
-<div class="callout-square">
-<i class="callout-icon" data-feather="message-circle"></i>
+      </section><section id="setup"><section><h2 class="section-heading" id="software-setup">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a></h2>
+<hr class="half-width"><div class="section level3">
+<h3 id="rstudio">RStudio<a class="anchor" aria-label="anchor" href="#rstudio"></a></h3>
+<p>Learners should have <strong>updated versions</strong> of R and
+RStudio installed. There are instructions for installing R, RStudio, and
+additional R packages in the <a href="https://datacarpentry.org/R-ecology-lesson/#Install_R_and_RStudio" class="external-link">R
+Ecology Lesson</a>.</p>
 </div>
-<span class="callout-header">Discussion</span>
-<div id="details" class="callout-inner">
-<h3 class="callout-title">Details</h3>
-<div class="callout-content">
-<p>Setup for different systems can be presented in dropdown menus via a
-<code>spoiler</code> tag. They will join to this discussion block, so
-you can give a general overview of the software used in this lesson here
-and fill out the individual operating systems (and potentially add more,
-e.g. online setup) in the solutions blocks.</p>
+</section><section><h2 class="section-heading" id="r-packages">R Packages<a class="anchor" aria-label="anchor" href="#r-packages"></a></h2>
+<hr class="half-width"><p>Please install the following R packages:</p>
+<ul><li><code>tidyverse</code></li>
+<li><code>here</code></li>
+<li><code>rpart</code></li>
+<li><code>rpart.plot</code></li>
+<li><code>randomForest</code></li>
+<li><code>xgboost</code></li>
+</ul><p>Executing the following line of code in the R console will install
+all of these packages.</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"tidyverse"</span>, <span class="st">"here"</span>, <span class="st">"rpart"</span>, <span class="st">"rpart.plot"</span>, <span class="st">"randomForest"</span>, <span class="st">"xgboost"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
+<p>You can view all of the packages installed on your system in the
+<em>Packages</em> tab in RStudio. Alternatively, you can print the names
+of any missing packages by executing the following command.</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">setdiff</span><span class="op">(</span><span class="fu">c</span><span class="op">(</span><span class="st">"tidyverse"</span>, <span class="st">"here"</span>, <span class="st">"rpart"</span>, <span class="st">"rpart.plot"</span>, <span class="st">"randomForest"</span>, <span class="st">"xgboost"</span><span class="op">)</span>,</span>
+<span>        <span class="fu">rownames</span><span class="op">(</span><span class="fu">installed.packages</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-</div>
-<div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
-  <h3 class="accordion-header" id="headingSpoiler1">
-  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
-  Windows
-  </h3>
-</button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
-<div class="accordion-body">
-<p>Use PuTTY</p>
-</div>
-</div>
-</div>
-</div>
-<div id="accordionSpoiler2" class="accordion spoiler-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler2" aria-expanded="false" aria-controls="collapseSpoiler2">
-  <h3 class="accordion-header" id="headingSpoiler2">
-  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
-  MacOS
-  </h3>
-</button>
-<div id="collapseSpoiler2" class="accordion-collapse collapse" aria-labelledby="headingSpoiler2" data-bs-parent="#accordionSpoiler2">
-<div class="accordion-body">
-<p>Use Terminal.app</p>
-</div>
-</div>
-</div>
-</div>
-<div id="accordionSpoiler3" class="accordion spoiler-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler3" aria-expanded="false" aria-controls="collapseSpoiler3">
-  <h3 class="accordion-header" id="headingSpoiler3">
-  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
-  Linux
-  </h3>
-</button>
-<div id="collapseSpoiler3" class="accordion-collapse collapse" aria-labelledby="headingSpoiler3" data-bs-parent="#accordionSpoiler3">
-<div class="accordion-body">
-<p>Use Terminal</p>
-</div>
-</div>
-</div>
+<p>If the above command returns <code>character(0)</code>, then you have
+successfully installed all of the packages that you need for this
+lesson.</p>
+</section><section><h2 class="section-heading" id="project-and-data">Project and Data<a class="anchor" aria-label="anchor" href="#project-and-data"></a></h2>
+<hr class="half-width"><p>Create a new RStudio project where you will keep all of the files for
+this workshop. In the project directory (where the <code>.Rproj</code>
+file is), <strong>create a subdirectory</strong> called
+<code>data</code>. You should then be able to download the data for the
+workshop using the following commands.</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">here</span><span class="op">)</span></span>
+<span><span class="fu">download.file</span><span class="op">(</span><span class="st">"https://www.openml.org/data/get_csv/49817/wine_quality.arff"</span>, </span>
+<span>               <span class="fu">here</span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"wine.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
@@ -515,9 +495,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/index.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/index.html",
-  "dateCreated": "2026-05-29",
-  "dateModified": "2026-06-02",
-  "datePublished": "2026-06-02"
+  "dateCreated": "2026-06-05",
+  "dateModified": "2026-06-05",
+  "datePublished": "2026-06-05"
 }
 
   </script><script>

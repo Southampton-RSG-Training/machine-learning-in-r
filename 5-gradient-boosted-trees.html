@@ -326,7 +326,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Gradient Boosted Trees</h1>
-        <p>Last updated on 2026-05-29 |
+        <p>Last updated on 2026-06-05 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/5-gradient-boosted-trees.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -447,7 +447,7 @@ function for XGBoost models expects a matrix, so we pass it the
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] 0.6653935</code></pre>
+<pre class="output" tabindex="0"><code>[1] 0.6561705</code></pre>
 </div>
 </section><section><h2 class="section-heading" id="more-details-on-the-training-process">More Details on the Training Process<a class="anchor" aria-label="anchor" href="#more-details-on-the-training-process"></a></h2>
 <hr class="half-width"><p>The <code>xgb.train</code> command will automatically calculate the
@@ -462,31 +462,29 @@ in the <code>watchlist</code>.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1]	test-rmse:3.676492
-[2]	test-rmse:2.620643
-[3]	test-rmse:1.904736
-[4]	test-rmse:1.414777
-[5]	test-rmse:1.110905
-[6]	test-rmse:0.913236
-[7]	test-rmse:0.793578
-[8]	test-rmse:0.729415
-[9]	test-rmse:0.686777
-[10]	test-rmse:0.665393 </code></pre>
+<pre class="output" tabindex="0"><code>[1]	test-rmse:0.739547
+[2]	test-rmse:0.697529
+[3]	test-rmse:0.677260
+[4]	test-rmse:0.666461
+[5]	test-rmse:0.663789
+[6]	test-rmse:0.661025
+[7]	test-rmse:0.656802
+[8]	test-rmse:0.657357
+[9]	test-rmse:0.656321
+[10]	test-rmse:0.656171 </code></pre>
 </div>
-<p>The training history is saved as a data frame in the variable
-<code>gbm$evaluation_log</code>, so we can plot how the RMSE changes
-during the training process.</p>
+<p>The training history is saved as a data frame in the attribute
+<code>evaluation_log</code>, so we can plot how the RMSE changes during
+the training process.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">redwineXGB</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="fu">attr</span><span class="op">(</span><span class="va">redwineXGB</span>, <span class="st">"evaluation_log"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">test_rmse</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<p><img src="" class="figure">fig/5-rmse-line-plot.png){alt=“line plot of test rmse
-by iteration”}</p>
-<div id="challenge-how-many-boosting-iterations" class="callout challenge">
+<figure><img src="fig/5-rmse-line-plot.png" alt="line plot of test rmse by iteration" class="figure mx-auto d-block"></figure><div id="challenge-how-many-boosting-iterations" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -521,38 +519,36 @@ improve?</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1]	test-rmse:3.676492
-[2]	test-rmse:2.620643
-[3]	test-rmse:1.904736
-[4]	test-rmse:1.414777
-[5]	test-rmse:1.110905
-[6]	test-rmse:0.913236
-[7]	test-rmse:0.793578
-[8]	test-rmse:0.729415
-[9]	test-rmse:0.686777
-[10]	test-rmse:0.665393
-[11]	test-rmse:0.650133
-[12]	test-rmse:0.642655
-[13]	test-rmse:0.640231
-[14]	test-rmse:0.634134
-[15]	test-rmse:0.637910
-[16]	test-rmse:0.636140
-[17]	test-rmse:0.640103
-[18]	test-rmse:0.640305
-[19]	test-rmse:0.640569
-[20]	test-rmse:0.637183 </code></pre>
+<pre class="output" tabindex="0"><code>[1]	test-rmse:0.739547
+[2]	test-rmse:0.697529
+[3]	test-rmse:0.677260
+[4]	test-rmse:0.666461
+[5]	test-rmse:0.663789
+[6]	test-rmse:0.661025
+[7]	test-rmse:0.656802
+[8]	test-rmse:0.657357
+[9]	test-rmse:0.656321
+[10]	test-rmse:0.656171
+[11]	test-rmse:0.654021
+[12]	test-rmse:0.651006
+[13]	test-rmse:0.650065
+[14]	test-rmse:0.650734
+[15]	test-rmse:0.650865
+[16]	test-rmse:0.651042
+[17]	test-rmse:0.650033
+[18]	test-rmse:0.649995
+[19]	test-rmse:0.649126
+[20]	test-rmse:0.647756 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">redwineXGB</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="fu">attr</span><span class="op">(</span><span class="va">redwineXGB</span>, <span class="st">"evaluation_log"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">test_rmse</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> </span></code></pre>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<p><img src="" class="figure">fig/5-challenge-rmse-line-plot.png){alt=“line plot of
-test rmse by iteration”}</p>
-</div>
+<figure><img src="fig/5-challenge-rmse-line-plot.png" alt="line plot of test rmse by iteration" class="figure mx-auto d-block"></figure></div>
 </div>
 </div>
 </div>
@@ -582,7 +578,7 @@ printing too many lines of output, we also set a value for
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, </span>
 <span>                        params <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>eta <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span>,</span>
-<span>                        watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, </span>
+<span>                        evals <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, </span>
 <span>                        nrounds <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>                        early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>                        print_every_n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre>
@@ -590,18 +586,21 @@ printing too many lines of output, we also set a value for
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1]	test-rmse:3.676492
-Will train until test_rmse hasn't improved in 10 rounds.
+<pre class="output" tabindex="0"><code>Will train until test_rmse hasn't improved in 10 rounds.
 
-[6]	test-rmse:0.913236
-[11]	test-rmse:0.650133
-[16]	test-rmse:0.636140
-[21]	test-rmse:0.639540
+[1]	test-rmse:0.739547
+[6]	test-rmse:0.661025
+[11]	test-rmse:0.654021
+[16]	test-rmse:0.651042
+[21]	test-rmse:0.648309
+[26]	test-rmse:0.648100
+[31]	test-rmse:0.650731
 Stopping. Best iteration:
-[14]	test-rmse:0.634134</code></pre>
+[35]	test-rmse:0.651400
+
+[35]	test-rmse:0.651400 </code></pre>
 </div>
-<p>The 14th iteration had the smallest RMSE, as we found in the previous
-challenge.</p>
+<p>The 35th iteration had the smallest RMSE.</p>
 <div id="challenge-experiment-with-the-learning-rate." class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -632,7 +631,7 @@ in a lower testing set RMSE than the default?</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, </span>
 <span>                        params <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>eta <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                        watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, </span>
+<span>                        evals <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, </span>
 <span>                        nrounds <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>                        early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>                        print_every_n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span></code></pre>
@@ -640,16 +639,16 @@ in a lower testing set RMSE than the default?</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1]	test-rmse:4.689984
-Will train until test_rmse hasn't improved in 10 rounds.
+<pre class="output" tabindex="0"><code>Will train until test_rmse hasn't improved in 10 rounds.
 
-[16]	test-rmse:1.164598
-[31]	test-rmse:0.655252
-[46]	test-rmse:0.618707
-[61]	test-rmse:0.617009
-[76]	test-rmse:0.612820
+[1]	test-rmse:0.789059
+[16]	test-rmse:0.643070
+[31]	test-rmse:0.629120
+[46]	test-rmse:0.625930
 Stopping. Best iteration:
-[75]	test-rmse:0.612406</code></pre>
+[48]	test-rmse:0.625455
+
+[48]	test-rmse:0.625455 </code></pre>
 </div>
 </div>
 </div>
@@ -668,17 +667,18 @@ each explanatory variable.</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>                 Feature       Gain      Cover  Frequency
- 1:              alcohol 0.33236129 0.11264259 0.07936508
- 2:     volatile.acidity 0.12367170 0.09820458 0.11922399
- 3:            sulphates 0.10975935 0.10726694 0.08218695
- 4: total.sulfur.dioxide 0.07500529 0.13655797 0.09276896
- 5:              density 0.05960668 0.09451465 0.08500882
- 6:            chlorides 0.05883225 0.10318293 0.09805996
- 7:       residual.sugar 0.05499778 0.09106117 0.08818342
- 8:        fixed.acidity 0.05087633 0.07920964 0.14250441
- 9:                   pH 0.04772447 0.06078573 0.06807760
-10:          citric.acid 0.04532904 0.07698668 0.07830688
-11:  free.sulfur.dioxide 0.04183582 0.03958713 0.06631393</code></pre>
+                  &lt;char&gt;      &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
+ 1:              alcohol 0.30854145 0.20533266 0.08665431
+ 2:     volatile.acidity 0.14497002 0.12210243 0.10889713
+ 3:            sulphates 0.12760406 0.13532236 0.08711770
+ 4: total.sulfur.dioxide 0.08528885 0.10227935 0.09360519
+ 5:        fixed.acidity 0.06277324 0.06687905 0.14365153
+ 6:            chlorides 0.05994638 0.08001722 0.09592215
+ 7:              density 0.04635801 0.06776201 0.07599629
+ 8:       residual.sugar 0.04470028 0.06218626 0.09267841
+ 9:          citric.acid 0.04053801 0.06268225 0.08109361
+10:                   pH 0.04017616 0.05639794 0.06672845
+11:  free.sulfur.dioxide 0.03910355 0.03903844 0.06765524</code></pre>
 </div>
 <p>The rows are sorted by <code>Gain</code>, which measures the accuracy
 improvement contributed by a feature based on all the splits it
@@ -695,9 +695,9 @@ training RMSE than testing RMSE.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>,</span>
+<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, </span>
 <span>                        params <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>eta <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                        watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>train <span class="op">=</span> <span class="va">dtrain</span>, test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>,</span>
+<span>                        evals <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>train <span class="op">=</span> <span class="va">dtrain</span>, test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, </span>
 <span>                        nrounds <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>                        early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>                        print_every_n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span></code></pre>
@@ -705,29 +705,28 @@ training RMSE than testing RMSE.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1]	train-rmse:4.690120	test-rmse:4.689984
-Multiple eval metrics are present. Will use test_rmse for early stopping.
+<pre class="output" tabindex="0"><code>Multiple eval metrics are present. Will use test_rmse for early stopping.
 Will train until test_rmse hasn't improved in 10 rounds.
 
-[16]	train-rmse:1.109302	test-rmse:1.164598
-[31]	train-rmse:0.467275	test-rmse:0.655252
-[46]	train-rmse:0.369513	test-rmse:0.618707
-[61]	train-rmse:0.328256	test-rmse:0.617009
-[76]	train-rmse:0.290210	test-rmse:0.612820
+[1]	train-rmse:0.763413	test-rmse:0.789059
+[16]	train-rmse:0.467861	test-rmse:0.643070
+[31]	train-rmse:0.366838	test-rmse:0.629120
+[46]	train-rmse:0.314553	test-rmse:0.625930
 Stopping. Best iteration:
-[75]	train-rmse:0.291627	test-rmse:0.612406</code></pre>
+[48]	train-rmse:0.311647	test-rmse:0.625455
+
+[48]	train-rmse:0.311647	test-rmse:0.625455 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">redwineXGB</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="va">train_rmse</span>, <span class="va">test_rmse</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"RMSE"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">RMSE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">attr</span><span class="op">(</span><span class="va">redwineXGB</span>, <span class="st">"evaluation_log"</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="va">train_rmse</span>, <span class="va">test_rmse</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"RMSE"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">RMSE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<p><img src="" class="figure">fig/5-test-train-rmse-line-plot.png){alt=“line plot of
-test rmse by iteration”}</p>
-<p>Notice that beyond iteration 40 or so, the training RMSE continues to
+<figure><img src="fig/5-test-train-rmse-line-plot.png" alt="line plot of test rmse by iteration" class="figure mx-auto d-block"></figure><p>Notice that beyond iteration 20 or so, the training RMSE continues to
 decrease while the testing RMSE has basically stabilized. This
 divergence indicates that the later training iterations are improving
 the model based on the particularities of the training set, but in a way
@@ -784,28 +783,29 @@ episode.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">whitewine</span> <span class="op">&lt;-</span> <span class="va">wine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="fl">1600</span><span class="op">:</span><span class="fl">6497</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">whitewine</span> <span class="op">&lt;-</span> <span class="va">wine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="fl">1600</span><span class="op">:</span><span class="fl">6497</span><span class="op">)</span> </span>
 <span><span class="va">trainSize</span> <span class="op">&lt;-</span> <span class="fu">round</span><span class="op">(</span><span class="fl">0.80</span> <span class="op">*</span> <span class="fu">nrow</span><span class="op">(</span><span class="va">whitewine</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span> </span>
 <span><span class="va">trainIndex</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">nrow</span><span class="op">(</span><span class="va">whitewine</span><span class="op">)</span>, <span class="va">trainSize</span><span class="op">)</span></span>
 <span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">whitewine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
 <span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">whitewine</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span>
-<span><span class="va">dtrain</span> <span class="op">&lt;-</span> <span class="fu">xgb.DMatrix</span><span class="op">(</span>data <span class="op">=</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">trainDF</span>, <span class="op">-</span><span class="va">quality</span><span class="op">)</span><span class="op">)</span>,</span>
+<span><span class="va">dtrain</span> <span class="op">&lt;-</span> <span class="fu">xgb.DMatrix</span><span class="op">(</span>data <span class="op">=</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">trainDF</span>, <span class="op">-</span><span class="va">quality</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>                      label <span class="op">=</span> <span class="va">trainDF</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span></span>
-<span><span class="va">dtest</span> <span class="op">&lt;-</span> <span class="fu">xgb.DMatrix</span><span class="op">(</span>data <span class="op">=</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">testDF</span>, <span class="op">-</span><span class="va">quality</span><span class="op">)</span><span class="op">)</span>,</span>
+<span><span class="va">dtest</span> <span class="op">&lt;-</span> <span class="fu">xgb.DMatrix</span><span class="op">(</span>data <span class="op">=</span> <span class="fu">as.matrix</span><span class="op">(</span><span class="fu">select</span><span class="op">(</span><span class="va">testDF</span>, <span class="op">-</span><span class="va">quality</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>                     label <span class="op">=</span> <span class="va">testDF</span><span class="op">$</span><span class="va">quality</span><span class="op">)</span></span>
-<span><span class="va">whitewineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>,</span>
+<span><span class="va">whitewineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, </span>
 <span>                          params <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>eta <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                          watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>train <span class="op">=</span> <span class="va">dtrain</span>, test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>,</span>
+<span>                          evals <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>train <span class="op">=</span> <span class="va">dtrain</span>, test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, </span>
 <span>                          nrounds <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>                          early_stopping_rounds <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>                          print_every_n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="fu">xgb.importance</span><span class="op">(</span>model <span class="op">=</span> <span class="va">whitewineXGB</span><span class="op">)</span></span>
-<span><span class="va">whitewineXGB</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="va">train_rmse</span>, <span class="va">test_rmse</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"RMSE"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">RMSE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">attr</span><span class="op">(</span><span class="va">whitewineXGB</span>, <span class="st">"evaluation_log"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="va">train_rmse</span>, <span class="va">test_rmse</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"RMSE"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">RMSE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<p>The testing set RMSE (0.664) is worse than what we obtained in the
+<p>The testing set RMSE (0.656833) is worse than what we obtained in the
 random forest model (0.63). The important explanatory variables are
 similar.</p>
 </div>
@@ -892,9 +892,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/5-gradient-boosted-trees.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/5-gradient-boosted-trees.html",
-  "dateCreated": "2026-05-29",
-  "dateModified": "2026-05-29",
-  "datePublished": "2026-06-02"
+  "dateCreated": "2026-06-05",
+  "dateModified": "2026-06-05",
+  "datePublished": "2026-06-05"
 }
 
   </script><script>

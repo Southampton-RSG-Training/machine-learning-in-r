@@ -325,7 +325,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Cross Validation and Tuning</h1>
-        <p>Last updated on 2026-05-29 |
+        <p>Last updated on 2026-06-05 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/6-cross-validation-and-fine-tuning.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -481,7 +481,7 @@ iteration?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li><p>The numbers are the indexes of the rows in each fold. The folds
 are not all the same size, because no row can be used more than once,
@@ -493,14 +493,17 @@ evenly into 10 partitions.</p></li>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rwCV</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span> <span class="fu">arrange</span><span class="op">(</span><span class="va">test_rmse_mean</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">rwCV</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">test_rmse_mean</span><span class="op">)</span></span></code></pre>
 </div>
 <ol start="3" style="list-style-type: decimal"><li>
 </li></ol><div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rwCV</span><span class="op">$</span><span class="va">evaluation_log</span><span class="op">[</span><span class="va">rwCV</span><span class="op">$</span><span class="va">best_iteration</span><span class="op">]</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">rwCV</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">test_rmse_mean</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">head</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -654,7 +657,7 @@ ascending order of <code>test_rmse_mean</code>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -720,7 +723,7 @@ respectively. Typical values for these parameters are between 0.5 and
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -796,7 +799,7 @@ previous two episodes?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>Results may vary. The proposed solution below will take quite some
 time to execute.</p>
@@ -896,9 +899,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/6-cross-validation-and-fine-tuning.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/6-cross-validation-and-fine-tuning.html",
-  "dateCreated": "2026-05-29",
-  "dateModified": "2026-05-29",
-  "datePublished": "2026-06-02"
+  "dateCreated": "2026-06-05",
+  "dateModified": "2026-06-05",
+  "datePublished": "2026-06-05"
 }
 
   </script><script>
