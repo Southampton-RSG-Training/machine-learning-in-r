@@ -26,7 +26,7 @@ Like many other machine learning algorithms, XGBoost has an assortment of parame
 
 You can find a complete list of XGBoost parameters in [the documentation](https://xgboost.readthedocs.io/en/stable/parameter.html). Generally speaking, each parameter controls the complexity of the model in some way. More complex models tend to fit the training data more closely, but such models can be very sensitive to small changes in the training set. On the other hand, while less complex models can be more conservative in this respect, they have a harder time modeling intricate relationships. The "art" of parameter tuning lies in finding an appropriately complex model for the problem at hand.
 
-A complete discussion of the issues involved are beyond the scope of this lesson. An excellent resource on the topic is [An Introduction to Statistical Learning](https://hastie.su.domains/ISLR2/ISLRv2_website.pdf), by James, Witten, Hastie, and Tibshirani. In particular, Section 2.2.2 discusses the *Bias-Variance Trade-Off* inherent in statistical learning methods.
+A complete discussion of the issues involved are beyond the scope of this lesson. An excellent resource on the topic is [An Introduction to Statistical Learning](https://www.stat.berkeley.edu/users/rabbee/s154/ISLR_First_Printing.pdf), by James, Witten, Hastie, and Tibshirani. In particular, Section 2.2.2 discusses the *Bias-Variance Trade-Off* inherent in statistical learning methods.
 
 ## Cross Validation
 
