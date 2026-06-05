@@ -73,7 +73,7 @@ sqrt(mean(errors^2)) #RMSE
 ```
 
 ```output
-[1] 0.6653935
+[1] 0.6561705
 ```
 
 ## More Details on the Training Process
@@ -85,26 +85,26 @@ redwineXGB <- xgb.train(data = dtrain, watchlist = list(test = dtest), nrounds =
 ```
 
 ```output
-[1]	test-rmse:3.676492 
-[2]	test-rmse:2.620643 
-[3]	test-rmse:1.904736 
-[4]	test-rmse:1.414777 
-[5]	test-rmse:1.110905 
-[6]	test-rmse:0.913236 
-[7]	test-rmse:0.793578 
-[8]	test-rmse:0.729415 
-[9]	test-rmse:0.686777 
-[10]	test-rmse:0.665393 
+[1]	test-rmse:0.739547 
+[2]	test-rmse:0.697529 
+[3]	test-rmse:0.677260 
+[4]	test-rmse:0.666461 
+[5]	test-rmse:0.663789 
+[6]	test-rmse:0.661025 
+[7]	test-rmse:0.656802 
+[8]	test-rmse:0.657357 
+[9]	test-rmse:0.656321 
+[10]	test-rmse:0.656171 
 ```
 
-The training history is saved as a data frame in the variable `gbm$evaluation_log`, so we can plot how the RMSE changes during the training process.
+The training history is saved as a data frame in the attribute `evaluation_log`, so we can plot how the RMSE changes during the training process.
 
 ```r
-redwineXGB$evaluation_log |>
+attr(redwineXGB, "evaluation_log") |>
   ggplot(aes(x = iter, y = test_rmse)) +
   geom_line()
 ```
-![]()fig/5-rmse-line-plot.png){alt="line plot of test rmse by iteration"}
+![](fig/5-rmse-line-plot.png){alt="line plot of test rmse by iteration"}
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
@@ -124,35 +124,35 @@ redwineXGB <- xgb.train(data = dtrain,
 ```
 
 ```output
-[1]	test-rmse:3.676492 
-[2]	test-rmse:2.620643 
-[3]	test-rmse:1.904736 
-[4]	test-rmse:1.414777 
-[5]	test-rmse:1.110905 
-[6]	test-rmse:0.913236 
-[7]	test-rmse:0.793578 
-[8]	test-rmse:0.729415 
-[9]	test-rmse:0.686777 
-[10]	test-rmse:0.665393 
-[11]	test-rmse:0.650133 
-[12]	test-rmse:0.642655 
-[13]	test-rmse:0.640231 
-[14]	test-rmse:0.634134 
-[15]	test-rmse:0.637910 
-[16]	test-rmse:0.636140 
-[17]	test-rmse:0.640103 
-[18]	test-rmse:0.640305 
-[19]	test-rmse:0.640569 
-[20]	test-rmse:0.637183 
+[1]	test-rmse:0.739547 
+[2]	test-rmse:0.697529 
+[3]	test-rmse:0.677260 
+[4]	test-rmse:0.666461 
+[5]	test-rmse:0.663789 
+[6]	test-rmse:0.661025 
+[7]	test-rmse:0.656802 
+[8]	test-rmse:0.657357 
+[9]	test-rmse:0.656321 
+[10]	test-rmse:0.656171 
+[11]	test-rmse:0.654021 
+[12]	test-rmse:0.651006 
+[13]	test-rmse:0.650065 
+[14]	test-rmse:0.650734 
+[15]	test-rmse:0.650865 
+[16]	test-rmse:0.651042 
+[17]	test-rmse:0.650033 
+[18]	test-rmse:0.649995 
+[19]	test-rmse:0.649126 
+[20]	test-rmse:0.647756 
 ```
 
 ```r
-redwineXGB$evaluation_log |>
+attr(redwineXGB, "evaluation_log") |>
   ggplot(aes(x = iter, y = test_rmse)) +
-  geom_line() 
+  geom_line()
 ```
 
-![]()fig/5-challenge-rmse-line-plot.png){alt="line plot of test rmse by iteration"}
+![](fig/5-challenge-rmse-line-plot.png){alt="line plot of test rmse by iteration"}
 
 :::::::::::::::::::::::::::::::::
 
@@ -169,25 +169,29 @@ The following code will set `eta` to its default value. We include a value for `
 ```r
 redwineXGB <- xgb.train(data = dtrain, 
                         params = list(eta = 0.3),
-                        watchlist = list(test = dtest), 
+                        evals = list(test = dtest), 
                         nrounds = 1000,
                         early_stopping_rounds = 10,
                         print_every_n = 5)
 ```
 
 ```output
-[1]	test-rmse:3.676492 
 Will train until test_rmse hasn't improved in 10 rounds.
 
-[6]	test-rmse:0.913236 
-[11]	test-rmse:0.650133 
-[16]	test-rmse:0.636140 
-[21]	test-rmse:0.639540 
+[1]	test-rmse:0.739547 
+[6]	test-rmse:0.661025 
+[11]	test-rmse:0.654021 
+[16]	test-rmse:0.651042 
+[21]	test-rmse:0.648309 
+[26]	test-rmse:0.648100 
+[31]	test-rmse:0.650731 
 Stopping. Best iteration:
-[14]	test-rmse:0.634134
+[35]	test-rmse:0.651400
+
+[35]	test-rmse:0.651400 
 ```
 
-The 14th iteration had the smallest RMSE, as we found in the previous challenge.
+The 35th iteration had the smallest RMSE.
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
@@ -204,23 +208,23 @@ A learning rate around 0.1 reduces the RMSE somewhat.
 ```r
 redwineXGB <- xgb.train(data = dtrain, 
                         params = list(eta = 0.1),
-                        watchlist = list(test = dtest), 
+                        evals = list(test = dtest), 
                         nrounds = 1000,
                         early_stopping_rounds = 10,
                         print_every_n = 15)
 ```
 
 ```output
-[1]	test-rmse:4.689984 
 Will train until test_rmse hasn't improved in 10 rounds.
 
-[16]	test-rmse:1.164598 
-[31]	test-rmse:0.655252 
-[46]	test-rmse:0.618707 
-[61]	test-rmse:0.617009 
-[76]	test-rmse:0.612820 
+[1]	test-rmse:0.789059 
+[16]	test-rmse:0.643070 
+[31]	test-rmse:0.629120 
+[46]	test-rmse:0.625930 
 Stopping. Best iteration:
-[75]	test-rmse:0.612406
+[48]	test-rmse:0.625455
+
+[48]	test-rmse:0.625455 
 ```
 :::::::::::::::::::::::::::::::::
 
@@ -236,17 +240,18 @@ xgb.importance(model = redwineXGB)
 
 ```output
                  Feature       Gain      Cover  Frequency
- 1:              alcohol 0.33236129 0.11264259 0.07936508
- 2:     volatile.acidity 0.12367170 0.09820458 0.11922399
- 3:            sulphates 0.10975935 0.10726694 0.08218695
- 4: total.sulfur.dioxide 0.07500529 0.13655797 0.09276896
- 5:              density 0.05960668 0.09451465 0.08500882
- 6:            chlorides 0.05883225 0.10318293 0.09805996
- 7:       residual.sugar 0.05499778 0.09106117 0.08818342
- 8:        fixed.acidity 0.05087633 0.07920964 0.14250441
- 9:                   pH 0.04772447 0.06078573 0.06807760
-10:          citric.acid 0.04532904 0.07698668 0.07830688
-11:  free.sulfur.dioxide 0.04183582 0.03958713 0.06631393
+                  <char>      <num>      <num>      <num>
+ 1:              alcohol 0.30854145 0.20533266 0.08665431
+ 2:     volatile.acidity 0.14497002 0.12210243 0.10889713
+ 3:            sulphates 0.12760406 0.13532236 0.08711770
+ 4: total.sulfur.dioxide 0.08528885 0.10227935 0.09360519
+ 5:        fixed.acidity 0.06277324 0.06687905 0.14365153
+ 6:            chlorides 0.05994638 0.08001722 0.09592215
+ 7:              density 0.04635801 0.06776201 0.07599629
+ 8:       residual.sugar 0.04470028 0.06218626 0.09267841
+ 9:          citric.acid 0.04053801 0.06268225 0.08109361
+10:                   pH 0.04017616 0.05639794 0.06672845
+11:  free.sulfur.dioxide 0.03910355 0.03903844 0.06765524
 ```
 
 The rows are sorted by `Gain`, which measures the accuracy improvement contributed by a feature based on all the splits it determines. Note that the sum of all the gains is 1.
@@ -259,36 +264,37 @@ Like many machine learning algorithms, gradient boosting operates by minimizing 
 To see both training and testing errors, we can add a `train` item to the `watchlist`.
 
 ```r
-redwineXGB <- xgb.train(data = dtrain,
+redwineXGB <- xgb.train(data = dtrain, 
                         params = list(eta = 0.1),
-                        watchlist = list(train = dtrain, test = dtest),
+                        evals = list(train = dtrain, test = dtest), 
                         nrounds = 1000,
                         early_stopping_rounds = 10,
                         print_every_n = 15)
 ```
 ```output
-[1]	train-rmse:4.690120	test-rmse:4.689984 
 Multiple eval metrics are present. Will use test_rmse for early stopping.
 Will train until test_rmse hasn't improved in 10 rounds.
 
-[16]	train-rmse:1.109302	test-rmse:1.164598 
-[31]	train-rmse:0.467275	test-rmse:0.655252 
-[46]	train-rmse:0.369513	test-rmse:0.618707 
-[61]	train-rmse:0.328256	test-rmse:0.617009 
-[76]	train-rmse:0.290210	test-rmse:0.612820 
+[1]	train-rmse:0.763413	test-rmse:0.789059 
+[16]	train-rmse:0.467861	test-rmse:0.643070 
+[31]	train-rmse:0.366838	test-rmse:0.629120 
+[46]	train-rmse:0.314553	test-rmse:0.625930 
 Stopping. Best iteration:
-[75]	train-rmse:0.291627	test-rmse:0.612406
+[48]	train-rmse:0.311647	test-rmse:0.625455
+
+[48]	train-rmse:0.311647	test-rmse:0.625455 
 ```
 
 ```r
-redwineXGB$evaluation_log |>
-  pivot_longer(cols = c(train_rmse, test_rmse), names_to = "RMSE") |>
-  ggplot(aes(x = iter, y = value, color = RMSE)) + geom_line()
+attr(redwineXGB, "evaluation_log") |>  
+  pivot_longer(cols = c(train_rmse, test_rmse), names_to = "RMSE") |> 
+  ggplot(aes(x = iter, y = value, color = RMSE)) + 
+  geom_line()
 ```
 
-![]()fig/5-test-train-rmse-line-plot.png){alt="line plot of test rmse by iteration"}
+![](fig/5-test-train-rmse-line-plot.png){alt="line plot of test rmse by iteration"}
 
-Notice that beyond iteration 40 or so, the training RMSE continues to decrease while the testing RMSE has basically stabilized. This divergence indicates that the later training iterations are improving the model based on the particularities of the training set, but in a way that does not generalize to the testing set.
+Notice that beyond iteration 20 or so, the training RMSE continues to decrease while the testing RMSE has basically stabilized. This divergence indicates that the later training iterations are improving the model based on the particularities of the training set, but in a way that does not generalize to the testing set.
 
 ## Saving a trained model
 
@@ -318,29 +324,30 @@ the random forest white wine model from the previous episode.
 :::::::::::::::::::::::: solution
 
 ```r
-whitewine <- wine |> dplyr::slice(1600:6497)
+whitewine <- wine |> dplyr::slice(1600:6497) 
 trainSize <- round(0.80 * nrow(whitewine))
-set.seed(1234)
+set.seed(1234) 
 trainIndex <- sample(nrow(whitewine), trainSize)
 trainDF <- whitewine |> dplyr::slice(trainIndex)
 testDF <- whitewine |> dplyr::slice(-trainIndex)
-dtrain <- xgb.DMatrix(data = as.matrix(select(trainDF, -quality)),
+dtrain <- xgb.DMatrix(data = as.matrix(select(trainDF, -quality)), 
                       label = trainDF$quality)
-dtest <- xgb.DMatrix(data = as.matrix(select(testDF, -quality)),
+dtest <- xgb.DMatrix(data = as.matrix(select(testDF, -quality)), 
                      label = testDF$quality)
-whitewineXGB <- xgb.train(data = dtrain,
+whitewineXGB <- xgb.train(data = dtrain, 
                           params = list(eta = 0.1),
-                          watchlist = list(train = dtrain, test = dtest),
+                          evals = list(train = dtrain, test = dtest), 
                           nrounds = 1000,
                           early_stopping_rounds = 10,
                           print_every_n = 20)
 xgb.importance(model = whitewineXGB)
-whitewineXGB$evaluation_log |>
-  pivot_longer(cols = c(train_rmse, test_rmse), names_to = "RMSE") |>
-  ggplot(aes(x = iter, y = value, color = RMSE)) + geom_line()
+attr(whitewineXGB, "evaluation_log") |> 
+  pivot_longer(cols = c(train_rmse, test_rmse), names_to = "RMSE") |> 
+  ggplot(aes(x = iter, y = value, color = RMSE)) + 
+  geom_line()
 ```
 
-The testing set RMSE (0.664) is worse than what we obtained in the
+The testing set RMSE (0.656833) is worse than what we obtained in the
 random forest model (0.63). The important explanatory variables are similar.
 
 :::::::::::::::::::::::::::::::::

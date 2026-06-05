@@ -91,13 +91,16 @@ names(rwCV)
 2.
 
 ```r
-rwCV$evaluation_log |> arrange(test_rmse_mean)
+rwCV$evaluation_log |> 
+  arrange(test_rmse_mean)
 ```
 
 3.
 
 ```r
-rwCV$evaluation_log[rwCV$best_iteration]
+rwCV$evaluation_log |> 
+  arrange(test_rmse_mean) |> 
+  head(1)
 ```
 
 :::::::::::::::::::::::::::::::::
