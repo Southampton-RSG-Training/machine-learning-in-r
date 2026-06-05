@@ -18,7 +18,7 @@ carpentry: 'incubator'
 carpentry_description: 'Lesson Description'
 
 # Overall title for pages.
-title: 'Machine Learning in R' # FIXME
+title: 'Machine Learning for Tabular Data in R'
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
 created: ~
