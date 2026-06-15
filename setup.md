@@ -36,7 +36,9 @@ If the above command returns `character(0)`, then you have successfully installe
 
 ## Project and Data
 
-Create a new RStudio project where you will keep all of the files for this workshop. In the project directory (where the `.Rproj` file is), **create a subdirectory** called `data`. You should then be able to download the data for the workshop using the following commands.
+- Create a new RStudio project where you will keep all of the files for this workshop. 
+- In the project directory (where the `.Rproj` file is), **create a subdirectory** called `data`. 
+- You should then be able to download the data for the workshop using the following commands.
 
 ```r
 library(here)
