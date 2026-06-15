@@ -126,16 +126,18 @@ Now we will write a loop that will perform a different cross validation for each
 ```r
 bestResults <- tibble()
 set.seed(708)
-pb <- txtProgressBar(style = 3)
+pb <- txtProgressBar(style = 3) 
 for(i in seq(length(paramList))) {
-  rwCV <- xgb.cv(params = paramList[[i]],
-                 data = dtrain,
-                 nrounds = 500,
+  rwCV <- xgb.cv(params = paramList[[i]], 
+                 data = dtrain, 
+                 nrounds = 500, 
                  nfold = 10,
                  early_stopping_rounds = 10,
                  verbose = FALSE)
-  bestResults <- bestResults |>
-    bind_rows(rwCV$evaluation_log[rwCV$best_iteration])
+  bestResults <- bestResults |>  
+    bind_rows(rwCV$evaluation_log |> 
+                arrange(test_rmse_mean) |> 
+                head(1))
   gc() # Free unused memory after each loop iteration
   setTxtProgressBar(pb, i/length(paramList))
 }
@@ -179,8 +181,10 @@ for(i in seq(length(paramList))) {
                  nfold = 10,
                  early_stopping_rounds = 10,
                  verbose = FALSE)
-  bestResults <- bestResults |>
-    bind_rows(rwCV$evaluation_log[rwCV$best_iteration])
+  bestResults <- bestResults |>  
+    bind_rows(rwCV$evaluation_log |> 
+                arrange(test_rmse_mean) |> 
+                head(1))
   gc()
   setTxtProgressBar(pb, i/length(paramList))
 }
@@ -188,14 +192,14 @@ close(pb)
 depth_leaves <- bind_cols(paramDF, bestResults)
 ```
 
-When we `View(depth_leaves)` we see that a choice of `max_depth` = 21 and `max_leaves` = 4095 results in the best `test_rmse_mean`. One caveat is that cross validation is a random process, so running this code with a different random seed may very well produce a different result. However, there are several comparable results with `max_depth` in the 20s and `max_leaves` in the 1000s, so we can be pretty sure that our choice these parameter values is sound.
+When we `View(depth_leaves)` we see that a choice of `max_depth` = 19 and `max_leaves` = 63 results in the best `test_rmse_mean`. One caveat is that cross validation is a random process, so running this code with a different random seed may very well produce a different result. 
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
 ## Challenge: Write a Grid Search Function
 
 Instead of repeatedly using the above code block, let's package it into
-an [R function](https://swcarpentry.github.io/r-novice-inflammation/02-func-R/).
+an R function.
 Define a function called `GridSearch` that consumes a data frame `paramDF`
 of candidate parameter values
 and an `xgb.DMatrix` `dtrain` of training data. The function should
@@ -217,8 +221,10 @@ GridSearch <- function(paramDF, dtrain) {
                    nfold = 10,
                    early_stopping_rounds = 10,
                    verbose = FALSE)
-    bestResults <- bestResults |>
-      bind_rows(rwCV$evaluation_log[rwCV$best_iteration])
+  bestResults <- bestResults |>  
+    bind_rows(rwCV$evaluation_log |> 
+                arrange(test_rmse_mean) |> 
+                head(1))
     gc()
     setTxtProgressBar(pb, i/length(paramList))
   }
@@ -256,15 +262,14 @@ of `eta`, `max_depth`, and `max_leaves`.
 paramDF <- expand.grid(
   subsample = seq(0.5, 1, by = 0.1),
   colsample_bytree = seq(0.5, 1, by = 0.1),
-  max_depth = 21,
-  max_leaves = 4095,
+  max_depth = 19,
+  max_leaves = 63,
   eta = 0.1)
 set.seed(848)
 randsubsets <- GridSearch(paramDF, dtrain)
 ```
 
-It appears that some amount of randomization helps, but there are many
-choices for `subsample` and `colsample_bytree` that seem equivalent.
+It appears that some amount of randomization helps.  It looks like `subsample` = 0.8 and `colsample_bytree` = 0.9 results in the lowest `test_rmse_mean`. 
 
 :::::::::::::::::::::::::::::::::
 
@@ -278,22 +283,29 @@ We give parameters `max_depth`, `max_leaves`, `subsample`, and `colsample_bytree
 
 ```r
 set.seed(805)
-rwMod <- xgb.train(data = dtrain, verbose = 0,
-                   watchlist = list(train = dtrain, test = dtest),
-                   nrounds = 10000,
-                   early_stopping_rounds = 50,
-                   max_depth = 21,
-                   max_leaves = 4095,
-                   subsample = 0.8,
-                   colsample_bytree = 0.7,
-                   eta = 0.05)
-rwMod$evaluation_log |>
-  pivot_longer(cols = c(train_rmse, test_rmse), names_to = "RMSE") |>
-  ggplot(aes(x = iter, y = value, color = RMSE)) + geom_line()
+rwMod <- xgb.train(
+  data   = dtrain,
+  verbose = FALSE,
+  evals  = list(train = dtrain, test = dtest),
+  nrounds = 10000,
+  early_stopping_rounds = 50,
+  params = list(
+    max_depth        = 21,
+    max_leaves       = 63,
+    subsample        = 0.8,
+    colsample_bytree = 0.9,
+    eta              = 0.05
+  )
+)
+
 print(rwMod)
+attr(rwMod, "evaluation_log") |> 
+  pivot_longer(cols = c(train_rmse, test_rmse), names_to = "RMSE") |>
+  ggplot(aes(x = iter, y = value, color = RMSE)) + 
+  geom_line()
 ```
 
-After some tuning, our testing set RMSE is down to 0.58, which is an improvement over the previous episode, and comparable to the RMSE we obtained using the random forest model.
+After some tuning, our testing set RMSE is down to 0.60, which is an improvement over the previous episode and over the RMSE we obtained using the random forest model.
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
@@ -308,7 +320,7 @@ RMSE over the white wine challenges from the previous two episodes?
 Results may vary. The proposed solution below will take quite some time
 to execute.
 
-```{r, eval = FALSE}
+```r
 whitewine <- wine |> dplyr::slice(1600:6497)
 trainSize <- round(0.80 * nrow(whitewine))
 set.seed(1234)
@@ -323,7 +335,7 @@ dtest <- xgb.DMatrix(data = as.matrix(select(testDF, -quality)),
 
 Start by tuning `max_depth` and `max_leaves` together.
 
-```{r, eval = FALSE}
+```r
 paramGrid <- expand.grid(
   max_depth = seq(10, 40, by = 2),
   max_leaves = c(15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191),
@@ -334,15 +346,15 @@ ww_depth_leaves <- GridSearch(paramGrid, dtrain)
 ```
 
 There are several options that perform similarly. Let's choose
-`max_depth` = 12 along with `max_leaves` = 255. Now we tune the
+`max_depth` = 14 along with `max_leaves` = 127. Now we tune the
 two random sampling parameters together.
 
-```{r, eval = FALSE}
+```r
 paramGrid <- expand.grid(
   subsample = seq(0.5, 1, by = 0.1),
   colsample_bytree = seq(0.5, 1, by = 0.1),
-  max_depth = 12,
-  max_leaves = 255,
+  max_depth = 14,
+  max_leaves = 127,
   eta = 0.1
 )
 set.seed(867)
@@ -350,25 +362,31 @@ ww_randsubsets <- GridSearch(paramGrid, dtrain)
 ```
 
 Again, some randomization seems to help, but there are several options.
-We'll choose `subsample` = 0.9 and `colsample_bytree` = 0.6.
+We'll choose `subsample` = 0.8 and `colsample_bytree` = 0.9.
 Finally, we train the model with the chosen parameters.
 
-```{r, eval = FALSE}
+```r
 set.seed(5309)
-ww_gbmod <- xgb.train(data = dtrain, verbose = 0,
-                   watchlist = list(train = dtrain, test = dtest),
-                   nrounds = 10000,
-                   early_stopping_rounds = 50,
-                   max_depth = 12,
-                   max_leaves = 255,
-                   subsample = 0.9,
-                   colsample_bytree = 0.6,
-                   eta = 0.01)
+                   
+ww_gbmod <- xgb.train(
+  data   = dtrain,
+  verbose = FALSE,
+  evals  = list(train = dtrain, test = dtest),
+  nrounds = 10000,
+  early_stopping_rounds = 50,
+  params = list(
+    max_depth        = 14,
+    max_leaves       = 127,
+    subsample        = 0.8,
+    colsample_bytree = 0.9,
+    eta              = 0.1
+  )
+)
 ```
 
-The tuned XGBoost model has a testing set RMSE of about 0.62, which is
+The tuned XGBoost model has a testing set RMSE of about 0.63, which is
 better than the un-tuned model from the last episode (0.66),
-and also better than the random forest model (0.63).
+and similar to the random forest model (0.63).
 
 :::::::::::::::::::::::::::::::::
 
