@@ -34,7 +34,8 @@ wine <- read_csv(here("data", "wine.csv"))
 
 ```r
 glimpse(wine)
-ggplot(wine, aes(x = quality)) + geom_histogram(binwidth = 1)
+ggplot(wine, aes(x = quality)) + 
+  geom_histogram(binwidth = 1)
 ```
 ![](fig/4-wine-histogram.png){alt="histogram of wine quality"}
 
@@ -65,8 +66,10 @@ Create training and test sets using an 80/20 split.
 trainSize <- round(0.80 * nrow(redwineClass))
 set.seed(1234)
 trainIndex <- sample(nrow(redwineClass), trainSize)
-trainDF <- redwineClass |> slice(trainIndex)
-testDF <- redwineClass |> slice(-trainIndex)
+trainDF <- redwineClass |> 
+  slice(trainIndex)
+testDF <- redwineClass |> 
+  slice(-trainIndex)
 ```
 
 ::::::::::::::::::::::::::::::::::::: challenge
@@ -90,9 +93,11 @@ rpart.plot(rwtree)
 ![](fig/4-rwtree.png){alt="decision tree of red wine grade"}
 
 ```r
-rwp <- predict(rwtree, testDF)
-rwpred <- ifelse(rwp[,1] > 0.5,  "bad", "good")
-sum(testDF$grade == rwpred)/nrow(testDF)
+predMatrix <- predict(rwTree, testDF)
+predDF <- testDF |> 
+  bind_cols(predMatrix)
+predictedGrade <- ifelse(predDF$bad > 0.5, "bad", "good")
+accuracy <- sum(testDF$grade == predictedGrade)/nrow(testDF)
 ```
 ```output
 [1] 0.696875
@@ -250,7 +255,7 @@ For convenience, let's sort the rows of the importance matrix.
 
 ```r
 importance(rwforFull, type = 1) |>
-as_tibble(rownames = "Variable") |>
+  as_tibble(rownames = "Variable") |>
   arrange(desc(MeanDecreaseAccuracy))
 ```
 ```output
@@ -291,8 +296,10 @@ redwine <- wine |> slice(1:1599)
 trainSize <- round(0.80 * nrow(redwine))
 set.seed(1234)
 trainIndex <- sample(nrow(redwine), trainSize)
-trainDF <- redwine |> slice(trainIndex)
-testDF <- redwine |> slice(-trainIndex)
+trainDF <- redwine |> 
+  slice(trainIndex)
+testDF <- redwine |> 
+  slice(-trainIndex)
 ```
 
 ## Fit a Decision Tree
