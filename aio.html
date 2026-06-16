@@ -1168,7 +1168,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-3-decision-trees"><p>Content from <a href="3-decision-trees.html">Decision Trees</a></p>
 <hr>
-<p>Last updated on 2026-05-29 |
+<p>Last updated on 2026-06-16 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/3-decision-trees.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1214,7 +1214,7 @@ grades.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
 <span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">456</span><span class="op">)</span></span>
-<span><span class="va">exam</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>score <span class="op">=</span> <span class="fu">sample</span><span class="op">(</span><span class="fl">80</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">200</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="va">exam</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>score <span class="op">=</span> <span class="fu">sample</span><span class="op">(</span><span class="fl">80</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">200</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>grade <span class="op">=</span> <span class="fu">as_factor</span><span class="op">(</span><span class="fu">ifelse</span><span class="op">(</span><span class="va">score</span> <span class="op">&lt;</span> <span class="fl">90</span>, <span class="st">"B"</span>, <span class="st">"A"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">head</span><span class="op">(</span><span class="va">exam</span><span class="op">)</span></span>
 <span><span class="fu">summary</span><span class="op">(</span><span class="va">exam</span><span class="op">)</span></span></code></pre>
@@ -1321,8 +1321,10 @@ which is part of the tidyverse.</p>
 <code class="sourceCode R"><span><span class="va">trainSize</span> <span class="op">&lt;-</span> <span class="fu">round</span><span class="op">(</span><span class="fl">0.75</span> <span class="op">*</span> <span class="fu">nrow</span><span class="op">(</span><span class="va">kyphosis</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">6789</span><span class="op">)</span> <span class="co"># same seed as in the last episode</span></span>
 <span><span class="va">trainIndex</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">nrow</span><span class="op">(</span><span class="va">kyphosis</span><span class="op">)</span>, <span class="va">trainSize</span><span class="op">)</span></span>
-<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
-<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span></code></pre>
+<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Now train the decision tree model on the training set</p>
 <div class="codewrapper sourceCode" id="cb6">
@@ -1416,7 +1418,7 @@ data frame called <code>predDF</code>.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">predMatrix</span> <span class="op">&lt;-</span> <span class="fu">predict</span><span class="op">(</span><span class="va">treeModel</span>, <span class="va">testDF</span><span class="op">)</span></span>
-<span><span class="va">predDF</span> <span class="op">&lt;-</span> <span class="va">testDF</span> <span class="op">%&gt;%</span> </span>
+<span><span class="va">predDF</span> <span class="op">&lt;-</span> <span class="va">testDF</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">bind_cols</span><span class="op">(</span><span class="va">predMatrix</span><span class="op">)</span></span></code></pre>
 </div>
 <div id="challenge-predicted-probabilities" class="callout challenge">
@@ -1489,7 +1491,7 @@ probability in the <code>absent</code> column of
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">predDF</span> <span class="op">&lt;-</span> <span class="va">predDF</span> <span class="op">%&gt;%</span></span>
+<code class="sourceCode R"><span><span class="va">predDF</span> <span class="op">&lt;-</span> <span class="va">predDF</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>Prediction <span class="op">=</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">predDF</span><span class="op">$</span><span class="va">absent</span> <span class="op">&gt;</span> <span class="fl">0.5</span>, <span class="st">"absent"</span>, <span class="st">"present"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Recall that in supervised learning, we use the <em>testing set</em>
@@ -1533,8 +1535,10 @@ shape of the tree change? Does the testing set accuracy change?</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">314159</span><span class="op">)</span> <span class="co"># try a different seed</span></span>
 <span><span class="va">trainIndex</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">nrow</span><span class="op">(</span><span class="va">kyphosis</span><span class="op">)</span>, <span class="va">trainSize</span><span class="op">)</span> <span class="co"># use the same size training set</span></span>
-<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
-<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">kyphosis</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span>
 <span><span class="va">treeModel</span> <span class="op">&lt;-</span> <span class="fu">rpart</span><span class="op">(</span><span class="va">Kyphosis</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">Number</span> <span class="op">+</span> <span class="va">Start</span>, data <span class="op">=</span> <span class="va">trainDF</span><span class="op">)</span></span>
 <span><span class="fu">rpart.plot</span><span class="op">(</span><span class="va">treeModel</span>, extra <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre>
 </div>
@@ -1545,7 +1549,9 @@ decision tree.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">predMatrix</span> <span class="op">&lt;-</span> <span class="fu">predict</span><span class="op">(</span><span class="va">treeModel</span>, <span class="va">testDF</span><span class="op">)</span></span>
-<span><span class="va">predictedKyphosis</span> <span class="op">&lt;-</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">predMatrix</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&gt;</span> <span class="fl">0.5</span>, <span class="st">"absent"</span>, <span class="st">"present"</span><span class="op">)</span></span>
+<span><span class="va">predDF</span> <span class="op">&lt;-</span> <span class="va">testDF</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">bind_cols</span><span class="op">(</span><span class="va">predMatrix</span><span class="op">)</span></span>
+<span><span class="va">predictedKyphosis</span> <span class="op">&lt;-</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">predDF</span><span class="op">$</span><span class="va">absent</span> <span class="op">&gt;</span> <span class="fl">0.5</span>, <span class="st">"absent"</span>, <span class="st">"present"</span><span class="op">)</span></span>
 <span><span class="va">accuracy</span> <span class="op">&lt;-</span> <span class="fu">sum</span><span class="op">(</span><span class="va">testDF</span><span class="op">$</span><span class="va">Kyphosis</span> <span class="op">==</span> <span class="va">predictedKyphosis</span><span class="op">)</span><span class="op">/</span><span class="fu">nrow</span><span class="op">(</span><span class="va">testDF</span><span class="op">)</span></span>
 <span><span class="fu">cat</span><span class="op">(</span><span class="st">"Proportion of correct predictions: "</span>, <span class="va">accuracy</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre>
 </div>
@@ -1598,7 +1604,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-4-random-forests"><p>Content from <a href="4-random-forests.html">Random Forests</a></p>
 <hr>
-<p>Last updated on 2026-05-29 |
+<p>Last updated on 2026-06-16 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/4-random-forests.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1660,7 +1666,8 @@ rows <code>1600:6497</code> are white wine.</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">glimpse</span><span class="op">(</span><span class="va">wine</span><span class="op">)</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">wine</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">quality</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">wine</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">quality</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/4-wine-histogram.png" alt="histogram of wine quality" class="figure mx-auto d-block"></figure><p>The goal of the models that follow will be to predict the
 <code>quality</code> rating of a wine sample from its chemical
@@ -1698,8 +1705,10 @@ variable.</p>
 <code class="sourceCode R"><span><span class="va">trainSize</span> <span class="op">&lt;-</span> <span class="fu">round</span><span class="op">(</span><span class="fl">0.80</span> <span class="op">*</span> <span class="fu">nrow</span><span class="op">(</span><span class="va">redwineClass</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">trainIndex</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">nrow</span><span class="op">(</span><span class="va">redwineClass</span><span class="op">)</span>, <span class="va">trainSize</span><span class="op">)</span></span>
-<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">redwineClass</span> <span class="op">|&gt;</span> <span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
-<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">redwineClass</span> <span class="op">|&gt;</span> <span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span></code></pre>
+<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">redwineClass</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">redwineClass</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span></code></pre>
 </div>
 <div id="challenge-create-a-decision-tree-model" class="callout challenge">
 <div class="callout-square">
@@ -1721,7 +1730,7 @@ and testing sets defined above. Compute the testing set accuracy.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1736,9 +1745,11 @@ and testing sets defined above. Compute the testing set accuracy.</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rwp</span> <span class="op">&lt;-</span> <span class="fu">predict</span><span class="op">(</span><span class="va">rwtree</span>, <span class="va">testDF</span><span class="op">)</span></span>
-<span><span class="va">rwpred</span> <span class="op">&lt;-</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">rwp</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&gt;</span> <span class="fl">0.5</span>,  <span class="st">"bad"</span>, <span class="st">"good"</span><span class="op">)</span></span>
-<span><span class="fu">sum</span><span class="op">(</span><span class="va">testDF</span><span class="op">$</span><span class="va">grade</span> <span class="op">==</span> <span class="va">rwpred</span><span class="op">)</span><span class="op">/</span><span class="fu">nrow</span><span class="op">(</span><span class="va">testDF</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">predMatrix</span> <span class="op">&lt;-</span> <span class="fu">predict</span><span class="op">(</span><span class="va">rwTree</span>, <span class="va">testDF</span><span class="op">)</span></span>
+<span><span class="va">predDF</span> <span class="op">&lt;-</span> <span class="va">testDF</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">bind_cols</span><span class="op">(</span><span class="va">predMatrix</span><span class="op">)</span></span>
+<span><span class="va">predictedGrade</span> <span class="op">&lt;-</span> <span class="fu">ifelse</span><span class="op">(</span><span class="va">predDF</span><span class="op">$</span><span class="va">bad</span> <span class="op">&gt;</span> <span class="fl">0.5</span>, <span class="st">"bad"</span>, <span class="st">"good"</span><span class="op">)</span></span>
+<span><span class="va">accuracy</span> <span class="op">&lt;-</span> <span class="fu">sum</span><span class="op">(</span><span class="va">testDF</span><span class="op">$</span><span class="va">grade</span> <span class="op">==</span> <span class="va">predictedGrade</span><span class="op">)</span><span class="op">/</span><span class="fu">nrow</span><span class="op">(</span><span class="va">testDF</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1819,7 +1830,7 @@ challenge.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1968,7 +1979,7 @@ challence of this episode?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>For convenience, let’s sort the rows of the importance matrix.</p>
 <div class="codewrapper sourceCode" id="cb20">
@@ -1976,7 +1987,7 @@ challence of this episode?</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">importance</span><span class="op">(</span><span class="va">rwforFull</span>, type <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span><span class="fu">as_tibble</span><span class="op">(</span>rownames <span class="op">=</span> <span class="st">"Variable"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">as_tibble</span><span class="op">(</span>rownames <span class="op">=</span> <span class="st">"Variable"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">MeanDecreaseAccuracy</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
@@ -2028,8 +2039,10 @@ and testing sets.</p>
 <span><span class="va">trainSize</span> <span class="op">&lt;-</span> <span class="fu">round</span><span class="op">(</span><span class="fl">0.80</span> <span class="op">*</span> <span class="fu">nrow</span><span class="op">(</span><span class="va">redwine</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">set.seed</span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">trainIndex</span> <span class="op">&lt;-</span> <span class="fu">sample</span><span class="op">(</span><span class="fu">nrow</span><span class="op">(</span><span class="va">redwine</span><span class="op">)</span>, <span class="va">trainSize</span><span class="op">)</span></span>
-<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">redwine</span> <span class="op">|&gt;</span> <span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
-<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">redwine</span> <span class="op">|&gt;</span> <span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span></code></pre>
+<span><span class="va">trainDF</span> <span class="op">&lt;-</span> <span class="va">redwine</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">slice</span><span class="op">(</span><span class="va">trainIndex</span><span class="op">)</span></span>
+<span><span class="va">testDF</span> <span class="op">&lt;-</span> <span class="va">redwine</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">slice</span><span class="op">(</span><span class="op">-</span><span class="va">trainIndex</span><span class="op">)</span></span></code></pre>
 </div>
 </section><section><h2 class="section-heading" id="fit-a-decision-tree">Fit a Decision Tree<a class="anchor" aria-label="anchor" href="#fit-a-decision-tree"></a>
 </h2>
@@ -2108,7 +2121,7 @@ node.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <p>The root node contains all the observations, so compute its mean
 <code>quality</code> value.</p>
@@ -2276,7 +2289,7 @@ classification model?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
 <div class="accordion-body">
 <p>The syntax is almost identical to the classification case. Since the
 identifier <code>%IncMSE</code> contains special characters, it must be
@@ -2339,7 +2352,7 @@ importance rankings from the previous challenge.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2421,7 +2434,7 @@ variables for predicting red wine quality?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution7" aria-expanded="false" aria-controls="collapseSolution7">
   <h4 class="accordion-header" id="headingSolution7"> Show me the solution </h4>
 </button>
-<div id="collapseSolution7" class="accordion-collapse collapse" data-bs-parent="#accordionSolution7" aria-labelledby="headingSolution7">
+<div id="collapseSolution7" class="accordion-collapse collapse" aria-labelledby="headingSolution7" data-bs-parent="#accordionSolution7">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb46">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2478,7 +2491,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-5-gradient-boosted-trees"><p>Content from <a href="5-gradient-boosted-trees.html">Gradient Boosted Trees</a></p>
 <hr>
-<p>Last updated on 2026-06-05 |
+<p>Last updated on 2026-06-16 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/5-gradient-boosted-trees.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -2610,12 +2623,12 @@ function for XGBoost models expects a matrix, so we pass it the
 <hr class="half-width">
 <p>The <code>xgb.train</code> command will automatically calculate the
 RMSE on our testing set after each iteration if we set the testing set
-in the <code>watchlist</code>.</p>
+in the <code>evals</code>.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, nrounds <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, evals <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, nrounds <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2855,7 +2868,7 @@ performance by computing the error on the testing set. These two errors
 are usually different, and it is not uncommon to have much lower
 training RMSE than testing RMSE.</p>
 <p>To see both training and testing errors, we can add a
-<code>train</code> item to the <code>watchlist</code>.</p>
+<code>train</code> item to the <code>evals</code>.</p>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -3654,7 +3667,7 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/aio.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/aio.html",
-  "dateCreated": "2026-06-15",
+  "dateCreated": "2026-06-16",
   "dateModified": "2026-06-16",
   "datePublished": "2026-06-16"
 }

@@ -326,7 +326,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Gradient Boosted Trees</h1>
-        <p>Last updated on 2026-06-05 |
+        <p>Last updated on 2026-06-16 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/5-gradient-boosted-trees.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -452,12 +452,12 @@ function for XGBoost models expects a matrix, so we pass it the
 </section><section><h2 class="section-heading" id="more-details-on-the-training-process">More Details on the Training Process<a class="anchor" aria-label="anchor" href="#more-details-on-the-training-process"></a></h2>
 <hr class="half-width"><p>The <code>xgb.train</code> command will automatically calculate the
 RMSE on our testing set after each iteration if we set the testing set
-in the <code>watchlist</code>.</p>
+in the <code>evals</code>.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, nrounds <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, evals <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, nrounds <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -690,7 +690,7 @@ performance by computing the error on the testing set. These two errors
 are usually different, and it is not uncommon to have much lower
 training RMSE than testing RMSE.</p>
 <p>To see both training and testing errors, we can add a
-<code>train</code> item to the <code>watchlist</code>.</p>
+<code>train</code> item to the <code>evals</code>.</p>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -892,8 +892,8 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/5-gradient-boosted-trees.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/5-gradient-boosted-trees.html",
-  "dateCreated": "2026-06-15",
-  "dateModified": "2026-06-05",
+  "dateCreated": "2026-06-16",
+  "dateModified": "2026-06-16",
   "datePublished": "2026-06-16"
 }
 

@@ -362,14 +362,154 @@
         <h1>Instructor Notes</h1>
         
 
-<p>This is a placeholder file. Please add content here.</p>
+<section><h2 class="section-heading" id="episode-1-a-brief-introduction-to-machine-learning">Episode 1: A Brief Introduction to Machine Learning<a class="anchor" aria-label="anchor" href="#episode-1-a-brief-introduction-to-machine-learning"></a>
+</h2>
+<hr class="half-width">
+<p>The emphasis here is on “brief.” This episode can be done quickly.
+The lesson deals with some general machine learning concepts using some
+particular tools that should be of interest to researchers in a range of
+disciplines. We don’t claim to present a comprehensive overview of
+machine learning. Rather, the goal is to give learners some experience
+with the techniques they need to apply machine learning to their
+work.</p>
+<p>The coding here is minimal, but the <code>kyphosis</code> data set is
+introduced to provide a simple example of the framework for supervised
+learning. Try to use these easy examples to set the tone for live coding
+and interaction.</p>
+<p>Introduce the terms <em>classification</em> and <em>regression</em>,
+because these will be used in future episodes. In the field of machine
+learning, the term “regression” is typically used to describe a
+situation where the response variable is categorical, which differ from
+the way statisticians use this term. Episode 2 will illustrate the
+process of using training and test sets with the <em>kyphosis</em>
+data.</p>
+</section><section><h2 class="section-heading" id="episode-2-linear-and-logistic-regression">Episode 2: Linear and Logistic Regression<a class="anchor" aria-label="anchor" href="#episode-2-linear-and-logistic-regression"></a>
+</h2>
+<hr class="half-width">
+<p>It is very likely that learners already are very familiar with linear
+and logistic regression models, but this episode approaches them from a
+slightly unorthodox perspective. The goal is to illustrate the framework
+of supervised learning and introduce the use of training and testing
+sets. There isn’t going to be time to explain the mathematical theory
+behind these models, nor is it necessary to do so. The focus is on
+understanding the framework of supervised learning that was introduced
+in Episode 1.</p>
+<p>This is a good time to set the tone for the live coding nature of the
+workshop; make sure learners are attempting to follow along with you as
+you type. The challenges should go quickly, but do make sure you wait
+for learners to come up with the answers themselves.</p>
+<p>In this episode, we form the train and test split using base R. In
+future episodes, we will use <code>dplyr::slice</code>.</p>
+<p>The formula syntax for <code>lm</code> and <code>glm</code> will also
+be used in future episodes for other types of models.</p>
+</section><section><h2 class="section-heading" id="episode-3-decision-trees">Episode 3: Decision Trees<a class="anchor" aria-label="anchor" href="#episode-3-decision-trees"></a>
+</h2>
+<hr class="half-width">
+<p>This episode introduces decision trees, which will be the basis for
+the more complex models that we will consider in later episodes (random
+forests and gradient boosted trees).</p>
+<p>Consider having learners work on challenges in groups, especially for
+the third challenge (Predicted Probabilities).</p>
+<p>We conclude this episode with a brief discussion of the problem of
+non-robustness in decision tree models. To avoid information overload,
+it is probably best to avoid discussion of the <em>bias-variance
+trade-off</em> at this point. A general discussion of the issues
+involved appears in the introduction to Episode 6, along with a link to
+a good reference on the subject.</p>
+</section><section><h2 class="section-heading" id="episode-4-random-forests">Episode 4: Random Forests<a class="anchor" aria-label="anchor" href="#episode-4-random-forests"></a>
+</h2>
+<hr class="half-width">
+<p>Instructions for downloading the wine data are on the <a href="index.html#setup">setup</a> page. The methods we will consider are often
+used on data sets with more rows and columns, but we are using this
+relatively small data set to avoid memory and time constraints.</p>
+<p>The following single line gives an alternative way to construct
+<code>rwpred</code> in the solution to the first challenge. However, it
+is important for learners to encounter the solution given in the lesson,
+because <code>predict</code> methods for classification models will
+often return probabilities instead of classes.</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rwpred</span> <span class="op">&lt;-</span> <span class="fu">predict</span><span class="op">(</span><span class="va">rwtree</span>, <span class="va">testDF</span>, type <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Of the last three challenges, the most important for future episodes
+is the White Wine challenge, because we plan to compare the RMSE of
+random forests with gradient boosted trees, before and after tuning.</p>
+</section><section><h2 class="section-heading" id="episode-5-gradient-boosted-trees">Episode 5: Gradient Boosted Trees<a class="anchor" aria-label="anchor" href="#episode-5-gradient-boosted-trees"></a>
+</h2>
+<hr class="half-width">
+<p>There won’t be time to get in to the particulars of what exactly the
+XGBoost algorithm is doing at each stage. The <a href="#references">references</a> below are a good place to direct
+interested learners. Suffice it to say that the algorithm works in
+stages, or <em>iterations</em>, and attempts to improve the model at
+each iteration.</p>
+<p>Make sure to leave time for the White Wine challenge, because we want
+to compare its RMSE with the random forest challenge in Episode 4 and
+the tuned model in Episode 6.</p>
+</section><section><h2 class="section-heading" id="episode-6-cross-validation-and-tuning">Episode 6: Cross Validation and Tuning<a class="anchor" aria-label="anchor" href="#episode-6-cross-validation-and-tuning"></a>
+</h2>
+<hr class="half-width">
+<p>Instructors may wish to say more about the bias-variance tradeoff
+than is provided in the introduction to this episode. Roughly speaking,
+model performance can suffer from both “bias” and “variance”, and
+decreasing one of these tends to increase the other. In this context,
+<em>bias</em> refers to the error inherent in modeling a complex
+situation with a simple model, while <em>variance</em> refers to the
+variability of the predictions due to the random choice of training
+data. If time permits and a whiteboard is available, consider comparing
+a simple linear regression model (low variance, high bias) with a more
+flexible model, e.g., smoothing spline (higher variance, lower
+bias).</p>
+<p>This episode presents a somewhat systematic way to tune parameters in
+an XGBoost model, but it is not a comprehensive guide to the subject. In
+order to be prepared for questions, instructors should be familiar with
+the last four references in <a href="#references">the list</a> at the
+end of the instructors guide.</p>
+<p>Some of the examples in this episode will take several minutes to
+run, depending on the speed of your computer; be sure to test the
+examples ahead of time using the same computer you will teach with.
+Instructors may wish to pare down the grid search candidates to save
+time. Have a plan for something to do while you wait for these examples
+to finish.</p>
+<p>Learners may not recall/know how to write functions in R, so be
+prepared to help them with the second challenge. Mention that the
+function could also be written to allow other settings to be passed as
+additional arguments, if desired.</p>
+<p>Advise learners to start with small grids when doing the final
+challenge, so that they don’t end up having to wait for their
+<code>GridSearch</code> functions to finish.</p>
+</section><section><h2 class="section-heading" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<hr class="half-width">
+<ul>
+<li><a href="https://cran.r-project.org/view=MachineLearning" class="external-link">CRAN
+Machine Learning Task View</a></li>
+<li>
+<a href="https://rcompanion.org/rcompanion/e_07.html" class="external-link">Multiple
+Logistic Regression</a>, from the <em>R Companion</em>. <a href="https://www.stat.berkeley.edu/~breiman/Using_random_forests_V3.1.pdf" class="external-link">Manual
+on Setting Up, Using, and Understanding Random Forests</a>, Leo
+Breiman.</li>
+<li><a href="https://cran.r-project.org/web/packages/xgboost/vignettes/xgboostPresentation.html" class="external-link">XGBoost
+Presentation vignette</a></li>
+<li>
+<a href="https://xgboost.readthedocs.io/en/stable/tutorials/model.html" class="external-link">Introduction
+to Boosted Trees</a>, XGBoost documentation.</li>
+<li><a href="https://xgboost.readthedocs.io/en/stable/tutorials/param_tuning.html" class="external-link">Notes
+on XGBooost Parameter Tuning</a></li>
+<li>
+<a href="https://xgboost.readthedocs.io/en/stable/parameter.html" class="external-link">Documentation
+for XGBoost Parameters</a> {% include links.md %}</li>
+<li>
+<a href="https://www.statlearning.com/" class="external-link">An Introduction to
+Statistical Learning</a>, by James, Witten, Hastie, and Tibshirani.</li>
+<li><a href="https://sites.google.com/view/lauraepp/parameters" class="external-link">Laurae++: notes
+on XGBoost/LightGBM parameters</a></li>
+</ul>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-
-
-      <section id="aggregate-instructor-notes"><section id="1-intro-to-ml"><h2 class="section-heading"><a href="1-intro-to-ml.html">A Brief Introduction to Machine Learning</a></h2>
+ --></section><section id="aggregate-instructor-notes"><section id="1-intro-to-ml"><h2 class="section-heading"><a href="1-intro-to-ml.html">A Brief Introduction to Machine Learning</a></h2>
 <hr class="half-width"></section><section id="2-linear-and-logistic-regression"><h2 class="section-heading"><a href="2-linear-and-logistic-regression.html">Linear and Logistic Regression</a></h2>
 <hr class="half-width"></section><section id="3-decision-trees"><h2 class="section-heading"><a href="3-decision-trees.html">Decision Trees</a></h2>
 <hr class="half-width"></section><section id="4-random-forests"><h2 class="section-heading"><a href="4-random-forests.html">Random Forests</a></h2>
@@ -424,7 +564,7 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/instructor-notes.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/instructor/instructor-notes.html",
-  "dateCreated": "2026-06-15",
+  "dateCreated": "2026-06-16",
   "dateModified": "2026-06-16",
   "datePublished": "2026-06-16"
 }
