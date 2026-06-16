@@ -27,7 +27,7 @@ Let's simulate a data set of exam scores, along with letter grades.
 ```r
 library(tidyverse)
 set.seed(456)
-exam <- tibble(score = sample(80:100, 200, replace = TRUE)) %>%
+exam <- tibble(score = sample(80:100, 200, replace = TRUE)) |>
   mutate(grade = as_factor(ifelse(score < 90, "B", "A")))
 head(exam)
 summary(exam)
@@ -98,8 +98,10 @@ In order to compare the decision tree model to the logistic regression model in 
 trainSize <- round(0.75 * nrow(kyphosis))
 set.seed(6789) # same seed as in the last episode
 trainIndex <- sample(nrow(kyphosis), trainSize)
-trainDF <- kyphosis %>% slice(trainIndex)
-testDF <- kyphosis %>% slice(-trainIndex)
+trainDF <- kyphosis |> 
+  slice(trainIndex)
+testDF <- kyphosis |> 
+  slice(-trainIndex)
 ```
 
 Now train the decision tree model on the training set
@@ -168,7 +170,7 @@ To investigate the behavior of this model, we bind the columns of the predicted 
 
 ```r
 predMatrix <- predict(treeModel, testDF)
-predDF <- testDF %>% 
+predDF <- testDF |> 
   bind_cols(predMatrix)
 ```
 
@@ -218,7 +220,7 @@ leaf labeled "present", with a probability of 6/7, which is 0.8571.
 Let's add a new column called `Prediction` to the `predDF` data frame that gives the model prediction (`absent` or `present`) for each row, based on the probability in the `absent` column of `predDF`.
 
 ```r
-predDF <- predDF %>%
+predDF <- predDF |>
   mutate(Prediction = ifelse(predDF$absent > 0.5, "absent", "present"))
 ```
 
@@ -245,8 +247,10 @@ Does the testing set accuracy change?
 ```r
 set.seed(314159) # try a different seed
 trainIndex <- sample(nrow(kyphosis), trainSize) # use the same size training set
-trainDF <- kyphosis %>% slice(trainIndex)
-testDF <- kyphosis %>% slice(-trainIndex)
+trainDF <- kyphosis |> 
+  slice(trainIndex)
+testDF <- kyphosis |> 
+  slice(-trainIndex)
 treeModel <- rpart(Kyphosis ~ Age + Number + Start, data = trainDF)
 rpart.plot(treeModel, extra = 2)
 ```
@@ -258,7 +262,9 @@ decision tree.
 
 ```r
 predMatrix <- predict(treeModel, testDF)
-predictedKyphosis <- ifelse(predMatrix[,1] > 0.5, "absent", "present")
+predDF <- testDF |> 
+  bind_cols(predMatrix)
+predictedKyphosis <- ifelse(predDF$absent > 0.5, "absent", "present")
 accuracy <- sum(testDF$Kyphosis == predictedKyphosis)/nrow(testDF)
 cat("Proportion of correct predictions: ", accuracy, "\n")
 ```

@@ -78,10 +78,10 @@ sqrt(mean(errors^2)) #RMSE
 
 ## More Details on the Training Process
 
-The `xgb.train` command will automatically calculate the RMSE on our testing set after each iteration if we set the testing set in the `watchlist`.
+The `xgb.train` command will automatically calculate the RMSE on our testing set after each iteration if we set the testing set in the `evals`.
 
 ```r
-redwineXGB <- xgb.train(data = dtrain, watchlist = list(test = dtest), nrounds = 10)
+redwineXGB <- xgb.train(data = dtrain, evals = list(test = dtest), nrounds = 10)
 ```
 
 ```output
@@ -261,7 +261,7 @@ The rows are sorted by `Gain`, which measures the accuracy improvement contribut
 
 Like many machine learning algorithms, gradient boosting operates by minimizing the error on the training set. However, we evaluate its performance by computing the error on the testing set. These two errors are usually different, and it is not uncommon to have much lower training RMSE than testing RMSE.
 
-To see both training and testing errors, we can add a `train` item to the `watchlist`.
+To see both training and testing errors, we can add a `train` item to the `evals`.
 
 ```r
 redwineXGB <- xgb.train(data = dtrain, 
