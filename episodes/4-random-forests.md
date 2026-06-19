@@ -86,8 +86,8 @@ the testing set accuracy.
 ```r
 library(rpart)
 library(rpart.plot)
-rwtree <- rpart(grade ~ ., data = trainDF)
-rpart.plot(rwtree)
+rwTree <- rpart(grade ~ ., data = trainDF)
+rpart.plot(rwTree)
 ```
 
 ![](fig/4-rwtree.png){alt="decision tree of red wine grade"}
@@ -580,7 +580,7 @@ Multiple R-squared:  0.3762,	Adjusted R-squared:  0.3708
 F-statistic: 69.46 on 11 and 1267 DF,  p-value: < 2.2e-16
 ```
 
-The variables the smallest p-values (`Pr(>|t|)`) tend to correspond to
+The variables with the smallest p-values (`Pr(>|t|)`) tend to correspond to
 the most important variables in the random forest model.
 
 :::::::::::::::::::::::::::::::::

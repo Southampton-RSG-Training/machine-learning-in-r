@@ -64,7 +64,7 @@ Advise learners to start with small grids when doing the final challenge, so tha
 - [CRAN Machine Learning Task View](https://cran.r-project.org/view=MachineLearning)
 - [Multiple Logistic Regression](https://rcompanion.org/rcompanion/e_07.html), from the *R Companion*.
 [Manual on Setting Up, Using, and Understanding Random Forests](https://www.stat.berkeley.edu/~breiman/Using_random_forests_V3.1.pdf), Leo Breiman.
--  [XGBoost Presentation vignette](https://cran.r-project.org/web/packages/xgboost/vignettes/xgboostPresentation.html) 
+-  [XGBoost Presentation vignette](https://cran.r-project.org/web/packages/xgboost/vignettes/xgboost_introduction.html) 
 - [Introduction to Boosted Trees](https://xgboost.readthedocs.io/en/stable/tutorials/model.html), XGBoost documentation.
 - [Notes on XGBooost Parameter Tuning](https://xgboost.readthedocs.io/en/stable/tutorials/param_tuning.html)
 - [Documentation for XGBoost Parameters](https://xgboost.readthedocs.io/en/stable/parameter.html)
