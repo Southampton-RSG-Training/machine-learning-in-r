@@ -96,7 +96,7 @@ Multiple R-squared:  0.1507,	Adjusted R-squared:  0.1364
 F-statistic: 10.47 on 1 and 59 DF,  p-value: 0.001988
 ```
 
-The predicted `Start` is obtained by multiplying `Number` by the regression slope `r round(model1$coefficients[2], 4)` and adding the intercept `r round(model1$coefficients[1], 4)`.
+The predicted `Start` is obtained by multiplying `Number` by the regression slope -1.2041 and adding the intercept 16.4268.
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 

@@ -24,7 +24,7 @@ exercises: 25
 
 A random forest is called an *ensemble* method, because it combines the results of a set of trees to form a single prediction. *Gradient boosted trees* are also ensemble methods, but instead of forming a forest of trees from different random samples, they grow successive trees that systematically reduce the error of the model at each iteration.
 
-We will be using the R package `xgboost`, which gives a fast, scalable implementation of a gradient boosting framework. For more information on how `xgboost` works, see the [XGBoost Presentation](https://cran.r-project.org/web/packages/xgboost/vignettes/xgboostPresentation.html) vignette and the [Introduction to Boosted Trees](https://xgboost.readthedocs.io/en/stable/tutorials/model.html) tutorial in the XGBoost documentation. In this episode we will use XGBoost to create a regression model, but this framework can also be used for classification problems.
+We will be using the R package `xgboost`, which gives a fast, scalable implementation of a gradient boosting framework. For more information on how `xgboost` works, see the [XGBoost Presentation](https://cran.r-project.org/web/packages/xgboost/vignettes/xgboost_introduction.html) vignette and the [Introduction to Boosted Trees](https://xgboost.readthedocs.io/en/stable/tutorials/model.html) tutorial in the XGBoost documentation. In this episode we will use XGBoost to create a regression model, but this framework can also be used for classification problems.
 
 ## Reload the Red Wine Data
 
@@ -115,12 +115,12 @@ Does the accuracy of the model improve with more iterations? Is there a point
 after which the model ceases to improve?
 
 :::::::::::::::::::::::: solution
-The accuracy of the model doesn't appear to improve after iteration 14.
+The accuracy of the model doesn't appear to improve after iteration 25.
 
 ```r
 redwineXGB <- xgb.train(data = dtrain, 
-                        watchlist = list(test = dtest), 
-                        nrounds = 20)
+                        evals = list(test = dtest), 
+                        nrounds = 40)
 ```
 
 ```output
@@ -144,6 +144,26 @@ redwineXGB <- xgb.train(data = dtrain,
 [18]	test-rmse:0.649995 
 [19]	test-rmse:0.649126 
 [20]	test-rmse:0.647756 
+[21]	test-rmse:0.648309 
+[22]	test-rmse:0.648837 
+[23]	test-rmse:0.646943 
+[24]	test-rmse:0.648741 
+[25]	test-rmse:0.646583 
+[26]	test-rmse:0.648100 
+[27]	test-rmse:0.649653 
+[28]	test-rmse:0.651069 
+[29]	test-rmse:0.649710 
+[30]	test-rmse:0.649308 
+[31]	test-rmse:0.650731 
+[32]	test-rmse:0.649718 
+[33]	test-rmse:0.651962 
+[34]	test-rmse:0.653782 
+[35]	test-rmse:0.651400 
+[36]	test-rmse:0.651547 
+[37]	test-rmse:0.651667 
+[38]	test-rmse:0.651585 
+[39]	test-rmse:0.651566 
+[40]	test-rmse:0.650699 
 ```
 
 ```r
@@ -160,7 +180,7 @@ attr(redwineXGB, "evaluation_log") |>
 
 ## Learning Rate
 
-Machine learning algorithms that reduce a loss function over a sequence of iterations typically have a setting that controls the *learning rate*. A smaller learning rate will generally reduce the error by a smaller amount at each iteration, and therefore will require more iterations to arrive at a given level of accuracy. The advantage to a smaller learning rate is that the algorithm is less likely to overshoot the optimum fit.
+Machine learning algorithms that reduce a loss function over a sequence of iterations typically have a setting that controls the *learning rate*. A smaller learning rate will generally reduce the error by a smaller amount at each iteration, and therefore will require more iterations to arrive at a given level of accuracy. The advantage to a smaller learning rate is that the algorithm is less likely to overshoot the optimum fit; the disadvantage is the algorithm may not reach the optimum fit. 
 
 In XGBoost, the setting that controls the learning rate is called `eta`, which is one of several *hyperparameters* that can be adjusted. Its default value is 0.3, but smaller values will usually perform better. It must take a value in the range 0 < `eta` < 1.
 
