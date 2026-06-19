@@ -505,7 +505,7 @@ data, why would there be such a trend?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>There appears to be a weak, negative association between
 <code>Number</code> and <code>Start</code>: larger values of
@@ -566,7 +566,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-2-linear-and-logistic-regression"><p>Content from <a href="2-linear-and-logistic-regression.html">Linear and Logistic Regression</a></p>
 <hr>
-<p>Last updated on 2026-05-21 |
+<p>Last updated on 2026-06-19 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/2-linear-and-logistic-regression.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -712,9 +712,8 @@ Multiple R-squared:  0.1507,	Adjusted R-squared:  0.1364
 F-statistic: 10.47 on 1 and 59 DF,  p-value: 0.001988</code></pre>
 </div>
 <p>The predicted <code>Start</code> is obtained by multiplying
-<code>Number</code> by the regression slope
-<code>r round(model1$coefficients[2], 4)</code> and adding the intercept
-<code>r round(model1$coefficients[1], 4)</code>.</p>
+<code>Number</code> by the regression slope -1.2041 and adding the
+intercept 16.4268.</p>
 <div id="challenge-make-a-prediction-and-plot-the-regression-line" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -1604,7 +1603,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-4-random-forests"><p>Content from <a href="4-random-forests.html">Random Forests</a></p>
 <hr>
-<p>Last updated on 2026-06-16 |
+<p>Last updated on 2026-06-19 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/4-random-forests.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1738,8 +1737,8 @@ and testing sets defined above. Compute the testing set accuracy.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">rpart</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">rpart.plot</span><span class="op">)</span></span>
-<span><span class="va">rwtree</span> <span class="op">&lt;-</span> <span class="fu">rpart</span><span class="op">(</span><span class="va">grade</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">trainDF</span><span class="op">)</span></span>
-<span><span class="fu">rpart.plot</span><span class="op">(</span><span class="va">rwtree</span><span class="op">)</span></span></code></pre>
+<span><span class="va">rwTree</span> <span class="op">&lt;-</span> <span class="fu">rpart</span><span class="op">(</span><span class="va">grade</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">trainDF</span><span class="op">)</span></span>
+<span><span class="fu">rpart.plot</span><span class="op">(</span><span class="va">rwTree</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/4-rwtree.png" alt="decision tree of red wine grade" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2405,8 +2404,8 @@ Residual standard error: 0.6385 on 1267 degrees of freedom
 Multiple R-squared:  0.3762,	Adjusted R-squared:  0.3708
 F-statistic: 69.46 on 11 and 1267 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<p>The variables the smallest p-values (<code>Pr(&gt;|t|)</code>) tend
-to correspond to the most important variables in the random forest
+<p>The variables with the smallest p-values (<code>Pr(&gt;|t|)</code>)
+tend to correspond to the most important variables in the random forest
 model.</p>
 </div>
 </div>
@@ -2491,7 +2490,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-5-gradient-boosted-trees"><p>Content from <a href="5-gradient-boosted-trees.html">Gradient Boosted Trees</a></p>
 <hr>
-<p>Last updated on 2026-06-16 |
+<p>Last updated on 2026-06-19 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/5-gradient-boosted-trees.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -2537,7 +2536,7 @@ successive trees that systematically reduce the error of the model at
 each iteration.</p>
 <p>We will be using the R package <code>xgboost</code>, which gives a
 fast, scalable implementation of a gradient boosting framework. For more
-information on how <code>xgboost</code> works, see the <a href="https://cran.r-project.org/web/packages/xgboost/vignettes/xgboostPresentation.html" class="external-link">XGBoost
+information on how <code>xgboost</code> works, see the <a href="https://cran.r-project.org/web/packages/xgboost/vignettes/xgboost_introduction.html" class="external-link">XGBoost
 Presentation</a> vignette and the <a href="https://xgboost.readthedocs.io/en/stable/tutorials/model.html" class="external-link">Introduction
 to Boosted Trees</a> tutorial in the XGBoost documentation. In this
 episode we will use XGBoost to create a regression model, but this
@@ -2675,17 +2674,17 @@ improve?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>The accuracy of the model doesn’t appear to improve after iteration
-14.</p>
+25.</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">redwineXGB</span> <span class="op">&lt;-</span> <span class="fu">xgb.train</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dtrain</span>, </span>
-<span>                        watchlist <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, </span>
-<span>                        nrounds <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre>
+<span>                        evals <span class="op">=</span> <span class="fu">list</span><span class="op">(</span>test <span class="op">=</span> <span class="va">dtest</span><span class="op">)</span>, </span>
+<span>                        nrounds <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2709,7 +2708,27 @@ improve?</p>
 [17]	test-rmse:0.650033
 [18]	test-rmse:0.649995
 [19]	test-rmse:0.649126
-[20]	test-rmse:0.647756 </code></pre>
+[20]	test-rmse:0.647756
+[21]	test-rmse:0.648309
+[22]	test-rmse:0.648837
+[23]	test-rmse:0.646943
+[24]	test-rmse:0.648741
+[25]	test-rmse:0.646583
+[26]	test-rmse:0.648100
+[27]	test-rmse:0.649653
+[28]	test-rmse:0.651069
+[29]	test-rmse:0.649710
+[30]	test-rmse:0.649308
+[31]	test-rmse:0.650731
+[32]	test-rmse:0.649718
+[33]	test-rmse:0.651962
+[34]	test-rmse:0.653782
+[35]	test-rmse:0.651400
+[36]	test-rmse:0.651547
+[37]	test-rmse:0.651667
+[38]	test-rmse:0.651585
+[39]	test-rmse:0.651566
+[40]	test-rmse:0.650699 </code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -2733,7 +2752,8 @@ sequence of iterations typically have a setting that controls the
 the error by a smaller amount at each iteration, and therefore will
 require more iterations to arrive at a given level of accuracy. The
 advantage to a smaller learning rate is that the algorithm is less
-likely to overshoot the optimum fit.</p>
+likely to overshoot the optimum fit; the disadvantage is the algorithm
+may not reach the optimum fit.</p>
 <p>In XGBoost, the setting that controls the learning rate is called
 <code>eta</code>, which is one of several <em>hyperparameters</em> that
 can be adjusted. Its default value is 0.3, but smaller values will
@@ -2796,7 +2816,7 @@ in a lower testing set RMSE than the default?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>A learning rate around 0.1 reduces the RMSE somewhat.</p>
 <div class="codewrapper sourceCode" id="cb16">
@@ -2957,7 +2977,7 @@ episode.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3667,9 +3687,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/aio.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/aio.html",
-  "dateCreated": "2026-06-16",
-  "dateModified": "2026-06-16",
-  "datePublished": "2026-06-16"
+  "dateCreated": "2026-06-19",
+  "dateModified": "2026-06-19",
+  "datePublished": "2026-06-19"
 }
 
   </script><script>

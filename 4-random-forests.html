@@ -329,7 +329,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Random Forests</h1>
-        <p>Last updated on 2026-06-16 |
+        <p>Last updated on 2026-06-19 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/4-random-forests.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -459,8 +459,8 @@ and testing sets defined above. Compute the testing set accuracy.</p>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">rpart</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">rpart.plot</span><span class="op">)</span></span>
-<span><span class="va">rwtree</span> <span class="op">&lt;-</span> <span class="fu">rpart</span><span class="op">(</span><span class="va">grade</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">trainDF</span><span class="op">)</span></span>
-<span><span class="fu">rpart.plot</span><span class="op">(</span><span class="va">rwtree</span><span class="op">)</span></span></code></pre>
+<span><span class="va">rwTree</span> <span class="op">&lt;-</span> <span class="fu">rpart</span><span class="op">(</span><span class="va">grade</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">trainDF</span><span class="op">)</span></span>
+<span><span class="fu">rpart.plot</span><span class="op">(</span><span class="va">rwTree</span><span class="op">)</span></span></code></pre>
 </div>
 <figure><img src="fig/4-rwtree.png" alt="decision tree of red wine grade" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1108,8 +1108,8 @@ Residual standard error: 0.6385 on 1267 degrees of freedom
 Multiple R-squared:  0.3762,	Adjusted R-squared:  0.3708
 F-statistic: 69.46 on 11 and 1267 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<p>The variables the smallest p-values (<code>Pr(&gt;|t|)</code>) tend
-to correspond to the most important variables in the random forest
+<p>The variables with the smallest p-values (<code>Pr(&gt;|t|)</code>)
+tend to correspond to the most important variables in the random forest
 model.</p>
 </div>
 </div>
@@ -1249,9 +1249,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/4-random-forests.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/4-random-forests.html",
-  "dateCreated": "2026-06-16",
-  "dateModified": "2026-06-16",
-  "datePublished": "2026-06-16"
+  "dateCreated": "2026-06-19",
+  "dateModified": "2026-06-19",
+  "datePublished": "2026-06-19"
 }
 
   </script><script>
