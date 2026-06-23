@@ -325,7 +325,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Cross Validation and Tuning</h1>
-        <p>Last updated on 2026-06-15 |
+        <p>Last updated on 2026-06-23 |
 
         <a href="https://github.com/Southampton-RSG-Training/machine-learning-in-r/edit/main/episodes/6-cross-validation-and-fine-tuning.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -496,14 +496,67 @@ evenly into 10 partitions.</p></li>
 <code class="sourceCode R"><span><span class="va">rwCV</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">test_rmse_mean</span><span class="op">)</span></span></code></pre>
 </div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>     iter train_rmse_mean train_rmse_std test_rmse_mean test_rmse_std
+    &lt;int&gt;           &lt;num&gt;          &lt;num&gt;          &lt;num&gt;         &lt;num&gt;
+ 1:    28       0.2320170    0.010740120      0.6033746    0.05477015
+ 2:    34       0.1981800    0.011213834      0.6037715    0.05344829
+ 3:    27       0.2386391    0.010507210      0.6039262    0.05479807
+ 4:    33       0.2024958    0.011358906      0.6039311    0.05478204
+ 5:    32       0.2089829    0.010361427      0.6041730    0.05461273
+ 6:    30       0.2210709    0.010046552      0.6041879    0.05581148
+ 7:    29       0.2260435    0.010869279      0.6042728    0.05585093
+ 8:    25       0.2501837    0.007824473      0.6044555    0.05502287
+ 9:    31       0.2147514    0.010094178      0.6046705    0.05532650
+10:    18       0.2944292    0.011298599      0.6046983    0.05171586
+11:    17       0.3024783    0.009436997      0.6047324    0.05171553
+12:    26       0.2437953    0.008537872      0.6048376    0.05618227
+13:    36       0.1865345    0.010073930      0.6048411    0.05486732
+14:    24       0.2572901    0.008176900      0.6049043    0.05452374
+15:    23       0.2640588    0.007058633      0.6050176    0.05367270
+16:    21       0.2754504    0.008534985      0.6053905    0.05337158
+17:    20       0.2831430    0.009797559      0.6053954    0.05321445
+18:    22       0.2689525    0.008305594      0.6055627    0.05279062
+19:    35       0.1911810    0.010811872      0.6056385    0.05344183
+20:    19       0.2892988    0.009632057      0.6057670    0.05296946
+21:    16       0.3106484    0.008904877      0.6058135    0.05223975
+22:    15       0.3185064    0.008491525      0.6061559    0.05157840
+23:    13       0.3374284    0.011892523      0.6061768    0.04929542
+24:    14       0.3278956    0.010382923      0.6063122    0.05134600
+25:    37       0.1809015    0.010812019      0.6064709    0.05395293
+26:    12       0.3477349    0.009835170      0.6065789    0.04917598
+27:    38       0.1772849    0.011664037      0.6066433    0.05355217
+28:    11       0.3566206    0.007410271      0.6077226    0.04832899
+29:    10       0.3701111    0.007290606      0.6084441    0.04625580
+30:     9       0.3867212    0.006981635      0.6103006    0.04333710
+31:     8       0.4008058    0.006912524      0.6119924    0.04180357
+32:     7       0.4200004    0.007091309      0.6151725    0.04006364
+33:     6       0.4426349    0.004755571      0.6189888    0.03530737
+34:     5       0.4703238    0.005615681      0.6226820    0.03441598
+35:     4       0.5009748    0.004684828      0.6295255    0.03169689
+36:     3       0.5432452    0.005389668      0.6464929    0.03307930
+37:     2       0.6017115    0.005299966      0.6714706    0.03143677
+38:     1       0.6839483    0.004493076      0.7217167    0.03310415
+     iter train_rmse_mean train_rmse_std test_rmse_mean test_rmse_std
+    &lt;int&gt;           &lt;num&gt;          &lt;num&gt;          &lt;num&gt;         &lt;num&gt;</code></pre>
+</div>
 <ol start="3" style="list-style-type: decimal"><li>
-</li></ol><div class="codewrapper sourceCode" id="cb5">
+</li></ol><div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rwCV</span><span class="op">$</span><span class="va">evaluation_log</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">test_rmse_mean</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">head</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>    iter train_rmse_mean train_rmse_std test_rmse_mean test_rmse_std
+   &lt;int&gt;           &lt;num&gt;          &lt;num&gt;          &lt;num&gt;         &lt;num&gt;
+1:    28        0.232017     0.01074012      0.6033746    0.05477015</code></pre>
 </div>
 </div>
 </div>
@@ -514,19 +567,20 @@ evenly into 10 partitions.</p></li>
 repeated cross validations on different parameter values. We can start
 by choosing a value of <code>eta</code> from a list of candidate
 values.</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">paramDF</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>eta <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<p>The following command converts a data frame to a list of lists. The
-<code>split</code> function splits <code>paramDF</code> into a list of
-its rows, and then the <code>lapply</code> function converts each row to
-a list. Each item of <code>paramlist</code> will be a list giving a
-valid parameter setting that we can use in the <code>xgb.cv</code>
-function.</p>
-<div class="codewrapper sourceCode" id="cb7">
+<p>The following command converts a data frame to a list of lists. This
+format is needed because <code>xgb.cv()</code> expects model parameters
+as a list. The <code>split</code> function splits <code>paramDF</code>
+into a list of its rows, and then the <code>lapply</code> function
+converts each row to a list. Each item of <code>paramlist</code> will be
+a list giving a valid parameter setting that we can use in the
+<code>xgb.cv</code> function.</p>
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -539,7 +593,16 @@ list. We’ll keep track of the best iterations in the
 <code>verbose = FALSE</code> and use a <code>txtProgressBar</code> to
 keep track of our progress. On some systems, it may be necessary to use
 <code>gc()</code> to prevent running out of memory.</p>
-<div class="codewrapper sourceCode" id="cb8">
+<p>This loop will take some time to run (about 10 minutes depending on
+your machine). For a shorter example, use:</p>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">paramDF</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>eta <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">paramList</span> <span class="op">&lt;-</span> <span class="fu">lapply</span><span class="op">(</span><span class="fu">split</span><span class="op">(</span><span class="va">paramDF</span>, <span class="fl">1</span><span class="op">:</span><span class="fu">nrow</span><span class="op">(</span><span class="va">paramDF</span><span class="op">)</span><span class="op">)</span>, <span class="va">as.list</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -565,7 +628,7 @@ keep track of our progress. On some systems, it may be necessary to use
 <p>We now have all of the best iterations in the
 <code>bestResults</code> data frame, which we can combine with the data
 frame of parameter values.</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -591,7 +654,7 @@ values for a selection of parameters.</p>
 that the algorithm grows. Deeper trees with more leaves make the model
 more complex. We use the <code>expand.grid</code> function to store some
 reasonable candidate values in <code>paramDF</code>.</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -603,7 +666,17 @@ reasonable candidate values in <code>paramDF</code>.</p>
 <p>If you <code>View(paramDF)</code> you can see that we have 56
 different parameter choices to run through. The rest of the code is the
 same as before, but this loop might take a while to execute.</p>
-<div class="codewrapper sourceCode" id="cb11">
+<p>For an example that takes less time to execute use:</p>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">paramDF</span> <span class="op">&lt;-</span> <span class="fu">expand.grid</span><span class="op">(</span></span>
+<span>  max_depth <span class="op">=</span> <span class="fu">seq</span><span class="op">(</span><span class="fl">15</span>, <span class="fl">21</span>, by <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  max_leaves <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="fl">63</span>, <span class="fl">127</span>, <span class="fl">255</span><span class="op">)</span>,</span>
+<span>  eta <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -659,7 +732,7 @@ ascending order of <code>test_rmse_mean</code>.</p>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -686,7 +759,7 @@ ascending order of <code>test_rmse_mean</code>.</p>
 <span><span class="op">}</span></span></code></pre>
 </div>
 <p>Check the function on a small example.</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -704,7 +777,9 @@ when generalizing to future cases. In XGBoost, the two parameters
 <code>subsample</code> and <code>colsample_bytree</code> will grow trees
 based on a random sample of a specified percentage of rows and columns,
 respectively. Typical values for these parameters are between 0.5 and
-1.0 (where 1.0 implies that no random sampling will be done).</p>
+1.0 (where 1.0 implies that no random sampling will be done), but as
+this will take some time to execute, we’ll use a smaller range in this
+example.</p>
 <div id="challenge-tune-row-and-column-sampling" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -714,8 +789,9 @@ respectively. Typical values for these parameters are between 0.5 and
 <h3 class="callout-title">Challenge: Tune Row and Column Sampling</h3>
 <div class="callout-content">
 <p>Use a grid search to tune the parameters <code>subsample</code> and
-<code>colsample_bytree</code>. Choose candidate values between 0.5 and
-1.0. Use our previously chosen values of <code>eta</code>,
+<code>colsample_bytree</code>. Choose candidate values between 0.7 and
+0.9.</p>
+<p>Use our previously chosen values of <code>eta</code>,
 <code>max_depth</code>, and <code>max_leaves</code>.</p>
 </div>
 </div>
@@ -727,13 +803,13 @@ respectively. Typical values for these parameters are between 0.5 and
 </button>
 <div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">paramDF</span> <span class="op">&lt;-</span> <span class="fu">expand.grid</span><span class="op">(</span></span>
-<span>  subsample <span class="op">=</span> <span class="fu">seq</span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>  colsample_bytree <span class="op">=</span> <span class="fu">seq</span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>  subsample <span class="op">=</span> <span class="fu">seq</span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">0.9</span>, by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>  colsample_bytree <span class="op">=</span> <span class="fu">seq</span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">0.9</span>, by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
 <span>  max_depth <span class="op">=</span> <span class="fl">19</span>,</span>
 <span>  max_leaves <span class="op">=</span> <span class="fl">63</span>,</span>
 <span>  eta <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
@@ -758,7 +834,7 @@ our tuned model relative to the other models we have explored.</p>
 that we chose during the tuning process. Since we only have to do one
 training run, a smaller learning rate won’t incur much of a time
 penalty, so we set <code>eta</code> = 0.05.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -770,7 +846,7 @@ penalty, so we set <code>eta</code> = 0.05.</p>
 <span>  nrounds <span class="op">=</span> <span class="fl">10000</span>,</span>
 <span>  early_stopping_rounds <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>  params <span class="op">=</span> <span class="fu">list</span><span class="op">(</span></span>
-<span>    max_depth        <span class="op">=</span> <span class="fl">21</span>,</span>
+<span>    max_depth        <span class="op">=</span> <span class="fl">19</span>,</span>
 <span>    max_leaves       <span class="op">=</span> <span class="fl">63</span>,</span>
 <span>    subsample        <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>    colsample_bytree <span class="op">=</span> <span class="fl">0.9</span>,</span>
@@ -779,6 +855,10 @@ penalty, so we set <code>eta</code> = 0.05.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">print</span><span class="op">(</span><span class="va">rwMod</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">elog</span> <span class="op">&lt;-</span> <span class="fu">attr</span><span class="op">(</span><span class="va">rwMod</span>, <span class="st">"evaluation_log"</span><span class="op">)</span></span>
+<span><span class="va">elog</span><span class="op">[</span><span class="fu">which.min</span><span class="op">(</span><span class="va">elog</span><span class="op">$</span><span class="va">test_rmse</span><span class="op">)</span>, <span class="op">]</span></span>
+<span></span>
 <span><span class="fu">attr</span><span class="op">(</span><span class="va">rwMod</span>, <span class="st">"evaluation_log"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="va">train_rmse</span>, <span class="va">test_rmse</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"RMSE"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iter</span>, y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">RMSE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -812,7 +892,7 @@ previous two episodes?</p>
 <div class="accordion-body">
 <p>Results may vary. The proposed solution below will take quite some
 time to execute.</p>
-<div class="codewrapper sourceCode" id="cb16">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -829,7 +909,7 @@ time to execute.</p>
 </div>
 <p>Start by tuning <code>max_depth</code> and <code>max_leaves</code>
 together.</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -844,7 +924,7 @@ together.</p>
 <p>There are several options that perform similarly. Let’s choose
 <code>max_depth</code> = 14 along with <code>max_leaves</code> = 127.
 Now we tune the two random sampling parameters together.</p>
-<div class="codewrapper sourceCode" id="cb18">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -862,7 +942,7 @@ Now we tune the two random sampling parameters together.</p>
 options. We’ll choose <code>subsample</code> = 0.8 and
 <code>colsample_bytree</code> = 0.9. Finally, we train the model with
 the chosen parameters.</p>
-<div class="codewrapper sourceCode" id="cb19">
+<div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -967,7 +1047,7 @@ any links that you are not going to use.
   "url": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/6-cross-validation-and-fine-tuning.html",
   "identifier": "https://Southampton-RSG-Training.github.io/machine-learning-in-r/6-cross-validation-and-fine-tuning.html",
   "dateCreated": "2026-06-23",
-  "dateModified": "2026-06-15",
+  "dateModified": "2026-06-23",
   "datePublished": "2026-06-23"
 }
 
