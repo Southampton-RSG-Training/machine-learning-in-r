@@ -30,7 +30,7 @@ We conclude this episode with a brief discussion of the problem of non-robustnes
 
 ## Episode 4: Random Forests
 
-Instructions for downloading the wine data are on the [setup](../setup.html) page. The methods we will consider are often used on data sets with more rows and columns, but we are using this relatively small data set to avoid memory and time constraints.
+Instructions for downloading the wine data are on the [setup](../learners/setup.md) page. The methods we will consider are often used on data sets with more rows and columns, but we are using this relatively small data set to avoid memory and time constraints.
 
 The following single line gives an alternative way to construct `rwpred` in the solution to the first challenge. However, it is important for learners to encounter the solution given in the lesson, because `predict` methods for classification models will often return probabilities instead of classes.
 

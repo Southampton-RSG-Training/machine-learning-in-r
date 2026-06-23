@@ -179,8 +179,8 @@ predDF <- testDF |>
 ## Challenge: Predicted probabilities
 
 Compare the results in the `predDF` data frame with the plot
-of `treeModel`. Can you explain how the model is calculating the
-predicted probabilites?
+of `treeModel`. Can you use the plot to explain how the model is calculating the
+predicted probabilites? Use the first row of PredDF as an example.
 
 :::::::::::::::::::::::: solution
 

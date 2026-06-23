@@ -133,7 +133,7 @@ predictedStart <- predict(model1, testDF)
 
 ## Challenge: Check our prediction
 
-Check that the result of the `predict` function agrees with the result of the previous challenge
+In the first row of testDF, Number = 3.  Check that the result of the `predict` function for that row agrees with the result of the previous challenge. 
 
 :::::::::::::::::::::::: solution 
 
