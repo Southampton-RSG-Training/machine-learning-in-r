@@ -211,7 +211,19 @@ Stopping. Best iteration:
 [35]	test-rmse:0.651400 
 ```
 
-The 35th iteration had the smallest RMSE.
+The output is misleading here as there was no improvement after 10 rounds at iteration 35 but a lower test rmse was seen at iteration 26. You can check the lowest test_rmse definitively by finding the minimum value in the evaluation log:
+
+```r
+elog <- attr(redwineXGB, "evaluation_log")
+
+elog[which.min(elog$test_rmse), ]
+```
+
+```output
+    iter test_rmse
+   <num>     <num>
+1:    25 0.6465827
+```
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
@@ -245,6 +257,18 @@ Stopping. Best iteration:
 [48]	test-rmse:0.625455
 
 [48]	test-rmse:0.625455 
+```
+
+```r
+elog <- attr(redwineXGB, "evaluation_log")
+
+elog[which.min(elog$test_rmse), ]
+```
+
+```output
+    iter test_rmse
+   <num>     <num>
+1:    38 0.6253475
 ```
 :::::::::::::::::::::::::::::::::
 
@@ -360,6 +384,8 @@ whitewineXGB <- xgb.train(data = dtrain,
                           nrounds = 1000,
                           early_stopping_rounds = 10,
                           print_every_n = 20)
+elog <- attr(whitewineXGB, "evaluation_log")
+elog[which.min(elog$test_rmse), ]
 xgb.importance(model = whitewineXGB)
 attr(whitewineXGB, "evaluation_log") |> 
   pivot_longer(cols = c(train_rmse, test_rmse), names_to = "RMSE") |> 
@@ -367,7 +393,7 @@ attr(whitewineXGB, "evaluation_log") |>
   geom_line()
 ```
 
-The testing set RMSE (0.656833) is worse than what we obtained in the
+The testing set RMSE (0.66) is worse than what we obtained in the
 random forest model (0.63). The important explanatory variables are similar.
 
 :::::::::::::::::::::::::::::::::
