@@ -95,12 +95,63 @@ rwCV$evaluation_log |>
   arrange(test_rmse_mean)
 ```
 
+```output
+     iter train_rmse_mean train_rmse_std test_rmse_mean test_rmse_std
+    <int>           <num>          <num>          <num>         <num>
+ 1:    28       0.2320170    0.010740120      0.6033746    0.05477015
+ 2:    34       0.1981800    0.011213834      0.6037715    0.05344829
+ 3:    27       0.2386391    0.010507210      0.6039262    0.05479807
+ 4:    33       0.2024958    0.011358906      0.6039311    0.05478204
+ 5:    32       0.2089829    0.010361427      0.6041730    0.05461273
+ 6:    30       0.2210709    0.010046552      0.6041879    0.05581148
+ 7:    29       0.2260435    0.010869279      0.6042728    0.05585093
+ 8:    25       0.2501837    0.007824473      0.6044555    0.05502287
+ 9:    31       0.2147514    0.010094178      0.6046705    0.05532650
+10:    18       0.2944292    0.011298599      0.6046983    0.05171586
+11:    17       0.3024783    0.009436997      0.6047324    0.05171553
+12:    26       0.2437953    0.008537872      0.6048376    0.05618227
+13:    36       0.1865345    0.010073930      0.6048411    0.05486732
+14:    24       0.2572901    0.008176900      0.6049043    0.05452374
+15:    23       0.2640588    0.007058633      0.6050176    0.05367270
+16:    21       0.2754504    0.008534985      0.6053905    0.05337158
+17:    20       0.2831430    0.009797559      0.6053954    0.05321445
+18:    22       0.2689525    0.008305594      0.6055627    0.05279062
+19:    35       0.1911810    0.010811872      0.6056385    0.05344183
+20:    19       0.2892988    0.009632057      0.6057670    0.05296946
+21:    16       0.3106484    0.008904877      0.6058135    0.05223975
+22:    15       0.3185064    0.008491525      0.6061559    0.05157840
+23:    13       0.3374284    0.011892523      0.6061768    0.04929542
+24:    14       0.3278956    0.010382923      0.6063122    0.05134600
+25:    37       0.1809015    0.010812019      0.6064709    0.05395293
+26:    12       0.3477349    0.009835170      0.6065789    0.04917598
+27:    38       0.1772849    0.011664037      0.6066433    0.05355217
+28:    11       0.3566206    0.007410271      0.6077226    0.04832899
+29:    10       0.3701111    0.007290606      0.6084441    0.04625580
+30:     9       0.3867212    0.006981635      0.6103006    0.04333710
+31:     8       0.4008058    0.006912524      0.6119924    0.04180357
+32:     7       0.4200004    0.007091309      0.6151725    0.04006364
+33:     6       0.4426349    0.004755571      0.6189888    0.03530737
+34:     5       0.4703238    0.005615681      0.6226820    0.03441598
+35:     4       0.5009748    0.004684828      0.6295255    0.03169689
+36:     3       0.5432452    0.005389668      0.6464929    0.03307930
+37:     2       0.6017115    0.005299966      0.6714706    0.03143677
+38:     1       0.6839483    0.004493076      0.7217167    0.03310415
+     iter train_rmse_mean train_rmse_std test_rmse_mean test_rmse_std
+    <int>           <num>          <num>          <num>         <num>
+```
+
 3.
 
 ```r
 rwCV$evaluation_log |> 
   arrange(test_rmse_mean) |> 
   head(1)
+```
+
+```output
+    iter train_rmse_mean train_rmse_std test_rmse_mean test_rmse_std
+   <int>           <num>          <num>          <num>         <num>
+1:    28        0.232017     0.01074012      0.6033746    0.05477015
 ```
 
 :::::::::::::::::::::::::::::::::
@@ -115,13 +166,21 @@ To expedite the tuning process, it helps to design a loop to run repeated cross 
 paramDF <- tibble(eta = c(0.001, 0.01, 0.05, 0.1, 0.2, 0.3, 0.4))
 ```
 
-The following command converts a data frame to a list of lists. The `split` function splits `paramDF` into a list of its rows, and then the `lapply` function converts each row to a list. Each item of `paramlist` will be a list giving a valid parameter setting that we can use in the `xgb.cv` function.
+The following command converts a data frame to a list of lists. This format is needed because `xgb.cv()` expects model parameters as a list. The `split` function splits `paramDF` into a list of its rows, and then the `lapply` function converts each row to a list. Each item of `paramlist` will be a list giving a valid parameter setting that we can use in the `xgb.cv` function.
 
 ```r
 paramList <- lapply(split(paramDF, 1:nrow(paramDF)), as.list)
 ```
 
-Now we will write a loop that will perform a different cross validation for each parameter setting in the `paramList` list. We'll keep track of the best iterations in the `bestResults` tibble. To avoid too much printing, we set `verbose = FALSE` and use a `txtProgressBar` to keep track of our progress. On some systems, it may be necessary to use `gc()` to prevent running out of memory.
+Now we will write a loop that will perform a different cross validation for each parameter setting in the `paramList` list. We'll keep track of the best iterations in the `bestResults` tibble. To avoid too much printing, we set `verbose = FALSE` and use a `txtProgressBar` to keep track of our progress. On some systems, it may be necessary to use `gc()` to prevent running out of memory.  
+
+This loop will take some time to run (about 10 minutes depending on your machine).  For a shorter example, use:
+
+
+```r
+paramDF <- tibble(eta = c(0.05, 0.1, 0.3))
+paramList <- lapply(split(paramDF, 1:nrow(paramDF)), as.list)
+```
 
 ```r
 bestResults <- tibble()
@@ -168,6 +227,15 @@ paramDF <- expand.grid(
 ```
 
 If you `View(paramDF)` you can see that we have 56 different parameter choices to run through. The rest of the code is the same as before, but this loop might take a while to execute.
+
+For an example that takes less time to execute use: 
+
+```r
+paramDF <- expand.grid(
+  max_depth = seq(15, 21, by = 2),
+  max_leaves = c(63, 127, 255),
+  eta = 0.1)
+```
 
 ```r
 paramList <- lapply(split(paramDF, 1:nrow(paramDF)), as.list)
@@ -246,22 +314,24 @@ GridSearch(tibble(eta = c(0.3, 0.2, 0.1)), dtrain)
 
 ## Adding Random Sampling
 
-Adding random sampling to the training process can help make the model less dependent on the training set, and hopefully more accurate when generalizing to future cases. In XGBoost, the two parameters `subsample` and `colsample_bytree` will grow trees based on a random sample of a specified percentage of rows and columns, respectively. Typical values for these parameters are between 0.5 and 1.0 (where 1.0 implies that no random sampling will be done).
+Adding random sampling to the training process can help make the model less dependent on the training set, and hopefully more accurate when generalizing to future cases. In XGBoost, the two parameters `subsample` and `colsample_bytree` will grow trees based on a random sample of a specified percentage of rows and columns, respectively. Typical values for these parameters are between 0.5 and 1.0 (where 1.0 implies that no random sampling will be done), but as this will take some time to execute, we'll use a smaller range in this example.
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
 ## Challenge: Tune Row and Column Sampling
 
 Use a grid search to tune the parameters `subsample` and `colsample_bytree`.
-Choose candidate values between 0.5 and 1.0. Use our previously chosen values
+Choose candidate values between 0.7 and 0.9. 
+
+Use our previously chosen values
 of `eta`, `max_depth`, and `max_leaves`.
 
 :::::::::::::::::::::::: solution
 
 ```r
 paramDF <- expand.grid(
-  subsample = seq(0.5, 1, by = 0.1),
-  colsample_bytree = seq(0.5, 1, by = 0.1),
+  subsample = seq(0.7, 0.9, by = 0.1),
+  colsample_bytree = seq(0.7, 0.9, by = 0.1),
   max_depth = 19,
   max_leaves = 63,
   eta = 0.1)
@@ -290,7 +360,7 @@ rwMod <- xgb.train(
   nrounds = 10000,
   early_stopping_rounds = 50,
   params = list(
-    max_depth        = 21,
+    max_depth        = 19,
     max_leaves       = 63,
     subsample        = 0.8,
     colsample_bytree = 0.9,
@@ -299,6 +369,10 @@ rwMod <- xgb.train(
 )
 
 print(rwMod)
+
+elog <- attr(rwMod, "evaluation_log")
+elog[which.min(elog$test_rmse), ]
+
 attr(rwMod, "evaluation_log") |> 
   pivot_longer(cols = c(train_rmse, test_rmse), names_to = "RMSE") |>
   ggplot(aes(x = iter, y = value, color = RMSE)) + 

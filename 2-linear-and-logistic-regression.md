@@ -107,8 +107,9 @@ The predicted `Start` is obtained by multiplying `Number` by the regression slop
 
 :::::::::::::::::::::::: solution 
 
-Three times -1.2041 plus 16.4268 is approximately 12.81.
- 
+1. Three times -1.2041 plus 16.4268 is approximately 12.81.
+
+2. 
 ```r
 library(ggplot2) # don't need this line if tidyverse is already loaded
 ggplot(trainDF, aes(x = Number, y = Start)) + 
